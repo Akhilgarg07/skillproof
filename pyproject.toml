@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "skilltest"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "pytest for agent skills: prove your skill actually works."
 readme = "README.md"
 license = "MIT"

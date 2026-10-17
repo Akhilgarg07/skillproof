@@ -1,0 +1,24 @@
+# Used by .github/workflows/action-selftest.yml to exercise action.yml end to end.
+# The mock runner returns scripted results, so no API keys are needed.
+skill: ./
+runner: mock
+trials: 6
+runner_options:
+  cases:
+    "greets like a pirate":
+      with: {text: "Ahoy, matey!", files: {greeting.txt: "Ahoy!"}}
+      without: {text: "Hello there."}
+    "unrelated question":
+      with: {text: "4", triggered: false}
+      without: {text: "4"}
+cases:
+  - name: "greets like a pirate"
+    prompt: "Say hi to Sam."
+    assert:
+      - {type: contains, value: "ahoy"}
+      - {type: file_exists, path: greeting.txt}
+  - name: "unrelated question"
+    prompt: "What is 2 + 2?"
+    should_trigger: false
+    assert:
+      - {type: contains, value: "4"}

@@ -18,7 +18,7 @@ from pathlib import Path
 
 from skilltest.assertions import CheckContext, check_all
 from skilltest.config import Case, EvalConfig
-from skilltest.errors import ConfigError
+from skilltest.errors import ConfigError, RunAborted, hint_for_error
 from skilltest.judges import Judge, make_judge
 from skilltest.judges.base import JudgeUnavailable
 from skilltest.results import CaseResult, SuiteResult, TrialResult, Variant
@@ -27,11 +27,13 @@ from skilltest.sandbox import create_sandbox, redact, remove_sandbox
 from skilltest.skill import Skill, load_skill
 
 VARIANTS: tuple[Variant, ...] = ("with", "without")
+# Stop early when this many runs have finished and every one of them errored.
+FAIL_FAST_AFTER = 3
 
 
 @dataclass
 class RunOptions:
-    parallel: int = 1
+    parallel: int = 4
     out_dir: Path = Path(".skilltest")
     keep_sandboxes: bool = False
     trials: int | None = None  # overrides evals.yaml for every case
@@ -130,12 +132,48 @@ class Engine:
         exclude = self.skill_exclude(skill)
         semaphore = asyncio.Semaphore(max(1, self.options.parallel))
 
-        async def limited(job: Job) -> TrialResult:
+        trials: list[TrialResult] = []
+        stopped = False
+
+        async def limited(job: Job) -> None:
+            nonlocal stopped
             async with semaphore:
-                return await self.run_trial(job, skill, exclude, run_dir)
+                if stopped:  # don't start new runs once we've decided to stop
+                    return
+                trials.append(await self.run_trial(job, skill, exclude, run_dir))
+                try:
+                    self.stop_if_everything_fails(trials, run_dir)
+                except RunAborted:
+                    stopped = True
+                    raise
 
-        trials = await asyncio.gather(*(limited(job) for job in self.jobs()))
+        tasks = [asyncio.create_task(limited(job)) for job in self.jobs()]
+        try:
+            await asyncio.gather(*tasks)
+        except BaseException:  # fail-fast, Ctrl-C (cancellation) or a crash
+            for task in tasks:
+                task.cancel()
+            await asyncio.gather(*tasks, return_exceptions=True)
+            self.finish(suite, trials, complete=False)
+            raise
+        self.finish(suite, trials, complete=True)
+        return suite
 
+    def stop_if_everything_fails(self, trials: list[TrialResult], run_dir: Path) -> None:
+        """If the first few runs all errored, the rest will too (bad key, wrong model...).
+        Stop instead of burning time and money, and say what to fix."""
+        if len(trials) != FAIL_FAST_AFTER or not all(t.errored for t in trials):
+            return
+        error = trials[-1].run.error or "unknown error"
+        raise RunAborted(
+            f"The first {FAIL_FAST_AFTER} runs all failed, so skilltest stopped early.\n"
+            f"Last error: {error.strip()[:500]}",
+            hint=f"{hint_for_error(error)} Transcripts: {run_dir}",
+        )
+
+    def finish(self, suite: SuiteResult, trials: list[TrialResult], complete: bool) -> None:
+        """Group trials into cases and save results.json (also for partial runs)."""
+        suite.cases = []
         for case in self.cases:
             case_trials = sorted(
                 (t for t in trials if t.case == case.name), key=lambda t: (t.variant, t.trial)
@@ -148,11 +186,11 @@ class Engine:
                     trials=case_trials,
                 )
             )
+        suite.complete = complete
         suite.finished_at = datetime.now(timezone.utc)
-        (run_dir / "results.json").write_text(
+        (Path(suite.run_dir) / "results.json").write_text(
             redact(suite.model_dump_json(indent=2)), encoding="utf-8"
         )
-        return suite
 
     async def run_trial(
         self, job: Job, skill: Skill, exclude: list[Path], run_dir: Path

@@ -1,0 +1,31 @@
+# Runs this repo's own action.yml on a mock skill (no API keys), including the
+# PR comment, so changes to the action are tested end to end.
+name: action self-test
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - id: skilltest
+        uses: ./
+        with:
+          path: tests/selftest-skill
+          min-lift: "20"
+          artifact-name: skilltest-selftest
+      - name: Check outputs
+        env:
+          VERDICT: ${{ steps.skilltest.outputs.verdict }}
+          LIFT: ${{ steps.skilltest.outputs.lift }}
+        run: |
+          echo "verdict=$VERDICT lift=$LIFT"
+          test "$VERDICT" = "helps"

@@ -1,3 +1,3 @@
-from skilltest.cli import app
+from skilltest.cli import main
 
-app()
+main()

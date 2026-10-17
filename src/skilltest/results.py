@@ -55,6 +55,7 @@ class SuiteResult(BaseModel):
     started_at: datetime
     finished_at: datetime | None = None
     run_dir: str
+    complete: bool = True  # False when the run was interrupted or stopped early
     cases: list[CaseResult] = Field(default_factory=list)
 
 

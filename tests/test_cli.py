@@ -182,3 +182,81 @@ def test_badge_without_runs(skill_dir: Path, tmp_path: Path) -> None:
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(tmp_path / "none")])
     assert result.exit_code == 2
     assert "skilltest run" in result.output
+
+
+def mock_evals(write_evals, **extra) -> None:
+    write_evals(
+        {
+            "trials": 2,
+            "runner_options": {"default": {"with": {"text": "Paris"}, "without": {"text": "?"}}},
+            "cases": [
+                {
+                    "name": "capital",
+                    "prompt": "?",
+                    "assert": [{"type": "contains", "value": "Paris"}],
+                }
+            ],
+            **extra,
+        }
+    )
+
+
+def test_dry_run_runs_nothing(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    mock_evals(write_evals)
+    out = tmp_path / "out"
+    result = cli.invoke(app, ["run", str(skill_dir), "--dry-run", "--out", str(out)])
+    assert result.exit_code == 0
+    assert "plan: 4 agent runs · no API cost" in result.output
+    assert not out.exists()
+
+
+def test_cost_guard_blocks_without_yes(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    write_evals(
+        {
+            "runner": "openai-compatible",
+            "model": "m",
+            "trials": 100,
+            "cases": [{"name": "c", "prompt": "p"}],
+        }
+    )
+    args = ["run", str(skill_dir), "--out", str(tmp_path / "out"), "--confirm-above", "1"]
+    result = cli.invoke(app, args, env={"OPENAI_API_KEY": "sk-test"})
+    assert result.exit_code == 2
+    assert "Estimated cost ~$4.00 is above $1.00" in result.output
+    assert "--yes" in result.output
+
+
+def test_gates(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    mock_evals(write_evals)
+    out = ["--out", str(tmp_path / "out")]
+    ok = cli.invoke(
+        app, ["run", str(skill_dir), *out, "--min-lift", "50", "--min-trigger-rate", "100"]
+    )
+    assert ok.exit_code == 0, ok.output
+    bad = cli.invoke(app, ["run", str(skill_dir), *out, "--min-lift", "150"])
+    assert bad.exit_code == 1
+    assert "gate failed: lift +100% is below --min-lift +150%" in bad.output
+
+
+def test_refuses_todo_placeholders(skill_dir: Path, tmp_path: Path) -> None:
+    cli.invoke(app, ["init", str(skill_dir), "--runner", "mock"])
+    result = cli.invoke(app, ["run", str(skill_dir), "--out", str(tmp_path / "out")])
+    assert result.exit_code == 2
+    assert "still has TODO placeholders" in result.output
+
+
+def test_crash_handler(monkeypatch, capsys) -> None:
+    from skilltest import cli as cli_module
+
+    def boom() -> None:
+        raise RuntimeError("kaboom")
+
+    monkeypatch.setattr(cli_module, "app", boom)
+    monkeypatch.delenv("SKILLTEST_DEBUG", raising=False)
+    with pytest.raises(SystemExit) as exc:
+        cli_module.main()
+    assert exc.value.code == 70
+    assert "skilltest crashed: RuntimeError: kaboom" in capsys.readouterr().err
+    monkeypatch.setenv("SKILLTEST_DEBUG", "1")
+    with pytest.raises(RuntimeError):
+        cli_module.main()

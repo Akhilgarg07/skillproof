@@ -167,6 +167,14 @@ def notes_for(suite: SuiteResult, stats: SuiteStats) -> list[str]:
             f"Small sample: as few as {stats.min_runs} completed run(s) per variant. Treat these "
             f"numbers as rough; use --trials {MIN_RUNS_FOR_CONFIDENCE} or more before quoting them."
         )
+    timeouts = sum(t.run.timed_out for c in suite.cases for t in c.trials)
+    if timeouts:
+        notes.append(
+            f"{timeouts} run(s) hit the time limit and count as failures. If the task needs "
+            "longer, raise `timeout:` in evals.yaml."
+        )
+    if not suite.complete:
+        notes.append("This run was interrupted or stopped early: results are partial.")
     if stats.errors:
         notes.append(
             f"{stats.errors} run(s) errored (API, CLI or judge failures) and were excluded. "

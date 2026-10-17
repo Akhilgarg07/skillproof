@@ -2,7 +2,7 @@
 
 **pytest for agent skills: prove your skill actually works.**
 
-> Work in progress (phase 3 of 5). The full README lands with v1.
+> Work in progress (phase 4 of 5). The full README lands with v1.
 
 `skilltest` runs each eval case N times **with** your skill installed and N
 times **without** it, then reports trigger rate, pass-rate lift, and token and
@@ -34,12 +34,39 @@ Runners:
 Every run happens in a fresh temp directory. Your personal skills, settings and
 instructions (~/.claude, ~/.codex, ~/.agents) are not loaded for either variant.
 
+## Cost guard and CI gates
+
+Before running, skilltest prints the plan and a cost estimate (learned from your
+previous runs when it can). Above $5 it asks first; in CI it refuses unless you
+pass `--yes`. `--dry-run` shows the plan without running anything. If the first
+runs all fail (bad key, wrong model), it stops early and tells you what to fix.
+
+```bash
+skilltest run ./my-skill --dry-run
+skilltest run ./my-skill --min-lift 0 --min-trigger-rate 80   # exit 1 if not met
+```
+
+## GitHub Action
+
+Runs your evals on pull requests and keeps one results comment up to date.
+See [`action/example-workflow.yml`](action/example-workflow.yml):
+
+```yaml
+- uses: akhilgarg07/skilltest@v0
+  with:
+    path: my-skill
+    min-lift: "0"
+  env:
+    ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+
 ## Development
 
 ```bash
 uv venv && uv pip install -e ".[dev]"
 .venv/bin/pytest
 .venv/bin/ruff check . && .venv/bin/ruff format --check .
+node --test action/test/comment.test.js   # the action's PR-comment script
 ```
 
 MIT licensed.

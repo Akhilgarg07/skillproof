@@ -1,0 +1,164 @@
+name: skilltest
+description: "pytest for agent skills: run evals with and without your skill, comment the lift on PRs."
+author: skilltest
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  path:
+    description: Skill folder (containing evals.yaml) or a path to evals.yaml.
+    default: "."
+  trials:
+    description: Override trials per case (more trials = tighter numbers, higher cost).
+    default: ""
+  parallel:
+    description: Concurrent agent runs.
+    default: "4"
+  max-cost:
+    description: Fail instead of running if the estimated cost (USD) is above this.
+    default: "10"
+  min-lift:
+    description: Fail the check if the lift is below this many percentage points (e.g. 0 or 10).
+    default: ""
+  min-trigger-rate:
+    description: Fail the check if the trigger rate is below this percentage (e.g. 80).
+    default: ""
+  comment:
+    description: Post (and keep updating) one results comment on pull requests.
+    default: "true"
+  upload-artifact:
+    description: Upload transcripts and the HTML report as a workflow artifact.
+    default: "true"
+  artifact-name:
+    description: Name of the uploaded artifact (set a unique one per skill if you run several).
+    default: skilltest
+  install-codex:
+    description: "Install the Codex CLI (needed for `runner: codex`)."
+    default: "false"
+  version:
+    description: skilltest version from PyPI (e.g. "0.1.0"). Empty = the version of this action.
+    default: ""
+  python-version:
+    description: Python version to run skilltest with.
+    default: "3.12"
+  args:
+    description: Extra arguments for `skilltest run`, e.g. "--case 'my case'".
+    default: ""
+  github-token:
+    description: Token used to comment on the pull request.
+    default: ${{ github.token }}
+
+outputs:
+  lift:
+    description: Pass-rate lift as a fraction (0.23 = +23 points). Empty if not measured.
+    value: ${{ steps.summary.outputs.lift }}
+  verdict:
+    description: "helps, hurts, no clear effect, or not measured."
+    value: ${{ steps.summary.outputs.verdict }}
+  trigger-rate:
+    description: Fraction of should-trigger runs where the skill loaded. Empty if not measured.
+    value: ${{ steps.summary.outputs.trigger_rate }}
+  report:
+    description: Path to the markdown report.
+    value: ${{ steps.run.outputs.report }}
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/setup-python@v5
+      with:
+        python-version: ${{ inputs.python-version }}
+
+    - name: Install skilltest
+      shell: bash
+      env:
+        VERSION: ${{ inputs.version }}
+        ACTION_PATH: ${{ github.action_path }}
+      run: |
+        if [ -n "$VERSION" ]; then
+          python -m pip install --quiet "skilltest==$VERSION"
+        else
+          python -m pip install --quiet "$ACTION_PATH"
+        fi
+        skilltest --version
+
+    - name: Install Codex CLI
+      if: inputs.install-codex == 'true'
+      shell: bash
+      run: npm install --global @openai/codex
+
+    - name: Run skilltest
+      id: run
+      shell: bash
+      env:
+        SKILL_PATH: ${{ inputs.path }}
+        TRIALS: ${{ inputs.trials }}
+        PARALLEL: ${{ inputs.parallel }}
+        MAX_COST: ${{ inputs.max-cost }}
+        MIN_LIFT: ${{ inputs.min-lift }}
+        MIN_TRIGGER_RATE: ${{ inputs.min-trigger-rate }}
+        EXTRA_ARGS: ${{ inputs.args }}
+      run: |
+        report="$RUNNER_TEMP/skilltest-report.md"
+        args=(run "$SKILL_PATH" --format md --output "$report" --parallel "$PARALLEL"
+              --confirm-above "$MAX_COST")
+        [ -n "$TRIALS" ] && args+=(--trials "$TRIALS")
+        [ -n "$MIN_LIFT" ] && args+=(--min-lift "$MIN_LIFT")
+        [ -n "$MIN_TRIGGER_RATE" ] && args+=(--min-trigger-rate "$MIN_TRIGGER_RATE")
+        # Split EXTRA_ARGS like a shell would (quotes respected), without evaluating it.
+        if [ -n "$EXTRA_ARGS" ]; then
+          mapfile -t extra < <(python -c 'import os, shlex; print("\n".join(shlex.split(os.environ["EXTRA_ARGS"])))')
+          args+=("${extra[@]}")
+        fi
+        set +e
+        skilltest "${args[@]}"
+        status=$?
+        set -e
+        echo "status=$status" >> "$GITHUB_OUTPUT"
+        if [ -f "$report" ]; then
+          echo "report=$report" >> "$GITHUB_OUTPUT"
+          cat "$report" >> "$GITHUB_STEP_SUMMARY"
+        fi
+
+    - name: Read summary
+      id: summary
+      if: always() && steps.run.outputs.report != ''
+      shell: bash
+      run: |
+        skilltest report --format json --output "$RUNNER_TEMP/skilltest-summary.json" || exit 0
+        python - "$RUNNER_TEMP/skilltest-summary.json" >> "$GITHUB_OUTPUT" <<'PY'
+        import json, sys
+        s = json.load(open(sys.argv[1]))
+        runs = s["trigger_runs"]
+        print(f"lift={'' if s['lift'] is None else s['lift']}")
+        print(f"verdict={s['verdict']}")
+        print(f"trigger_rate={s['triggers'] / runs if runs else ''}")
+        PY
+
+    - name: Comment on pull request
+      if: always() && inputs.comment == 'true' && github.event_name == 'pull_request' && steps.run.outputs.report != ''
+      uses: actions/github-script@v7
+      env:
+        REPORT: ${{ steps.run.outputs.report }}
+        SKILL_PATH: ${{ inputs.path }}
+        ACTION_PATH: ${{ github.action_path }}
+      with:
+        github-token: ${{ inputs.github-token }}
+        script: |
+          const comment = require(process.env.ACTION_PATH + "/action/comment.js");
+          await comment({ github, context, core });
+
+    - name: Upload transcripts and HTML report
+      if: always() && inputs.upload-artifact == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: .skilltest/runs
+        if-no-files-found: ignore
+
+    - name: Result
+      shell: bash
+      env:
+        STATUS: ${{ steps.run.outputs.status }}
+      run: exit "${STATUS:-1}"

@@ -7,9 +7,10 @@ from pathlib import Path
 import pytest
 
 from skilltest.config import load_config
-from skilltest.engine import RunOptions, run_suite
-from skilltest.errors import ConfigError, RunnerNotReady
+from skilltest.engine import Engine, RunOptions, run_suite
+from skilltest.errors import ConfigError, RunAborted, RunnerNotReady
 from skilltest.judges import MockJudge
+from skilltest.results import load_suite
 from skilltest.runners import AgentRun, Runner, RunRequest
 from skilltest.runners.mock import MockRunner
 from skilltest.stats import suite_stats
@@ -213,3 +214,56 @@ def test_injected_judge_is_used(write_evals, tmp_path: Path) -> None:
         config, options(tmp_path), runner=MockRunner(script), judge=MockJudge(["great"])
     )
     assert [t.passed for t in suite.cases[0].trials] == [True, False]
+
+
+class AlwaysFails(MockRunner):
+    async def run(self, request: RunRequest) -> AgentRun:
+        self.requests.append(request)
+        raise PermissionError("401 Unauthorized: invalid x-api-key")
+
+
+def test_stops_early_when_every_run_fails(config, tmp_path: Path) -> None:
+    runner = AlwaysFails(SCRIPT)
+    with pytest.raises(RunAborted) as exc:
+        run_suite(config, options(tmp_path, parallel=1), runner=runner)
+    assert "first 3 runs all failed" in exc.value.message
+    assert "401 Unauthorized" in exc.value.message
+    assert "API key" in exc.value.hint
+    assert len(runner.requests) == 3  # not all 12
+    saved = load_suite(next((tmp_path / ".skilltest" / "runs").iterdir()))
+    assert saved.complete is False
+    assert sum(len(c.trials) for c in saved.cases) == 3
+
+
+def test_no_early_stop_when_some_runs_succeed(config, tmp_path: Path) -> None:
+    class FirstSucceeds(AlwaysFails):
+        async def run(self, request: RunRequest) -> AgentRun:
+            if not self.requests:
+                self.requests.append(request)
+                return AgentRun(final_text="ok")
+            return await super().run(request)
+
+    suite = run_suite(config, options(tmp_path, parallel=1), runner=FirstSucceeds(SCRIPT))
+    assert suite.complete
+    assert sum(t.errored for c in suite.cases for t in c.trials) == 11
+
+
+def test_cancellation_saves_partial_results(config, tmp_path: Path) -> None:
+    class SlowAfterFirst(MockRunner):
+        async def run(self, request: RunRequest) -> AgentRun:
+            if self.requests:
+                await asyncio.sleep(30)
+            return await super().run(request)
+
+    async def interrupt() -> None:
+        engine = Engine(config, options(tmp_path, parallel=1), runner=SlowAfterFirst(SCRIPT))
+        task = asyncio.create_task(engine.run())
+        await asyncio.sleep(0.3)  # first run finishes, second is stuck
+        task.cancel()  # what Ctrl-C does under asyncio.run
+        with pytest.raises(asyncio.CancelledError):
+            await task
+
+    asyncio.run(interrupt())
+    saved = load_suite(next((tmp_path / ".skilltest" / "runs").iterdir()))
+    assert saved.complete is False
+    assert sum(len(c.trials) for c in saved.cases) == 1

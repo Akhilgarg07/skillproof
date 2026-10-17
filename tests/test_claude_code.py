@@ -266,3 +266,29 @@ def test_reaped_child_warning_is_hidden() -> None:
     noise = record("Unknown child process pid 10252, will report returncode 255")
     assert not claude_code._hide_reaped_child_warning(noise)
     assert claude_code._hide_reaped_child_warning(record("Task was destroyed but it is pending!"))
+
+
+@pytest.mark.parametrize(
+    ("root", "is_sandbox", "expected_mode"),
+    [(True, None, "dontAsk"), (True, "1", "bypassPermissions"), (False, None, "bypassPermissions")],
+)
+def test_root_falls_back_to_preapproved_tools(
+    request_for, monkeypatch, root, is_sandbox, expected_mode
+) -> None:
+    from skillproof.runners import claude_code
+
+    monkeypatch.setattr(claude_code, "running_as_root", lambda: root)
+    if is_sandbox:
+        monkeypatch.setenv("IS_SANDBOX", is_sandbox)
+    else:
+        monkeypatch.delenv("IS_SANDBOX", raising=False)
+    fake = FakeQuery([result_message("ok")])
+    monkeypatch.setattr(claude_agent_sdk, "query", fake)
+    run = asyncio.run(ClaudeCodeRunner().run(request_for(with_skill=False)))
+    options = fake.calls[0][1]
+    assert options.permission_mode == expected_mode
+    if expected_mode == "dontAsk":
+        assert "Bash" in options.allowed_tools and "Write" in options.allowed_tools
+        assert "running as root" in run.warnings[0]
+    else:
+        assert run.warnings == []

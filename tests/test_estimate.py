@@ -80,6 +80,7 @@ def test_unknown_cost() -> None:
         ("The model `gpt-9` does not exist", "model name"),
         ("Your credit balance is too low", "credits"),
         ("Connection failed: error sending request", "Network"),
+        ("--dangerously-skip-permissions cannot be used with root/sudo", "as root"),
         ("something odd", "transcripts"),
     ],
 )

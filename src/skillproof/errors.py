@@ -45,6 +45,12 @@ ERROR_HINTS = [
         "or CODEX_API_KEY (or log in with `claude` / `codex login`).",
     ),
     (
+        r"cannot be used with root",
+        "Claude Code won't skip permission prompts as root. Remove `permission_mode: "
+        "bypassPermissions` from runner_options (skillproof then pre-approves the usual tools), "
+        "or run as a normal user.",
+    ),
+    (
         r"credit|billing|quota|insufficient",
         "Your API account is out of credits or quota. Check billing for the provider.",
     ),

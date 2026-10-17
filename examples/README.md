@@ -17,12 +17,13 @@ skillproof run examples/release-notes
 Each example is a normal skill folder (`SKILL.md`) with an `evals.yaml` and a
 `fixtures/` folder that gets copied into a fresh sandbox for every run.
 
-Smoke results from our own runs (Claude Code, `claude-opus-5-5`, 1–2 trials per
-variant, so treat them as directional; run with `--trials 10` for real numbers):
+Results from our own runs (Claude Code, `claude-opus-5-5`). release-notes used
+10 trials per variant; the others are 1–2-trial smoke runs, so treat those as
+directional and run them with `--trials 10` before quoting:
 
 | example | lift | cost Δ |
 |---|---:|---:|
-| release-notes | +100% | +18% |
+| release-notes | +100% (95% CI +77% to +100%) | +15% |
 | python-style | ±0% | +16% |
 | over-eager-formatter | −100% | +63% |
 | stale-docs | ±0% | +13% |

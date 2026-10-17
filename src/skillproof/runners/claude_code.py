@@ -15,6 +15,7 @@ Trigger detection: a `Skill` tool call naming the skill (see parsers/claude_code
 from __future__ import annotations
 
 import logging
+import os
 import shutil
 from pathlib import Path
 from typing import Any, Literal
@@ -27,6 +28,27 @@ from skillproof.runners.base import AgentRun, Runner, RunRequest
 from skillproof.skill import copy_skill
 
 MAX_STDERR_LINES = 50
+
+# Pre-approved tools when skipping permission prompts isn't allowed (see run()).
+DEFAULT_ALLOWED_TOOLS = [
+    "Bash",
+    "Read",
+    "Write",
+    "Edit",
+    "MultiEdit",
+    "Glob",
+    "Grep",
+    "LS",
+    "NotebookEdit",
+    "TodoWrite",
+    "WebFetch",
+    "WebSearch",
+    "Task",
+]
+
+
+def running_as_root() -> bool:
+    return hasattr(os, "geteuid") and os.geteuid() == 0
 
 
 def _hide_reaped_child_warning(record: logging.LogRecord) -> bool:
@@ -57,6 +79,8 @@ class ClaudeCodeRunner(Runner):
         max_budget_usd: float | None = None  # per run; the SDK stops the run past this
         effort: Literal["low", "medium", "high", "xhigh", "max"] | None = None
         tools: list[str] | None = None  # restrict built-in tools, e.g. ["Read", "Bash"]
+        # Tools that run without asking (for permission_mode default/acceptEdits/dontAsk).
+        allowed_tools: list[str] = []
         cli_path: str | None = None  # use this `claude` binary instead of the bundled one
 
     options: Options
@@ -86,11 +110,23 @@ class ClaudeCodeRunner(Runner):
 
         stderr: list[str] = []
         opts = self.options
+        mode, allowed = opts.permission_mode, list(opts.allowed_tools)
+        warnings = []
+        if mode == "bypassPermissions" and running_as_root() and not os.environ.get("IS_SANDBOX"):
+            # Claude Code refuses to skip permission prompts as root (common in
+            # Docker). Pre-approving the usual tools gives the agent the same
+            # abilities through a supported setting instead.
+            mode, allowed = "dontAsk", allowed or DEFAULT_ALLOWED_TOOLS
+            warnings.append(
+                "running as root: used permission_mode dontAsk with pre-approved tools "
+                "instead of bypassPermissions"
+            )
         options = ClaudeAgentOptions(
             cwd=request.workdir,
             setting_sources=["project"],
             skills=[skill_name] if skill_name else [],
-            permission_mode=opts.permission_mode,
+            permission_mode=mode,
+            allowed_tools=allowed,
             model=request.model,
             max_turns=opts.max_turns,
             max_budget_usd=opts.max_budget_usd,
@@ -114,4 +150,6 @@ class ClaudeCodeRunner(Runner):
         finally:
             await stream.aclose()
 
-        return parse_transcript(transcript, skill_name)
+        run = parse_transcript(transcript, skill_name)
+        run.warnings.extend(warnings)
+        return run

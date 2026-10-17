@@ -43,21 +43,19 @@ skillproof run ./my-skill                 # prints the plan and cost estimate, t
 ## Example output
 
 This is a real run of the [`release-notes`](https://github.com/akhilgarg07/skillproof/blob/main/examples/release-notes/) example
-(Claude Code, 5 trials per variant):
+(Claude Code, 10 trials per variant):
 
 ```
 acme-release-notes · runner claude-code · model claude-opus-5-5
 
- case                             ┃        triggered ┃ pass with ┃ pass without ┃  lift ┃ tokens Δ ┃ latency Δ
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━
- release notes from merged PRs    │              5/5 │       5/5 │          0/5 │ +100% │      +7% │       −3%
- release with no breaking changes │              5/5 │       5/5 │          0/5 │ +100% │      +7% │       +3%
- unrelated question               │ 0/5 (should not) │       4/5 │          5/5 │  −20% │      ±0% │       −2%
+ case                             ┃         triggered ┃ pass with ┃ pass without ┃  lift ┃ tokens Δ ┃ latency Δ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━
+ release notes from merged PRs    │             10/10 │     10/10 │         0/10 │ +100% │      +4% │       +2%
+ release with no breaking changes │             10/10 │     10/10 │         0/10 │ +100% │     +12% │      +15%
+ unrelated question               │ 0/10 (should not) │     10/10 │         9/10 │  +10% │      ±0% │       +2%
 
-skill lift: +100% (95% CI +61% to +100%)  |  triggers 10/10  |  false triggers 0/5  |  tokens +7%  |  cost +10%
-verdict: the skill helps (95% CI for lift: +61% to +100%)
-• Small sample: as few as 5 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more
-  before quoting them.
+skill lift: +100% (95% CI +77% to +100%)  |  triggers 20/20  |  false triggers 0/10  |  tokens +8%  |  cost +15%
+verdict: the skill helps (95% CI for lift: +77% to +100%)
 ```
 
 Every run also saves a self-contained **HTML report** (with each run's checks and
@@ -136,6 +134,11 @@ versa), so no model grades its own family. Change it with
 | `codex` | `codex exec --json` | `<temp>/.agents/skills/<name>/` | a shell command that reads the skill's folder |
 | `openai-compatible` | a small tool-using loop over Chat Completions | SKILL.md pasted into the system prompt | not measured (**approximate**) |
 
+Status: `claude-code` is tested end to end against the live API. `codex` (CLI
+0.163) and `openai-compatible` are tested with their real CLI/client against local
+mock servers, but not yet against live OpenAI models: if they misbehave for you,
+please [open an issue](https://github.com/akhilgarg07/skillproof/issues).
+
 Keys come from environment variables only: `ANTHROPIC_API_KEY` (or your `claude`
 login), `CODEX_API_KEY` / `OPENAI_API_KEY` (or `codex login`). Runner settings go
 under `runner_options:`; see each runner's module docstring.
@@ -205,7 +208,9 @@ can keep a badge up to date.
   prefer deterministic checks.
 - **Agents run real commands.** Runs happen in temp directories, but agents run
   without permission prompts, so a command could still reach other files on your
-  machine. Test untrusted skills in a container or VM.
+  machine, and the agent inherits your environment variables (API keys, tokens).
+  A malicious skill can try to use both. Test untrusted skills in a container or VM
+  that holds only the API key the agent needs.
 
 ## Leaderboard
 

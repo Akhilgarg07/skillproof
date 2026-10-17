@@ -84,6 +84,8 @@ class Runner(ABC):
     # True when the runner only simulates skill loading (e.g. stuffing SKILL.md
     # into the system prompt). Reports label these results as approximate.
     approximate: ClassVar[bool] = False
+    # True when there is no sensible default model, so evals.yaml must set `model:`.
+    requires_model: ClassVar[bool] = False
 
     class Options(BaseModel):
         """Runner-specific settings from `runner_options:` in evals.yaml."""

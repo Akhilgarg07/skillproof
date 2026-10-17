@@ -77,8 +77,10 @@ def render(suite: SuiteResult, console: Console | None = None) -> None:
     console = console or Console()
     stats = suite_stats(suite)
     title = f"[bold]{suite.skill_name}[/] · runner [bold]{suite.runner}[/]"
-    if suite.model:
-        title += f" · model {suite.model}"
+    models = sorted({t.run.model for c in suite.cases for t in c.trials if t.run.model})
+    model = suite.model or ", ".join(models)
+    if model:
+        title += f" · model {model}"
     console.print()
     console.print(title)
     if suite.approximate:
@@ -95,4 +97,7 @@ def render(suite: SuiteResult, console: Console | None = None) -> None:
             f"[yellow]{stats.errors} run(s) errored and were excluded. "
             "See the saved transcripts for details.[/]"
         )
+    warnings = sorted({w for c in suite.cases for t in c.trials for w in t.run.warnings})
+    for warning in warnings[:5]:
+        console.print(f"[yellow]warning:[/] {warning}")
     console.print(f"[dim]transcripts: {suite.run_dir}[/]")

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "skilltest"
-version = "0.1.0"
+dynamic = ["version"]  # read from src/skilltest/__init__.py (0.1.0)
 description = "pytest for agent skills: prove your skill actually works."
 readme = "README.md"
 license = "MIT"
@@ -44,6 +44,9 @@ skilltest = "skilltest.cli:main"
 Homepage = "https://github.com/akhilgarg07/skilltest"
 Issues = "https://github.com/akhilgarg07/skilltest/issues"
 Source = "https://github.com/akhilgarg07/skilltest"
+
+[tool.hatch.version]
+path = "src/skilltest/__init__.py"  # the single place the version is set
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/skilltest"]

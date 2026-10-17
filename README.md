@@ -3,9 +3,9 @@
 **pytest for agent skills: prove your skill actually works.**
 
 [![ci](https://github.com/akhilgarg07/skilltest/actions/workflows/ci.yml/badge.svg)](https://github.com/akhilgarg07/skilltest/actions/workflows/ci.yml)
-[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akhilgarg07/skilltest/blob/main/LICENSE)
 
-![skilltest demo](docs/demo.gif)
+![skilltest demo](https://raw.githubusercontent.com/akhilgarg07/skilltest/main/docs/demo.gif)
 <!-- Record with: vhs docs/demo.tape -->
 
 ```bash
@@ -42,7 +42,7 @@ skilltest run ./my-skill                 # prints the plan and cost estimate, th
 
 ## Example output
 
-This is a real run of the [`release-notes`](examples/release-notes/) example
+This is a real run of the [`release-notes`](https://github.com/akhilgarg07/skilltest/blob/main/examples/release-notes/) example
 (Claude Code, 5 trials per variant):
 
 ```
@@ -64,7 +64,7 @@ Every run also saves a self-contained **HTML report** (with each run's checks an
 answer), `report.md`, `summary.json` and the full transcripts under
 `.skilltest/runs/<timestamp>/`.
 
-[`examples/`](examples/) has skills that **help**, **do nothing** and **hurt**, so
+[`examples/`](https://github.com/akhilgarg07/skilltest/blob/main/examples/) has skills that **help**, **do nothing** and **hurt**, so
 you can see all three outcomes.
 
 ## How it works
@@ -191,7 +191,7 @@ can keep a badge up to date.
   and below 10 the report says the numbers are rough.
 - **Results depend on the agent and model.** Reports record the model that actually
   ran. In our runs, Claude Code read a library's source, noticed that a skill's docs
-  were stale and ignored them ([`examples/stale-docs`](examples/stale-docs/)); a
+  were stale and ignored them ([`examples/stale-docs`](https://github.com/akhilgarg07/skilltest/blob/main/examples/stale-docs/)); a
   weaker model may not.
 - **Trigger detection is per agent and heuristic.** Claude Code has an explicit
   `Skill` tool call. Codex reads skills with ordinary shell commands, so a "trigger"
@@ -209,12 +209,12 @@ can keep a badge up to date.
 
 ## Leaderboard
 
-[`leaderboard/`](leaderboard/) runs skilltest over a list of public skills (using
+[`leaderboard/`](https://github.com/akhilgarg07/skilltest/blob/main/leaderboard/) runs skilltest over a list of public skills (using
 evals you write, never the repo's own) and renders a markdown leaderboard.
 
 ## Contributing
 
-Contributions are very welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Good first issues:
+Contributions are very welcome; see [CONTRIBUTING.md](https://github.com/akhilgarg07/skilltest/blob/main/CONTRIBUTING.md). Good first issues:
 
 - **New runners:** Gemini CLI, Cursor (cursor-agent), OpenCode, Aider
 - **New assertions:** `tool_called` (the agent used a given tool), `json_schema`,

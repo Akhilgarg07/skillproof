@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
 import re
 from pathlib import Path, PurePosixPath
 from typing import Literal
@@ -10,7 +9,7 @@ from typing import Literal
 from pydantic import Field, field_validator
 
 from skilltest.assertions.base import AssertionResult, BaseAssertion, CheckContext
-from skilltest.sandbox import scrubbed_env
+from skilltest.sandbox import run_shell
 
 MAX_OUTPUT_IN_MESSAGE = 500
 
@@ -152,23 +151,13 @@ class Command(BaseAssertion):
         return f"command `{self.run}`"
 
     async def check(self, ctx: CheckContext) -> AssertionResult:
-        proc = await asyncio.create_subprocess_shell(
-            self.run,
-            cwd=ctx.workdir,
-            env=scrubbed_env(),
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.STDOUT,
-        )
-        try:
-            out, _ = await asyncio.wait_for(proc.communicate(), timeout=self.timeout)
-        except asyncio.TimeoutError:
-            proc.kill()
-            await proc.wait()
+        code, out = await run_shell(self.run, ctx.workdir, self.timeout)
+        if code is None:
             return self.result(False, f"`{self.run}` timed out after {self.timeout:g}s")
-        output = out.decode(errors="replace").strip()[-MAX_OUTPUT_IN_MESSAGE:]
-        if proc.returncode == 0:
+        if code == 0:
             return self.result(True, f"`{self.run}` exited 0")
-        return self.result(False, f"`{self.run}` exited {proc.returncode}: {output}")
+        output = out.strip()[-MAX_OUTPUT_IN_MESSAGE:]
+        return self.result(False, f"`{self.run}` exited {code}: {output}")
 
 
 class MaxTokens(BaseAssertion):

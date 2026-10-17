@@ -70,5 +70,6 @@ VERDICT_TEXT = {
     "helps": "the skill helps",
     "hurts": "the skill hurts",
     "no clear effect": "no clear effect",
+    "too few runs": "too few runs for a verdict",
     "not measured": "lift not measured",
 }

@@ -7,9 +7,12 @@ don't pick up the user's real project.
 
 from __future__ import annotations
 
+import asyncio
 import os
 import re
 import shutil
+import signal
+import subprocess
 import tempfile
 from pathlib import Path
 
@@ -47,3 +50,36 @@ def redact(text: str) -> str:
     for value in secret_values():
         text = text.replace(value, "***")
     return text
+
+
+def _run_shell(command: str, cwd: Path, timeout: float) -> tuple[int | None, str]:
+    proc = subprocess.Popen(
+        command,
+        shell=True,
+        cwd=cwd,
+        env=scrubbed_env(),
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+        start_new_session=True,  # so a timeout can kill the whole process group
+    )
+    try:
+        out, _ = proc.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        if hasattr(os, "killpg"):
+            os.killpg(proc.pid, signal.SIGKILL)
+        else:
+            proc.kill()
+        proc.communicate()
+        return None, ""
+    return proc.returncode, out.decode(errors="replace")
+
+
+async def run_shell(command: str, cwd: Path, timeout: float) -> tuple[int | None, str]:
+    """Run a shell command in the sandbox without credentials in its environment.
+
+    Returns (exit code, combined output); exit code None means it timed out.
+    Runs in a worker thread with plain `subprocess` rather than asyncio
+    subprocesses: on Python 3.10/3.11, asyncio's child watcher can collide with
+    the Agent SDK's own subprocesses and misreport exit codes as 255.
+    """
+    return await asyncio.to_thread(_run_shell, command, cwd, timeout)

@@ -19,6 +19,7 @@ COLORS = {
     "helps": "brightgreen",
     "hurts": "red",
     "no clear effect": "lightgrey",
+    "too few runs": "lightgrey",
     "not measured": "lightgrey",
 }
 
@@ -30,6 +31,8 @@ def message(s: Summary) -> str:
         text = f"{s.lift * 100:+.0f}% lift"
         if s.verdict == "no clear effect":
             text += " (n.s.)"  # not significant: the 95% interval includes zero
+        elif s.verdict == "too few runs":
+            text += " (too few runs)"
     if s.trigger_runs:
         text += f" · {s.triggers}/{s.trigger_runs} triggered"
     if s.approximate:

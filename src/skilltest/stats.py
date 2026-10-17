@@ -27,9 +27,12 @@ from skilltest.results import CaseResult, SuiteResult, TrialResult
 Z_95 = 1.959964
 # Below this many completed runs per variant, results get a "small sample" note.
 MIN_RUNS_FOR_CONFIDENCE = 10
+# Below this many completed runs per variant, no helps/hurts verdict is given at all:
+# with 2/2 vs 0/2 the interval already excludes zero, but nobody should quote that.
+MIN_RUNS_FOR_VERDICT = 5
 
 Interval = tuple[float, float]
-Verdict = Literal["helps", "hurts", "no clear effect", "not measured"]
+Verdict = Literal["helps", "hurts", "no clear effect", "too few runs", "not measured"]
 
 
 def wilson_interval(successes: int, n: int, z: float = Z_95) -> Interval | None:
@@ -56,9 +59,12 @@ def lift_interval(with_: VariantStats, without: VariantStats) -> Interval | None
     return low, high
 
 
-def verdict(lift: float | None, interval: Interval | None) -> Verdict:
+def verdict(lift: float | None, interval: Interval | None, runs: int) -> Verdict:
+    """`runs` is the smaller number of completed runs of the two variants."""
     if lift is None or interval is None:
         return "not measured"
+    if runs < MIN_RUNS_FOR_VERDICT:
+        return "too few runs"
     if interval[0] > 0:
         return "helps"
     if interval[1] < 0:
@@ -114,7 +120,8 @@ class _Deltas:
 
     @property
     def verdict(self) -> Verdict:
-        return verdict(self.lift, self.lift_interval)
+        runs = min(self.with_skill.runs, self.without_skill.runs)
+        return verdict(self.lift, self.lift_interval, runs)
 
     @property
     def token_delta(self) -> float | None:

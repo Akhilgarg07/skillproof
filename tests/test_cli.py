@@ -172,10 +172,10 @@ def test_report_and_badge_from_saved_run(write_evals, skill_dir: Path, tmp_path:
 
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out)])
     assert result.exit_code == 0
-    assert result.stdout.startswith("[![skilltest: +100% lift · 2/2 triggered]")
+    assert result.stdout.startswith("[![skilltest: +100% lift (too few runs) · 2/2 triggered]")
 
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out), "--json"])
-    assert json.loads(result.stdout)["color"] == "brightgreen"
+    assert json.loads(result.stdout)["color"] == "lightgrey"
 
 
 def test_badge_without_runs(skill_dir: Path, tmp_path: Path) -> None:

@@ -14,7 +14,13 @@ from skilltest.report.format import (
 )
 from skilltest.report.summary import Summary
 
-VERDICT_EMOJI = {"helps": "✅", "hurts": "❌", "no clear effect": "➖", "not measured": "➖"}
+VERDICT_EMOJI = {
+    "helps": "✅",
+    "hurts": "❌",
+    "no clear effect": "➖",
+    "too few runs": "➖",
+    "not measured": "➖",
+}
 
 
 def _cell(text: str) -> str:

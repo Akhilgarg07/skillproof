@@ -19,6 +19,7 @@ VERDICT_STYLE = {
     "helps": "bold green",
     "hurts": "bold red",
     "no clear effect": "bold yellow",
+    "too few runs": "bold yellow",
     "not measured": "dim",
 }
 

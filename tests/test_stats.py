@@ -119,16 +119,17 @@ def test_lift_interval_matches_newcombe_example() -> None:
 
 
 @pytest.mark.parametrize(
-    ("lift", "ci", "expected"),
+    ("lift", "ci", "runs", "expected"),
     [
-        (0.3, (0.05, 0.5), "helps"),
-        (-0.3, (-0.5, -0.05), "hurts"),
-        (0.2, (-0.1, 0.5), "no clear effect"),
-        (None, None, "not measured"),
+        (0.3, (0.05, 0.5), 10, "helps"),
+        (-0.3, (-0.5, -0.05), 10, "hurts"),
+        (0.2, (-0.1, 0.5), 10, "no clear effect"),
+        (1.0, (0.07, 1.0), 2, "too few runs"),  # 2/2 vs 0/2: "significant", but not quotable
+        (None, None, 10, "not measured"),
     ],
 )
-def test_verdict(lift, ci, expected) -> None:
-    assert verdict(lift, ci) == expected
+def test_verdict(lift, ci, runs, expected) -> None:
+    assert verdict(lift, ci, runs) == expected
 
 
 def test_cost_delta_needs_every_run_to_report_cost() -> None:

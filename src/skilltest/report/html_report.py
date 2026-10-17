@@ -96,7 +96,13 @@ footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
 a { color: var(--with); }
 """
 
-VERDICT_ICON = {"helps": "✓", "hurts": "✗", "no clear effect": "–", "not measured": "–"}
+VERDICT_ICON = {
+    "helps": "✓",
+    "hurts": "✗",
+    "no clear effect": "–",
+    "too few runs": "–",
+    "not measured": "–",
+}
 VERDICT_CLASS = {"helps": "helps", "hurts": "hurts"}
 
 

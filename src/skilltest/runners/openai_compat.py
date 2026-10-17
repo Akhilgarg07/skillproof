@@ -12,7 +12,6 @@ results are labeled approximate in every report.
 
 from __future__ import annotations
 
-import asyncio
 import json
 import os
 from pathlib import Path
@@ -22,7 +21,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from skilltest.errors import RunnerNotReady
 from skilltest.runners.base import AgentRun, Runner, RunRequest, ToolCall, Usage
-from skilltest.sandbox import scrubbed_env
+from skilltest.sandbox import run_shell
 from skilltest.skill import Skill, copy_skill
 
 MAX_TOOL_OUTPUT = 20_000  # characters returned to the model per tool call
@@ -117,20 +116,10 @@ async def run_tool(name: str, args: dict[str, Any], workdir: Path) -> str:
     """Execute one tool call inside the sandbox and return its text result."""
     try:
         if name == "run_command":
-            proc = await asyncio.create_subprocess_shell(
-                str(args["command"]),
-                cwd=workdir,
-                env=scrubbed_env(),
-                stdout=asyncio.subprocess.PIPE,
-                stderr=asyncio.subprocess.STDOUT,
-            )
-            try:
-                out, _ = await asyncio.wait_for(proc.communicate(), timeout=COMMAND_TIMEOUT)
-            except asyncio.TimeoutError:
-                proc.kill()
-                await proc.wait()
+            code, out = await run_shell(str(args["command"]), workdir, COMMAND_TIMEOUT)
+            if code is None:
                 return f"command timed out after {COMMAND_TIMEOUT}s"
-            return _truncate(f"exit code {proc.returncode}\n{out.decode(errors='replace')}")
+            return _truncate(f"exit code {code}\n{out}")
         if name == "read_file":
             return _truncate(_inside(workdir, args["path"]).read_text(errors="replace"))
         if name == "write_file":

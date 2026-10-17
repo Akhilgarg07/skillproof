@@ -14,6 +14,7 @@ Trigger detection: a `Skill` tool call naming the skill (see parsers/claude_code
 
 from __future__ import annotations
 
+import logging
 import shutil
 from pathlib import Path
 from typing import Any, Literal
@@ -26,6 +27,18 @@ from skilltest.runners.base import AgentRun, Runner, RunRequest
 from skilltest.skill import copy_skill
 
 MAX_STDERR_LINES = 50
+
+
+def _hide_reaped_child_warning(record: logging.LogRecord) -> bool:
+    """CPython 3.10/3.11 race: when a finished subprocess object is garbage-collected,
+    a later `subprocess.Popen` (e.g. a `command` assertion) can reap it before
+    asyncio's child watcher does. asyncio then logs "Unknown child process pid ...,
+    will report returncode 255". It only affects Claude Code processes that already
+    delivered their result (which is what skilltest uses), so hide the noise."""
+    return "will report returncode 255" not in record.getMessage()
+
+
+logging.getLogger("asyncio").addFilter(_hide_reaped_child_warning)
 
 
 class ClaudeCodeRunner(Runner):

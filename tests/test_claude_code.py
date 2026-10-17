@@ -253,3 +253,16 @@ def test_unknown_option_is_rejected() -> None:
 
     with pytest.raises(ValidationError):
         ClaudeCodeRunner({"max_turn": 3})
+
+
+def test_reaped_child_warning_is_hidden() -> None:
+    import logging
+
+    from skilltest.runners import claude_code
+
+    def record(msg: str) -> logging.LogRecord:
+        return logging.LogRecord("asyncio", logging.WARNING, __file__, 1, msg, (), None)
+
+    noise = record("Unknown child process pid 10252, will report returncode 255")
+    assert not claude_code._hide_reaped_child_warning(noise)
+    assert claude_code._hide_reaped_child_warning(record("Task was destroyed but it is pending!"))

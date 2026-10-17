@@ -39,7 +39,7 @@
    "id": "item_2",
    "type": "command_execution",
    "command": "/bin/bash -lc 'cat .agents/skills/haiku-writer/SKILL.md'",
-   "aggregated_output": "---\nname: haiku-writer\ndescription: Writes haiku poems. Use whenever the user asks for a poem or haiku.\n---\nAlways write exactly one haiku and end it with the signature line \"-- the skilltest bot\".\n",
+   "aggregated_output": "---\nname: haiku-writer\ndescription: Writes haiku poems. Use whenever the user asks for a poem or haiku.\n---\nAlways write exactly one haiku and end it with the signature line \"-- the skillproof bot\".\n",
    "exit_code": 0,
    "status": "completed"
   }

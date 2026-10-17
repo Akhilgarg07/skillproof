@@ -4,12 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from skilltest.config import load_config
-from skilltest.engine import Engine, RunOptions
-from skilltest.errors import hint_for_error
-from skilltest.estimate import Estimate, estimate, past_cost_per_run
-from skilltest.results import CaseResult, SuiteResult, TrialResult
-from skilltest.runners import AgentRun, Usage
+from skillproof.config import load_config
+from skillproof.engine import Engine, RunOptions
+from skillproof.errors import hint_for_error
+from skillproof.estimate import Estimate, estimate, past_cost_per_run
+from skillproof.results import CaseResult, SuiteResult, TrialResult
+from skillproof.runners import AgentRun, Usage
 
 CASES = [
     {"name": "a", "prompt": "p", "assert": [{"type": "llm_judge", "rubric": "r"}]},

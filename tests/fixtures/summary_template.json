@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "skilltest_version": "0.1.0.dev0",
+  "skillproof_version": "0.1.0.dev0",
   "skill_name": "s",
   "skill_path": "/s",
   "runner": "claude-code",

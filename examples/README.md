@@ -1,10 +1,10 @@
 # Example skills
 
-Four small skills that show each kind of result skilltest can give. Run any of
+Four small skills that show each kind of result skillproof can give. Run any of
 them with:
 
 ```bash
-skilltest run examples/release-notes
+skillproof run examples/release-notes
 ```
 
 | example | what the skill does | expected result |

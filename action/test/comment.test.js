@@ -29,7 +29,7 @@ const context = { repo: { owner: "me", repo: "skills" }, issue: { number: 7 } };
 const logs = [];
 const core = { info: (m) => logs.push(m), warning: (m) => logs.push(`warn: ${m}`) };
 
-function env(report = "## skilltest: `pdf`\n") {
+function env(report = "## skillproof: `pdf`\n") {
   const file = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "st-")), "report.md");
   fs.writeFileSync(file, report);
   return { REPORT: file, SKILL_PATH: "skills/pdf" };
@@ -39,14 +39,14 @@ test("creates a comment with a marker when none exists", async () => {
   const { github, calls } = fakeGithub([{ id: 1, body: "unrelated" }]);
   await comment({ github, context, core, env: env() });
   assert.strictEqual(calls.created.length, 1);
-  assert.ok(calls.created[0].body.startsWith("<!-- skilltest-report: skills/pdf -->\n## skilltest"));
+  assert.ok(calls.created[0].body.startsWith("<!-- skillproof-report: skills/pdf -->\n## skillproof"));
   assert.strictEqual(calls.updated.length, 0);
 });
 
 test("updates the existing comment for the same skill", async () => {
   const { github, calls } = fakeGithub([
-    { id: 1, body: "<!-- skilltest-report: skills/other -->\nold" },
-    { id: 2, body: "<!-- skilltest-report: skills/pdf -->\nold" },
+    { id: 1, body: "<!-- skillproof-report: skills/other -->\nold" },
+    { id: 2, body: "<!-- skillproof-report: skills/pdf -->\nold" },
   ]);
   await comment({ github, context, core, env: env("new report") });
   assert.strictEqual(calls.created.length, 0);

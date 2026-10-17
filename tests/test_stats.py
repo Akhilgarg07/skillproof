@@ -4,10 +4,10 @@ from datetime import datetime, timezone
 
 import pytest
 
-from skilltest.assertions import AssertionResult
-from skilltest.results import CaseResult, SuiteResult, TrialResult
-from skilltest.runners import AgentRun, Usage
-from skilltest.stats import (
+from skillproof.assertions import AssertionResult
+from skillproof.results import CaseResult, SuiteResult, TrialResult
+from skillproof.runners import AgentRun, Usage
+from skillproof.stats import (
     case_stats,
     lift_interval,
     suite_stats,

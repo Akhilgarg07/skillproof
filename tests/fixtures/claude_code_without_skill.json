@@ -5,7 +5,7 @@
   "data": {
    "type": "system",
    "subtype": "init",
-   "cwd": "/tmp/skilltest-sandbox",
+   "cwd": "/tmp/skillproof-sandbox",
    "session_id": "00000000-0000-0000-0000-000000000000",
    "tools": [
     "Task",
@@ -94,7 +94,7 @@
    "analytics_disabled": false,
    "product_feedback_disabled": false,
    "uuid": "7a58391e-39bb-4569-bb15-11eac75c3ab4",
-   "original_cwd": "/tmp/skilltest-8no8udms",
+   "original_cwd": "/tmp/skillproof-8no8udms",
    "additional_directories": [],
    "messaging_socket_path": "/tmp/cc-socks/1267.sock",
    "fast_mode_state": "off",

@@ -7,11 +7,11 @@ from urllib.parse import unquote
 
 import pytest
 
-from skilltest.assertions import AssertionResult
-from skilltest.report import badge, build_summary, render_text, write_reports
-from skilltest.report.format import interval, seconds, signed_pct, summary_line, tokens, usd
-from skilltest.results import CaseResult, SuiteResult, TrialResult, find_latest_run, load_suite
-from skilltest.runners import AgentRun, Usage
+from skillproof.assertions import AssertionResult
+from skillproof.report import badge, build_summary, render_text, write_reports
+from skillproof.report.format import interval, seconds, signed_pct, summary_line, tokens, usd
+from skillproof.results import CaseResult, SuiteResult, TrialResult, find_latest_run, load_suite
+from skillproof.runners import AgentRun, Usage
 
 
 def trial(variant, passed=True, triggered=None, error=None, text="ok", warnings=()):
@@ -101,7 +101,7 @@ def test_errors_and_negative_case_notes() -> None:
 
 def test_markdown_report() -> None:
     md = render_text("md", build_summary(make_suite(9, 2)), make_suite(9, 2))
-    assert md.startswith("## skilltest: `pdf-tools`")
+    assert md.startswith("## skillproof: `pdf-tools`")
     assert "**✅ the skill helps**" in md
     assert "| extract tables | 10/10 | 9/10 | 2/10 | +70% (" in md
     assert "| cost / run | $0.010 | $0.010 |" in md
@@ -132,11 +132,11 @@ def test_badge() -> None:
     assert badge.message(s) == "+70% lift · 10/10 triggered"
     url = badge.badge_url(s)
     assert url.endswith("-brightgreen")
-    assert unquote(url.split("/badge/")[1]) == "skilltest-+70% lift · 10/10 triggered-brightgreen"
-    assert badge.markdown(s).startswith("[![skilltest: +70% lift")
+    assert unquote(url.split("/badge/")[1]) == "skillproof-+70% lift · 10/10 triggered-brightgreen"
+    assert badge.markdown(s).startswith("[![skillproof: +70% lift")
     assert json.loads(badge.endpoint_json(s)) == {
         "schemaVersion": 1,
-        "label": "skilltest",
+        "label": "skillproof",
         "message": "+70% lift · 10/10 triggered",
         "color": "brightgreen",
     }
@@ -155,13 +155,13 @@ def test_badge_escapes_dashes() -> None:
 
 
 def test_write_and_reload_reports(tmp_path: Path) -> None:
-    run_dir = tmp_path / ".skilltest" / "runs" / "20261017-120000"
+    run_dir = tmp_path / ".skillproof" / "runs" / "20261017-120000"
     run_dir.mkdir(parents=True)
     suite = make_suite(9, 2, run_dir=str(run_dir))
     (run_dir / "results.json").write_text(suite.model_dump_json())
     write_reports(suite)
     for name in ("summary.json", "report.md", "report.html"):
         assert (run_dir / name).is_file()
-    assert find_latest_run(tmp_path / ".skilltest") == run_dir
-    assert find_latest_run(tmp_path / ".skilltest", Path("/skills/pdf-tools")) == run_dir
+    assert find_latest_run(tmp_path / ".skillproof") == run_dir
+    assert find_latest_run(tmp_path / ".skillproof", Path("/skills/pdf-tools")) == run_dir
     assert load_suite(run_dir).skill_name == "pdf-tools"

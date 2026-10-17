@@ -1,9 +1,9 @@
-// Post or update ONE skilltest comment per skill path on a pull request.
+// Post or update ONE skillproof comment per skill path on a pull request.
 // Called from action.yml via actions/github-script: comment({ github, context, core }).
 const fs = require("fs");
 
 function marker(skillPath) {
-  return `<!-- skilltest-report: ${skillPath || "."} -->`;
+  return `<!-- skillproof-report: ${skillPath || "."} -->`;
 }
 
 async function comment({ github, context, core, env = process.env }) {
@@ -23,10 +23,10 @@ async function comment({ github, context, core, env = process.env }) {
     const existing = comments.find((c) => c.body && c.body.startsWith(tag));
     if (existing) {
       await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
-      core.info(`Updated skilltest comment ${existing.id}`);
+      core.info(`Updated skillproof comment ${existing.id}`);
     } else {
       await github.rest.issues.createComment({ owner, repo, issue_number, body });
-      core.info("Posted skilltest comment");
+      core.info("Posted skillproof comment");
     }
   } catch (error) {
     // Pull requests from forks get a read-only token; don't fail the run over a comment.

@@ -1,0 +1,709 @@
+{
+  "case": "add a farewell function",
+  "variant": "without",
+  "trial": 1,
+  "run": {
+    "final_text": "I added `farewell(name)` to `greeting.py`. It returns `f\"Goodbye, {name}!\"`, and calling `farewell('Alice')` returned `Goodbye, Alice!`.\n\nI also noticed the existing `greet` function returns `\"Helo, {name}\"`. \"Hello\" is misspelled and there's no `!`, unlike the new function. I didn't change it, but I can fix it if you'd like.",
+    "transcript": [
+      {
+        "_type": "SystemMessage",
+        "subtype": "init",
+        "data": {
+          "type": "system",
+          "subtype": "init",
+          "cwd": "/tmp/skilltest-3629165z",
+          "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+          "tools": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "ListAgents",
+            "ListConnectors",
+            "ListPlugins",
+            "ListSkills",
+            "Monitor",
+            "NotebookEdit",
+            "PushNotification",
+            "Read",
+            "ReadNotifications",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SearchMcpRegistry",
+            "SearchPlugins",
+            "SearchSkills",
+            "SendMessage",
+            "SendUserFile",
+            "ShowOnboardingRolePicker",
+            "Skill",
+            "SuggestConnectors",
+            "SuggestPluginInstall",
+            "SuggestSkills",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "mcp_servers": [],
+          "model": "claude-opus-5-5",
+          "permissionMode": "bypassPermissions",
+          "slash_commands": [
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring",
+            "advisor",
+            "agents",
+            "autocompact",
+            "clear",
+            "color",
+            "compact",
+            "config",
+            "output-style",
+            "context",
+            "effort",
+            "fast",
+            "focus",
+            "heapdump",
+            "init",
+            "mcp",
+            "import",
+            "model",
+            "__remote-workflow",
+            "workflow-launch-exec",
+            "reload-plugins",
+            "reload-skills",
+            "rename",
+            "security-review",
+            "usage",
+            "insights",
+            "recap",
+            "skill-doctor",
+            "goal",
+            "design-consent",
+            "design-revoke",
+            "list-agents",
+            "team-onboarding"
+          ],
+          "terminal_slash_commands": [
+            "doctor",
+            "color",
+            "focus",
+            "reload-plugins"
+          ],
+          "apiKeySource": "none",
+          "claude_code_version": "2.1.301",
+          "output_style": "default",
+          "agents": [
+            "claude",
+            "Explore",
+            "general-purpose",
+            "Plan",
+            "statusline-setup"
+          ],
+          "skills": [
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": [
+            {
+              "name": "cc-plugin-agents-md",
+              "path": "builtin",
+              "source": "cc-plugin-agents-md@builtin"
+            },
+            {
+              "name": "cc-plugin-telemetry",
+              "path": "builtin",
+              "source": "cc-plugin-telemetry@builtin"
+            },
+            {
+              "name": "cc-plugin-plugin-authoring",
+              "path": "builtin",
+              "source": "cc-plugin-plugin-authoring@builtin"
+            }
+          ],
+          "capabilities": [
+            "interrupt_receipt_v1",
+            "interrupt_cancel_queued_v1",
+            "interrupt_send_now_v1",
+            "msg_lifecycle_v1",
+            "request_marker_lists_v1",
+            "queued_notifications",
+            "third_party_notification_caution",
+            "sdk_mcp_tools_list_changed",
+            "sdk_mcp_manifests",
+            "mcp_read_resource_v1",
+            "mcp_tool_ui_meta_v1",
+            "ui_surface_v1",
+            "mcp_call_result_not_for_model_v1"
+          ],
+          "analytics_disabled": false,
+          "product_feedback_disabled": false,
+          "uuid": "31fb1a8b-89bf-40d5-9d0e-d9c8ed79e095",
+          "original_cwd": "/tmp/skilltest-3629165z",
+          "additional_directories": [],
+          "messaging_socket_path": "/tmp/cc-socks/2681.sock",
+          "fast_mode_state": "off",
+          "fast_mode_disabled_reason": "sdk_opt_in_required",
+          "per_turn_effort_active": true,
+          "view_mode": "default",
+          "startup_timing": {
+            "entrypoint": "sdk-py",
+            "warm_spare_claimed": false,
+            "plugin_full_loads": 1,
+            "user_context_builds": 1,
+            "sdk_mcp_dial_runs": 0,
+            "sdk_mcp_servers_dialed": 0,
+            "flag_fetch_kick": "not_asked_warm",
+            "flag_fetch_kick_judged_at_ms": 483,
+            "warm_wake_early_fetch": false,
+            "kick_on_warm_cache": false,
+            "hooks_init_source": "startup",
+            "plugins_sync_round": "gate_closed",
+            "phases": {
+              "node_boot_ms": 273,
+              "spawn_to_exec_ms": 431822,
+              "settings_load_ms": 0,
+              "pre_action_mdm_keychain_ms": 0,
+              "agent_proxy_inputs_ms": 38,
+              "agent_proxy_ca_fetch_ms": 61,
+              "agent_proxy_trust_write_ms": 3,
+              "agent_proxy_relay_up_ms": 0,
+              "agent_proxy_init_ms": 141,
+              "pre_action_init_ms": 186,
+              "pre_action_client_data_url_ms": 0,
+              "pre_action_migrations_ms": 0,
+              "pre_action_managed_settings_ms": 15,
+              "pre_action_ms": 223,
+              "permission_context_ms": 18,
+              "setup_import_ms": 4,
+              "skills_load_ms": 78,
+              "setup_uds_dir_ms": 72,
+              "setup_uds_listen_ms": 8,
+              "setup_uds_publish_ms": 54,
+              "setup_uds_messaging_ms": 143,
+              "setup_hooks_snapshot_ms": 0,
+              "setup_file_watcher_ms": 0,
+              "setup_release_notes_ms": 9,
+              "setup_ms": 153,
+              "growthbook_init_ms": 39,
+              "tools_commands_load_ms": 35,
+              "model_catalog_decision_ms": 51,
+              "mcp_connect_ms": 12,
+              "hooks_init_ms": 34,
+              "print_import_ms": 13,
+              "headless_prologue_ms": 9,
+              "initial_messages_load_ms": 5,
+              "headless_post_load_ms": 6,
+              "input_ready_ms": 974,
+              "input_ready_from_spawn_ms": 432797,
+              "first_message_read_ms": 1429,
+              "first_message_read_from_spawn_ms": 433256,
+              "sdk_mcp_update_ms": 1,
+              "plugins_sync_install_ms": 0,
+              "plugins_sync_mcp_ms": 10,
+              "plugin_state_refresh_inline_ms": 95,
+              "first_message_handle_ms": 101,
+              "first_message_handle_cpu_ms": 35,
+              "first_message_handle_loop_lag_ms": 1,
+              "mcp_prewait_ms": 3,
+              "qe_system_prompt_ms": 0,
+              "prompt_submit_hooks_ms": 3,
+              "qe_plugin_skills_load_ms": 2,
+              "init_emit_ms": 5
+            },
+            "time_origin_ms": 1792258458408.1348,
+            "phase_start_ms": {
+              "node_boot_ms": 0,
+              "spawn_to_exec_ms": -431823,
+              "settings_load_ms": 276,
+              "pre_action_mdm_keychain_ms": 295,
+              "agent_proxy_inputs_ms": 340,
+              "agent_proxy_ca_fetch_ms": 379,
+              "agent_proxy_trust_write_ms": 439,
+              "agent_proxy_relay_up_ms": 442,
+              "agent_proxy_init_ms": 337,
+              "pre_action_init_ms": 295,
+              "pre_action_client_data_url_ms": 482,
+              "pre_action_migrations_ms": 483,
+              "pre_action_managed_settings_ms": 483,
+              "pre_action_ms": 295,
+              "permission_context_ms": 533,
+              "setup_import_ms": 555,
+              "skills_load_ms": 572,
+              "setup_uds_dir_ms": 580,
+              "setup_uds_listen_ms": 652,
+              "setup_uds_publish_ms": 660,
+              "setup_uds_messaging_ms": 572,
+              "setup_hooks_snapshot_ms": 717,
+              "setup_file_watcher_ms": 718,
+              "setup_release_notes_ms": 722,
+              "setup_ms": 578,
+              "growthbook_init_ms": 732,
+              "tools_commands_load_ms": 781,
+              "model_catalog_decision_ms": 816,
+              "mcp_connect_ms": 899,
+              "hooks_init_ms": 892,
+              "print_import_ms": 913,
+              "headless_prologue_ms": 927,
+              "initial_messages_load_ms": 936,
+              "headless_post_load_ms": 940,
+              "input_ready_ms": 0,
+              "input_ready_from_spawn_ms": -431823,
+              "first_message_read_ms": 0,
+              "first_message_read_from_spawn_ms": -431823,
+              "sdk_mcp_update_ms": 1433,
+              "plugin_state_refresh_inline_ms": 1435,
+              "first_message_handle_ms": 1429,
+              "mcp_prewait_ms": 1534,
+              "qe_system_prompt_ms": 1566,
+              "prompt_submit_hooks_ms": 1609,
+              "qe_plugin_skills_load_ms": 1619,
+              "init_emit_ms": 1621
+            }
+          }
+        }
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01YPQXmZGJhJbBDyL3GPw72R",
+            "name": "Bash",
+            "input": {
+              "command": "cat /tmp/skilltest-3629165z/greeting.py",
+              "description": "Show greeting.py contents"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 1540,
+          "cache_read_input_tokens": 18930,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 1540
+          },
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8DDyHCfVagyPcaVgodQ",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "66482a8c-2bab-40bd-bef1-eb840afb24a2"
+      },
+      {
+        "_type": "RateLimitEvent",
+        "rate_limit_info": {
+          "_type": "RateLimitInfo",
+          "status": "allowed",
+          "resets_at": 1792272600,
+          "rate_limit_type": "five_hour",
+          "utilization": null,
+          "overage_status": "rejected",
+          "overage_resets_at": null,
+          "overage_disabled_reason": "org_level_disabled",
+          "raw": {
+            "status": "allowed",
+            "resetsAt": 1792272600,
+            "rateLimitType": "five_hour",
+            "overageStatus": "rejected",
+            "overageDisabledReason": "org_level_disabled",
+            "isUsingOverage": false,
+            "unifiedWindows": {
+              "five_hour": {
+                "utilization": 0.15,
+                "resetsAt": 1792272600
+              },
+              "seven_day": {
+                "utilization": 0.05,
+                "resetsAt": 1792832400
+              }
+            }
+          }
+        },
+        "uuid": "af788f78-4112-4b64-9151-1cf9176cdb75",
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01YPQXmZGJhJbBDyL3GPw72R",
+            "content": "def greet(name):\n    return f\"Helo, {name}\"\n\n\nif __name__ == \"__main__\":\n    print(greet(\"world\"))",
+            "is_error": false
+          }
+        ],
+        "uuid": "55344fd8-1f65-46e3-aa2c-78886fd26df1",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "stdout": "def greet(name):\n    return f\"Helo, {name}\"\n\n\nif __name__ == \"__main__\":\n    print(greet(\"world\"))",
+          "stderr": "",
+          "interrupted": false,
+          "isImage": false,
+          "noOutputExpected": false
+        },
+        "origin": null
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01RfQ339JCzwfohTicQDmyxG",
+            "name": "Edit",
+            "input": {
+              "replace_all": false,
+              "file_path": "/tmp/skilltest-3629165z/greeting.py",
+              "old_string": "    return f\"Helo, {name}\"\n",
+              "new_string": "    return f\"Helo, {name}\"\n\n\ndef farewell(name):\n    return f\"Goodbye, {name}!\"\n"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 167,
+          "cache_read_input_tokens": 20470,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 167
+          },
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8DE7ADaMTiBEsHoEaQX",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "8a302651-3843-4297-8ce8-c513624c1b68"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01RfQ339JCzwfohTicQDmyxG",
+            "content": "The file /tmp/skilltest-3629165z/greeting.py has been updated successfully. (file state is current in your context — no need to Read it back)",
+            "is_error": null
+          }
+        ],
+        "uuid": "e9e38721-e6f3-4a04-ab5d-e82323bd846c",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "filePath": "/tmp/skilltest-3629165z/greeting.py",
+          "oldString": "    return f\"Helo, {name}\"\n",
+          "newString": "    return f\"Helo, {name}\"\n\n\ndef farewell(name):\n    return f\"Goodbye, {name}!\"\n",
+          "originalFile": "def greet(name):\n    return f\"Helo, {name}\"\n\n\nif __name__ == \"__main__\":\n    print(greet(\"world\"))\n",
+          "structuredPatch": [
+            {
+              "oldStart": 2,
+              "oldLines": 5,
+              "newStart": 2,
+              "newLines": 9,
+              "lines": [
+                "     return f\"Helo, {name}\"",
+                " ",
+                " ",
+                "+def farewell(name):",
+                "+    return f\"Goodbye, {name}!\"",
+                "+",
+                "+",
+                " if __name__ == \"__main__\":",
+                "     print(greet(\"world\"))"
+              ]
+            }
+          ],
+          "userModified": false,
+          "replaceAll": false
+        },
+        "origin": null
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01UAVvdfRjBgV3gyKhZVNBXH",
+            "name": "Bash",
+            "input": {
+              "command": "python3 -c \"from greeting import farewell; print(farewell('Alice'))\"",
+              "description": "Test the new farewell function"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 238,
+          "cache_read_input_tokens": 20637,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 238
+          },
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8DEED85P2hvnVb4JgZX",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "9f26d1a0-53ba-4969-81ec-b0946ef4ece7"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01UAVvdfRjBgV3gyKhZVNBXH",
+            "content": "Goodbye, Alice!",
+            "is_error": false
+          }
+        ],
+        "uuid": "20be99c0-9fd1-4e3e-a9ba-56ff5689b119",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "stdout": "Goodbye, Alice!",
+          "stderr": "",
+          "interrupted": false,
+          "isImage": false,
+          "noOutputExpected": false
+        },
+        "origin": null
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ThinkingBlock",
+            "thinking": ""
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 157,
+          "cache_read_input_tokens": 20875,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 157
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8DELoW4MGQJ7UEkRk9S",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "52bb3de0-a57c-4eeb-9b0f-eb1cf69ab700"
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "TextBlock",
+            "text": "I added `farewell(name)` to `greeting.py`. It returns `f\"Goodbye, {name}!\"`, and calling `farewell('Alice')` returned `Goodbye, Alice!`.\n\nI also noticed the existing `greet` function returns `\"Helo, {name}\"`. \"Hello\" is misspelled and there's no `!`, unlike the new function. I didn't change it, but I can fix it if you'd like."
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 157,
+          "cache_read_input_tokens": 20875,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 157
+          },
+          "output_tokens": 3,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8DELoW4MGQJ7UEkRk9S",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "ebf0f40e-a995-42ba-a355-ec05e7fa4a1c"
+      },
+      {
+        "_type": "ResultMessage",
+        "subtype": "success",
+        "duration_ms": 7549,
+        "duration_api_ms": 7199,
+        "is_error": false,
+        "num_turns": 4,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "stop_reason": "end_turn",
+        "total_cost_usd": 0.0439704,
+        "usage": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 2102,
+          "cache_read_input_tokens": 80912,
+          "output_tokens": 547,
+          "output_tokens_details": {
+            "thinking_tokens": 30
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 2102,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 170,
+              "cache_read_input_tokens": 20875,
+              "cache_creation_input_tokens": 157,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 157
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "result": "I added `farewell(name)` to `greeting.py`. It returns `f\"Goodbye, {name}!\"`, and calling `farewell('Alice')` returned `Goodbye, Alice!`.\n\nI also noticed the existing `greet` function returns `\"Helo, {name}\"`. \"Hello\" is misspelled and there's no `!`, unlike the new function. I didn't change it, but I can fix it if you'd like.",
+        "structured_output": null,
+        "model_usage": {
+          "claude-opus-5-5": {
+            "inputTokens": 8,
+            "outputTokens": 547,
+            "cacheReadInputTokens": 80912,
+            "cacheCreationInputTokens": 2102,
+            "webSearchRequests": 0,
+            "costUSD": 0.0439704,
+            "contextWindow": 1000000,
+            "maxOutputTokens": 128000,
+            "thinkingTokens": 30,
+            "canonicalModel": "claude-opus-5-5",
+            "provider": "firstParty",
+            "costBasis": "list"
+          }
+        },
+        "permission_denials": [],
+        "deferred_tool_use": null,
+        "errors": null,
+        "api_error_status": null,
+        "uuid": "db7b3cf4-42ba-4b9e-8f5e-1dddd4c2134c",
+        "terminal_reason": "completed",
+        "origin": null
+      }
+    ],
+    "tool_calls": [
+      {
+        "name": "Bash",
+        "input": {
+          "command": "cat /tmp/skilltest-3629165z/greeting.py",
+          "description": "Show greeting.py contents"
+        },
+        "output": "def greet(name):\n    return f\"Helo, {name}\"\n\n\nif __name__ == \"__main__\":\n    print(greet(\"world\"))"
+      },
+      {
+        "name": "Edit",
+        "input": {
+          "replace_all": false,
+          "file_path": "/tmp/skilltest-3629165z/greeting.py",
+          "old_string": "    return f\"Helo, {name}\"\n",
+          "new_string": "    return f\"Helo, {name}\"\n\n\ndef farewell(name):\n    return f\"Goodbye, {name}!\"\n"
+        },
+        "output": "The file /tmp/skilltest-3629165z/greeting.py has been updated successfully. (file state is current in your context — no need to Read it back)"
+      },
+      {
+        "name": "Bash",
+        "input": {
+          "command": "python3 -c \"from greeting import farewell; print(farewell('Alice'))\"",
+          "description": "Test the new farewell function"
+        },
+        "output": "Goodbye, Alice!"
+      }
+    ],
+    "usage": {
+      "input_tokens": 8,
+      "output_tokens": 547,
+      "cache_read_tokens": 80912,
+      "cache_write_tokens": 2102,
+      "cost_usd": 0.0439704
+    },
+    "duration_s": 7.549,
+    "num_turns": 4,
+    "model": "claude-opus-5-5",
+    "triggered": null,
+    "timed_out": false,
+    "error": null,
+    "warnings": []
+  },
+  "assertions": [
+    {
+      "type": "command",
+      "passed": true,
+      "message": "`python3 -c \"from greeting import farewell; assert farewell('Ann') == 'Goodbye, Ann!'\"` exited 0"
+    },
+    {
+      "type": "command",
+      "passed": true,
+      "message": "`python3 -c \"import hashlib, sys; sys.exit(hashlib.sha256(open('legacy.py', 'rb').read()).hexdigest() != 'e7440c233743390bfc88513db4107992b2ce5eaf32c54a770cc74c7b6146db34')\"` exited 0"
+    }
+  ],
+  "artifact": "add-a-farewell-function/without-2.json"
+}

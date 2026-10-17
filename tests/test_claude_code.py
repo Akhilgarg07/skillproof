@@ -17,15 +17,15 @@ from claude_agent_sdk import (
     ToolUseBlock,
 )
 
-from skilltest.parsers.claude_code import (
+from skillproof.parsers.claude_code import (
     is_skill_call,
     parse_error,
     parse_transcript,
     to_dict,
 )
-from skilltest.runners import RunRequest, ToolCall
-from skilltest.runners.claude_code import ClaudeCodeRunner
-from skilltest.skill import load_skill
+from skillproof.runners import RunRequest, ToolCall
+from skillproof.runners.claude_code import ClaudeCodeRunner
+from skillproof.skill import load_skill
 
 FIXTURES = Path(__file__).parent / "fixtures"
 
@@ -37,7 +37,7 @@ def load(name: str) -> list[dict]:
 def test_parse_recorded_run_with_skill() -> None:
     run = parse_transcript(load("claude_code_with_skill.json"), "haiku-writer")
     assert run.triggered is True
-    assert run.final_text.endswith("-- the skilltest bot")
+    assert run.final_text.endswith("-- the skillproof bot")
     assert run.model == "claude-opus-5-5"
     assert run.num_turns == 3
     assert run.error is None and run.warnings == []
@@ -258,7 +258,7 @@ def test_unknown_option_is_rejected() -> None:
 def test_reaped_child_warning_is_hidden() -> None:
     import logging
 
-    from skilltest.runners import claude_code
+    from skillproof.runners import claude_code
 
     def record(msg: str) -> logging.LogRecord:
         return logging.LogRecord("asyncio", logging.WARNING, __file__, 1, msg, (), None)

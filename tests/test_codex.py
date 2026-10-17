@@ -11,11 +11,11 @@ from pathlib import Path
 
 import pytest
 
-from skilltest.errors import RunnerNotReady
-from skilltest.parsers.codex import parse_events, parse_jsonl
-from skilltest.runners import RunRequest
-from skilltest.runners.codex import CodexRunner
-from skilltest.skill import load_skill
+from skillproof.errors import RunnerNotReady
+from skillproof.parsers.codex import parse_events, parse_jsonl
+from skillproof.runners import RunRequest
+from skillproof.runners.codex import CodexRunner
+from skillproof.skill import load_skill
 
 FIXTURES = Path(__file__).parent / "fixtures"
 RECORDED = json.loads((FIXTURES / "codex_with_skill.json").read_text())

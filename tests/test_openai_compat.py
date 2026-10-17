@@ -10,11 +10,11 @@ from typing import Any
 import pytest
 from openai.types.chat import ChatCompletion
 
-from skilltest.config import parse_config
-from skilltest.errors import ConfigError, RunnerNotReady
-from skilltest.runners import RunRequest
-from skilltest.runners.openai_compat import OpenAICompatibleRunner, run_tool, system_prompt
-from skilltest.skill import load_skill
+from skillproof.config import parse_config
+from skillproof.errors import ConfigError, RunnerNotReady
+from skillproof.runners import RunRequest
+from skillproof.runners.openai_compat import OpenAICompatibleRunner, run_tool, system_prompt
+from skillproof.skill import load_skill
 
 
 def completion(content: str | None = None, tool_calls: list[dict] | None = None, cached: int = 0):

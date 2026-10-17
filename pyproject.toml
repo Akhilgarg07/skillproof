@@ -3,8 +3,8 @@ requires = ["hatchling>=1.24"]
 build-backend = "hatchling.build"
 
 [project]
-name = "skilltest"
-dynamic = ["version"]  # read from src/skilltest/__init__.py (0.1.0)
+name = "skillproof"
+dynamic = ["version"]  # read from src/skillproof/__init__.py (0.1.0)
 description = "pytest for agent skills: prove your skill actually works."
 readme = "README.md"
 license = "MIT"
@@ -38,18 +38,18 @@ dependencies = [
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [project.scripts]
-skilltest = "skilltest.cli:main"
+skillproof = "skillproof.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/akhilgarg07/skilltest"
-Issues = "https://github.com/akhilgarg07/skilltest/issues"
-Source = "https://github.com/akhilgarg07/skilltest"
+Homepage = "https://github.com/akhilgarg07/skillproof"
+Issues = "https://github.com/akhilgarg07/skillproof/issues"
+Source = "https://github.com/akhilgarg07/skillproof"
 
 [tool.hatch.version]
-path = "src/skilltest/__init__.py"  # the single place the version is set
+path = "src/skillproof/__init__.py"  # the single place the version is set
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/skilltest"]
+packages = ["src/skillproof"]
 
 [tool.ruff]
 line-length = 100

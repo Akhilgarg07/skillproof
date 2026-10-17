@@ -6,14 +6,14 @@ from pathlib import Path
 
 import pytest
 
-from skilltest.config import load_config
-from skilltest.engine import Engine, RunOptions, run_suite
-from skilltest.errors import ConfigError, RunAborted, RunnerNotReady
-from skilltest.judges import MockJudge
-from skilltest.results import load_suite
-from skilltest.runners import AgentRun, Runner, RunRequest
-from skilltest.runners.mock import MockRunner
-from skilltest.stats import suite_stats
+from skillproof.config import load_config
+from skillproof.engine import Engine, RunOptions, run_suite
+from skillproof.errors import ConfigError, RunAborted, RunnerNotReady
+from skillproof.judges import MockJudge
+from skillproof.results import load_suite
+from skillproof.runners import AgentRun, Runner, RunRequest
+from skillproof.runners.mock import MockRunner
+from skillproof.stats import suite_stats
 
 CASES = [
     {
@@ -50,7 +50,7 @@ def config(write_evals):
 
 
 def options(tmp_path: Path, **kw) -> RunOptions:
-    return RunOptions(out_dir=tmp_path / ".skilltest", **kw)
+    return RunOptions(out_dir=tmp_path / ".skillproof", **kw)
 
 
 def test_runs_every_case_with_and_without(config, tmp_path: Path) -> None:
@@ -116,7 +116,7 @@ def test_saves_transcripts_and_results(config, tmp_path: Path, monkeypatch) -> N
     suite = run_suite(config, options(tmp_path, trials=1), runner=MockRunner(script))
 
     run_dir = Path(suite.run_dir)
-    assert run_dir.parent == tmp_path / ".skilltest" / "runs"
+    assert run_dir.parent == tmp_path / ".skillproof" / "runs"
     files = sorted(p.relative_to(run_dir).as_posix() for p in run_dir.rglob("*.json"))
     assert files == [
         "explain/with-1.json",
@@ -183,7 +183,7 @@ def test_runner_not_ready_stops_before_running(config, tmp_path: Path) -> None:
     with pytest.raises(RunnerNotReady):
         run_suite(config, options(tmp_path), runner=runner)
     assert runner.requests == []
-    assert not (tmp_path / ".skilltest").exists()
+    assert not (tmp_path / ".skillproof").exists()
 
 
 def test_case_filter_and_trials_override(config, tmp_path: Path) -> None:
@@ -230,7 +230,7 @@ def test_stops_early_when_every_run_fails(config, tmp_path: Path) -> None:
     assert "401 Unauthorized" in exc.value.message
     assert "API key" in exc.value.hint
     assert len(runner.requests) == 3  # not all 12
-    saved = load_suite(next((tmp_path / ".skilltest" / "runs").iterdir()))
+    saved = load_suite(next((tmp_path / ".skillproof" / "runs").iterdir()))
     assert saved.complete is False
     assert sum(len(c.trials) for c in saved.cases) == 3
 
@@ -264,6 +264,6 @@ def test_cancellation_saves_partial_results(config, tmp_path: Path) -> None:
             await task
 
     asyncio.run(interrupt())
-    saved = load_suite(next((tmp_path / ".skilltest" / "runs").iterdir()))
+    saved = load_suite(next((tmp_path / ".skillproof" / "runs").iterdir()))
     assert saved.complete is False
     assert sum(len(c.trials) for c in saved.cases) == 1

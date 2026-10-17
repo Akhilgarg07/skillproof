@@ -7,7 +7,7 @@ import claude_agent_sdk
 import pytest
 import yaml
 
-from skilltest.runners.codex import CodexRunner
+from skillproof.runners.codex import CodexRunner
 
 SKILL_MD = """\
 ---

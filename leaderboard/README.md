@@ -1,6 +1,6 @@
 # Leaderboard tooling
 
-Run skilltest against many skills and publish a markdown table
+Run skillproof against many skills and publish a markdown table
 (`LEADERBOARD.md`, written by `run` and `render`).
 
 ```bash

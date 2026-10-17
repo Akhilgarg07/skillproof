@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - id: skilltest
+      - id: skillproof
         uses: ./
         with:
           path: tests/selftest-skill
           min-lift: "20"
-          artifact-name: skilltest-selftest
+          artifact-name: skillproof-selftest
       - name: Check outputs
         env:
-          VERDICT: ${{ steps.skilltest.outputs.verdict }}
-          LIFT: ${{ steps.skilltest.outputs.lift }}
+          VERDICT: ${{ steps.skillproof.outputs.verdict }}
+          LIFT: ${{ steps.skillproof.outputs.lift }}
         run: |
           echo "verdict=$VERDICT lift=$LIFT"
           test "$VERDICT" = "helps"

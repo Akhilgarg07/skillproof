@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skilltest: python-clean-code</title>
+<style>
+:root {
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+  --with: #2a78d6; --without: #eb6834;
+  --good: #006300; --bad: #d03b3b; --neutral: #52514e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --with: #3987e5; --without: #d95926;
+    --good: #0ca30c; --bad: #e66767; --neutral: #c3c2b7;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 40px 0 12px; }
+.meta { color: var(--ink-2); font-size: 13px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.hero { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; padding: 24px;
+  margin-top: 20px; }
+.hero .value { font-size: 56px; font-weight: 600; line-height: 1; }
+.hero .label { color: var(--ink-2); font-size: 13px; margin-bottom: 6px; }
+.verdict { font-weight: 600; font-size: 18px; }
+.verdict.helps { color: var(--good); } .verdict.hurts { color: var(--bad); }
+.verdict.neutral { color: var(--neutral); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;
+  margin-top: 12px; }
+.tile { padding: 14px 16px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 22px; font-weight: 600; }
+.tile .sub { color: var(--muted); font-size: 12px; }
+.notes { margin: 16px 0 0; padding: 12px 16px 12px 32px; }
+.notes li { margin: 4px 0; }
+.legend { display: flex; gap: 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+  margin-right: 6px; vertical-align: -1px; }
+.chart { padding: 16px; }
+.chart-row { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 12px;
+  align-items: center; padding: 8px 0; border-top: 1px solid var(--grid); }
+.chart-row:first-child { border-top: 0; }
+.chart-name { font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .chart-row { grid-template-columns: 1fr; gap: 4px; } }
+.bars { display: grid; gap: 2px; }
+.bar-line { display: grid; grid-template-columns: 1fr 56px; gap: 8px; align-items: center; }
+.track { height: 12px; position: relative; }
+.bar { height: 12px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.bar.with { background: var(--with); } .bar.without { background: var(--without); }
+.bar-value { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--grid);
+  vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; border-top: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table-wrap { overflow-x: auto; padding: 4px 6px; }
+.pass { color: var(--good); font-weight: 600; } .fail { color: var(--bad); font-weight: 600; }
+.err { color: var(--muted); font-weight: 600; }
+details { margin-top: 10px; padding: 10px 14px; }
+summary { cursor: pointer; font-weight: 600; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--page); padding: 10px;
+  border-radius: 6px; font-size: 12px; max-height: 320px; overflow-y: auto; margin: 6px 0 0; }
+ul.asserts { margin: 4px 0 0; padding-left: 18px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
+a { color: var(--with); }
+</style>
+</head>
+<body>
+<main>
+<h1>skilltest: python-clean-code</h1>
+<div class="meta">runner <code>claude-code</code> · model <code>claude-opus-5-5</code> · 2026-10-17 17:31 UTC</div>
+
+<div class="card hero">
+  <div>
+    <div class="label">Skill lift (pass rate with − without)</div>
+    <div class="value">±0%</div>
+  </div>
+  <div>
+    <div class="verdict neutral">– too few runs for a verdict</div>
+    <div class="meta">95% CI −66% to +66%</div>
+  </div>
+</div>
+<div class="tiles"><div class="card tile"><div class="label">Triggered</div><div class="value">2/2</div><div class="sub">runs where the skill loaded</div></div><div class="card tile"><div class="label">Pass rate with skill</div><div class="value">100%</div><div class="sub">2/2 runs</div></div><div class="card tile"><div class="label">Pass rate without</div><div class="value">100%</div><div class="sub">2/2 runs</div></div><div class="card tile"><div class="label">Tokens per run</div><div class="value">+2%</div><div class="sub">64.9k vs 63.7k</div></div><div class="card tile"><div class="label">Cost per run</div><div class="value">+16%</div><div class="sub">$0.061 vs $0.053</div></div><div class="card tile"><div class="label">Time per run</div><div class="value">+13%</div><div class="sub">9.8s vs 8.7s</div></div></div>
+<ul class="card notes"><li>Small sample: as few as 1 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them.</li></ul>
+<h2>Pass rate by case</h2><div class="legend"><span><span class="swatch" style="background:var(--with)"></span>with skill</span><span><span class="swatch" style="background:var(--without)"></span>without skill</span></div><div class="card chart"><div class="chart-row"><div class="chart-name">fix the median bug</div><div class="bars"><div class="bar-line" title="with skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar without" style="width:100.0%"></div></div><div class="bar-value">100%</div></div></div></div><div class="chart-row"><div class="chart-name">add a mode function</div><div class="bars"><div class="bar-line" title="with skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar without" style="width:100.0%"></div></div><div class="bar-value">100%</div></div></div></div></div>
+<h2>Cases</h2><div class="card table-wrap"><table><tr><th>case</th><th class=num>triggered</th><th class=num>pass with</th><th class=num>pass without</th><th class=num>lift</th><th class=num>95% CI</th><th class=num>tokens Δ</th><th class=num>latency Δ</th></tr><tr><td>fix the median bug</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>±0%</td><td class=num>−79% to +79%</td><td class=num>+2%</td><td class=num>+21%</td></tr><tr><td>add a mode function</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>±0%</td><td class=num>−79% to +79%</td><td class=num>+2%</td><td class=num>+7%</td></tr></table></div>
+<h2>Runs</h2>
+<details class="card"><summary>fix the median bug <span class="meta">(2 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>64.5k</td><td class=num>8.8s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -m unittest -q test_stats` exited 0</li></ul><details><summary>answer</summary><pre>I fixed the bug in `median()` in `stats.py`, and all 3 tests now pass.
+
+**The bug:** `median()` always returned the single middle item after sorting. That&#x27;s right for odd-length lists, but for even-length lists the median is the average of the two middle values. For example, `[4, 1, 3, 2]` sorts to `[1, 2, 3, 4]`, so the median should be `(2 + 3) / 2 = 2.5`, but the function returned `3`.
+
+**The fix:** For even-length lists, `median()` now returns the average of `ordered[middle - 1]` and `ordered[middle]`. Odd-length lists work as before.
+
+Following the project&#x27;s Python style guide, I also added type hints and docstrings to `mean()` and `median()`.
+
+`median()` and `mean()` still fail on an empty list (`IndexError` and `ZeroDivisionError`). That was already true, and I didn&#x27;t change it since the tests don&#x27;t cover it.</pre></details><div class=meta><code>fix-the-median-bug/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>63.2k</td><td class=num>7.3s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -m unittest -q test_stats` exited 0</li></ul><details><summary>answer</summary><pre>I fixed the bug in `median()`, and all 3 tests now pass.
+
+**The bug:** `median()` always returned the single middle element. That&#x27;s only correct for an odd number of values. With an even number there are two middle values, so it was returning the upper one. For example, `[1, 2, 3, 4]` gave `3` instead of `2.5`.
+
+**The fix** in `stats.py`: when the list has an even length, it now returns the average of the two middle values:
+
+```python
+def median(values):
+    ordered = sorted(values)
+    middle = len(ordered) // 2
+    if len(ordered) % 2 == 0:
+        return (ordered[middle - 1] + ordered[middle]) / 2
+    return ordered[middle]
+```
+
+pytest isn&#x27;t installed here, so I ran the tests with `python -m unittest`.
+
+One thing I left alone: `mean()` and `median()` still crash on an empty list. The tests don&#x27;t cover that case.</pre></details><div class=meta><code>fix-the-median-bug/without-1.json</code></div></td></tr></table></div></details><details class="card"><summary>add a mode function <span class="meta">(2 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>65.4k</td><td class=num>10.8s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;from stats import mode; assert mode([3, 1, 3, 1, 2]) == 1; assert mode([5]) == 5; assert mode([2, 2, 7]) == 2&quot;` exited 0</li><li><span class="pass">✓</span> test_stats.py contains &quot;mode(&quot;</li></ul><details><summary>answer</summary><pre>I added `mode` to `stats.py` and two tests for it, and both new tests pass. However, a test that was already in the file fails: `test_median_even`.
+
+**`stats.py`**
+```python
+from collections import Counter
+
+def mode(values: list) -&gt; object:
+    &quot;&quot;&quot;Return the most common value in values, choosing the smallest on a tie.&quot;&quot;&quot;
+    counts = Counter(values)
+    highest_count = max(counts.values())
+    return min(value for value, count in counts.items() if count == highest_count)
+```
+
+**`test_stats.py`**
+- `test_mode`: `mode([1, 2, 2, 3])` returns `2`.
+- `test_mode_tie_returns_smallest`: `mode([3, 3, 1, 1, 2])` returns `1`.
+
+**The failing test:** `test_median_even` expects `median([4, 1, 3, 2])` to be `2.5`, but it returns `3`. The cause is a bug in `median`: for lists with an even number of items it returns the upper of the two middle values instead of averaging them. I didn&#x27;t touch it because it&#x27;s outside what you asked for. The fix is a few lines if you want me to make it.
+
+If `mode` gets an empty list it raises a `ValueError`. `mean` behaves the same way, since it raises `ZeroDivisionError` on an empty list.</pre></details><div class=meta><code>add-a-mode-function/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>64.2k</td><td class=num>10.2s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;from stats import mode; assert mode([3, 1, 3, 1, 2]) == 1; assert mode([5]) == 5; assert mode([2, 2, 7]) == 2&quot;` exited 0</li><li><span class="pass">✓</span> test_stats.py contains &quot;mode(&quot;</li></ul><details><summary>answer</summary><pre>I added `mode(values)` to `stats.py` and two tests for it in `test_stats.py`. Both new tests pass. One test that was already there, `test_median_even`, fails, and that comes from `median`, not from this change.
+
+**`stats.py`:**
+```python
+def mode(values):
+    &quot;&quot;&quot;Return the most common value; ties are broken by the smallest value.&quot;&quot;&quot;
+    counts = {}
+    for value in values:
+        counts[value] = counts.get(value, 0) + 1
+    return min(counts, key=lambda v: (-counts[v], v))
+```
+
+**`test_stats.py`:** I added `mode` to the import and two tests:
+- `test_mode`: `mode([1, 2, 2, 3]) == 2`
+- `test_mode_tie_returns_smallest`: `mode([3, 3, 1, 1, 2]) == 1`
+
+An empty list will raise a `ValueError`, the same way `mean` errors on an empty list.
+
+**The failing test:** `median` always returns the middle element and never averages the two middle values when the list has an even length. So `median([4, 1, 3, 2])` returns `3`, but the test expects `2.5`. I didn&#x27;t change `median` because you didn&#x27;t ask me to. I can fix it if you&#x27;d like.</pre></details><div class=meta><code>add-a-mode-function/without-1.json</code></div></td></tr></table></div></details>
+<footer>Generated by <a href="https://github.com/akhilgarg07/skilltest">skilltest</a>
+0.1.0.dev0 · transcripts in <code>.skilltest/runs/20261017-173103</code></footer>
+</main>
+</body>
+</html>

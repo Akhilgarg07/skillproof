@@ -1,6 +1,6 @@
-name: skilltest
+name: skillproof
 description: "pytest for agent skills: run evals with and without your skill, comment the lift on PRs."
-author: skilltest
+author: skillproof
 branding:
   icon: check-circle
   color: green
@@ -32,18 +32,18 @@ inputs:
     default: "true"
   artifact-name:
     description: Name of the uploaded artifact (set a unique one per skill if you run several).
-    default: skilltest
+    default: skillproof
   install-codex:
     description: "Install the Codex CLI (needed for `runner: codex`)."
     default: "false"
   version:
-    description: skilltest version from PyPI (e.g. "0.1.0"). Empty = the version of this action.
+    description: skillproof version from PyPI (e.g. "0.1.0"). Empty = the version of this action.
     default: ""
   python-version:
-    description: Python version to run skilltest with.
+    description: Python version to run skillproof with.
     default: "3.12"
   args:
-    description: Extra arguments for `skilltest run`, e.g. "--case 'my case'".
+    description: Extra arguments for `skillproof run`, e.g. "--case 'my case'".
     default: ""
   github-token:
     description: Token used to comment on the pull request.
@@ -70,25 +70,25 @@ runs:
       with:
         python-version: ${{ inputs.python-version }}
 
-    - name: Install skilltest
+    - name: Install skillproof
       shell: bash
       env:
         VERSION: ${{ inputs.version }}
         ACTION_PATH: ${{ github.action_path }}
       run: |
         if [ -n "$VERSION" ]; then
-          python -m pip install --quiet "skilltest==$VERSION"
+          python -m pip install --quiet "skillproof==$VERSION"
         else
           python -m pip install --quiet "$ACTION_PATH"
         fi
-        skilltest --version
+        skillproof --version
 
     - name: Install Codex CLI
       if: inputs.install-codex == 'true'
       shell: bash
       run: npm install --global @openai/codex
 
-    - name: Run skilltest
+    - name: Run skillproof
       id: run
       shell: bash
       env:
@@ -100,7 +100,7 @@ runs:
         MIN_TRIGGER_RATE: ${{ inputs.min-trigger-rate }}
         EXTRA_ARGS: ${{ inputs.args }}
       run: |
-        report="$RUNNER_TEMP/skilltest-report.md"
+        report="$RUNNER_TEMP/skillproof-report.md"
         args=(run "$SKILL_PATH" --format md --output "$report" --parallel "$PARALLEL"
               --confirm-above "$MAX_COST")
         [ -n "$TRIALS" ] && args+=(--trials "$TRIALS")
@@ -112,7 +112,7 @@ runs:
           args+=("${extra[@]}")
         fi
         set +e
-        skilltest "${args[@]}"
+        skillproof "${args[@]}"
         status=$?
         set -e
         echo "status=$status" >> "$GITHUB_OUTPUT"
@@ -126,8 +126,8 @@ runs:
       if: always() && steps.run.outputs.report != ''
       shell: bash
       run: |
-        skilltest report --format json --output "$RUNNER_TEMP/skilltest-summary.json" || exit 0
-        python - "$RUNNER_TEMP/skilltest-summary.json" >> "$GITHUB_OUTPUT" <<'PY'
+        skillproof report --format json --output "$RUNNER_TEMP/skillproof-summary.json" || exit 0
+        python - "$RUNNER_TEMP/skillproof-summary.json" >> "$GITHUB_OUTPUT" <<'PY'
         import json, sys
         s = json.load(open(sys.argv[1]))
         runs = s["trigger_runs"]
@@ -154,7 +154,7 @@ runs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.artifact-name }}
-        path: .skilltest/runs
+        path: .skillproof/runs
         if-no-files-found: ignore
 
     - name: Result

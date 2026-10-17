@@ -1,0 +1,717 @@
+{
+  "case": "release with no breaking changes",
+  "variant": "with",
+  "trial": 0,
+  "run": {
+    "final_text": "I added the v2.4.0 notes (dated 2026-10-20) to `RELEASE_NOTES.md`, above the v2.3.0 section, which I left unchanged.\n\n```\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n```\n\n- **ACME-421 left out:** this was the only breaking change in the list (removing the `--legacy` flag from sync). Since it was reverted, Breaking changes is just \"None.\"\n- **ACME-415 is under Features:** our format only counts titles that mention \"fix\", \"crash\" or \"bug\" as fixes, and this one doesn't. You could argue it's a reliability fix, so move it to Fixes if you'd rather.",
+    "transcript": [
+      {
+        "_type": "SystemMessage",
+        "subtype": "init",
+        "data": {
+          "type": "system",
+          "subtype": "init",
+          "cwd": "/tmp/skilltest-cdizwkix",
+          "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+          "tools": [
+            "Task",
+            "Bash",
+            "CronCreate",
+            "CronDelete",
+            "CronList",
+            "DesignSync",
+            "Edit",
+            "EnterWorktree",
+            "ExitWorktree",
+            "ListAgents",
+            "ListConnectors",
+            "ListPlugins",
+            "ListSkills",
+            "Monitor",
+            "NotebookEdit",
+            "PushNotification",
+            "Read",
+            "ReadNotifications",
+            "ReportFindings",
+            "ScheduleWakeup",
+            "SearchMcpRegistry",
+            "SearchPlugins",
+            "SearchSkills",
+            "SendMessage",
+            "SendUserFile",
+            "ShowOnboardingRolePicker",
+            "Skill",
+            "SuggestConnectors",
+            "SuggestPluginInstall",
+            "SuggestSkills",
+            "TaskStop",
+            "ToolSearch",
+            "WebFetch",
+            "WebSearch",
+            "Workflow",
+            "Write"
+          ],
+          "mcp_servers": [],
+          "model": "claude-opus-5-5",
+          "permissionMode": "bypassPermissions",
+          "slash_commands": [
+            "acme-release-notes",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring",
+            "advisor",
+            "agents",
+            "autocompact",
+            "clear",
+            "color",
+            "compact",
+            "config",
+            "output-style",
+            "context",
+            "effort",
+            "fast",
+            "focus",
+            "heapdump",
+            "init",
+            "mcp",
+            "import",
+            "model",
+            "__remote-workflow",
+            "workflow-launch-exec",
+            "reload-plugins",
+            "reload-skills",
+            "rename",
+            "security-review",
+            "usage",
+            "insights",
+            "recap",
+            "skill-doctor",
+            "goal",
+            "design-consent",
+            "design-revoke",
+            "list-agents",
+            "team-onboarding"
+          ],
+          "terminal_slash_commands": [
+            "doctor",
+            "color",
+            "focus",
+            "reload-plugins"
+          ],
+          "apiKeySource": "none",
+          "claude_code_version": "2.1.301",
+          "output_style": "default",
+          "agents": [
+            "claude",
+            "Explore",
+            "general-purpose",
+            "Plan",
+            "statusline-setup"
+          ],
+          "skills": [
+            "acme-release-notes",
+            "deep-research",
+            "design",
+            "design-sync",
+            "dataviz",
+            "update-config",
+            "verify",
+            "debug",
+            "code-review",
+            "simplify",
+            "batch",
+            "fewer-permission-prompts",
+            "doctor",
+            "loop",
+            "claude-api",
+            "workflow-authoring",
+            "run",
+            "run-skill-generator",
+            "plugin-authoring"
+          ],
+          "plugins": [
+            {
+              "name": "cc-plugin-agents-md",
+              "path": "builtin",
+              "source": "cc-plugin-agents-md@builtin"
+            },
+            {
+              "name": "cc-plugin-telemetry",
+              "path": "builtin",
+              "source": "cc-plugin-telemetry@builtin"
+            },
+            {
+              "name": "cc-plugin-plugin-authoring",
+              "path": "builtin",
+              "source": "cc-plugin-plugin-authoring@builtin"
+            }
+          ],
+          "capabilities": [
+            "interrupt_receipt_v1",
+            "interrupt_cancel_queued_v1",
+            "interrupt_send_now_v1",
+            "msg_lifecycle_v1",
+            "request_marker_lists_v1",
+            "queued_notifications",
+            "third_party_notification_caution",
+            "sdk_mcp_tools_list_changed",
+            "sdk_mcp_manifests",
+            "mcp_read_resource_v1",
+            "mcp_tool_ui_meta_v1",
+            "ui_surface_v1",
+            "mcp_call_result_not_for_model_v1"
+          ],
+          "analytics_disabled": false,
+          "product_feedback_disabled": false,
+          "uuid": "9216b59a-999e-4768-91d7-179fc8019650",
+          "original_cwd": "/tmp/skilltest-cdizwkix",
+          "additional_directories": [],
+          "messaging_socket_path": "/tmp/cc-socks/519.sock",
+          "fast_mode_state": "off",
+          "fast_mode_disabled_reason": "sdk_opt_in_required",
+          "per_turn_effort_active": true,
+          "view_mode": "default",
+          "startup_timing": {
+            "entrypoint": "sdk-py",
+            "warm_spare_claimed": false,
+            "plugin_full_loads": 1,
+            "user_context_builds": 1,
+            "sdk_mcp_dial_runs": 0,
+            "sdk_mcp_servers_dialed": 0,
+            "flag_fetch_kick": "not_asked_warm",
+            "flag_fetch_kick_judged_at_ms": 8078,
+            "warm_wake_early_fetch": false,
+            "kick_on_warm_cache": false,
+            "hooks_init_source": "startup",
+            "plugins_sync_round": "gate_closed",
+            "phases": {
+              "node_boot_ms": 7373,
+              "spawn_to_exec_ms": 214044,
+              "settings_load_ms": 1,
+              "pre_action_mdm_keychain_ms": 6,
+              "agent_proxy_inputs_ms": 83,
+              "agent_proxy_ca_fetch_ms": 118,
+              "agent_proxy_trust_write_ms": 7,
+              "agent_proxy_relay_up_ms": 1,
+              "agent_proxy_init_ms": 290,
+              "pre_action_init_ms": 402,
+              "pre_action_client_data_url_ms": 0,
+              "pre_action_migrations_ms": 0,
+              "pre_action_managed_settings_ms": 25,
+              "pre_action_ms": 694,
+              "permission_context_ms": 71,
+              "setup_import_ms": 2,
+              "setup_uds_dir_ms": 192,
+              "skills_load_ms": 274,
+              "setup_uds_listen_ms": 80,
+              "setup_uds_publish_ms": 111,
+              "setup_uds_messaging_ms": 388,
+              "setup_hooks_snapshot_ms": 0,
+              "setup_file_watcher_ms": 0,
+              "setup_release_notes_ms": 36,
+              "setup_ms": 457,
+              "growthbook_init_ms": 0,
+              "tools_commands_load_ms": 23,
+              "model_catalog_decision_ms": 185,
+              "mcp_connect_ms": 4,
+              "hooks_init_ms": 59,
+              "print_import_ms": 45,
+              "headless_prologue_ms": 23,
+              "initial_messages_load_ms": 0,
+              "headless_post_load_ms": 8,
+              "input_ready_ms": 9423,
+              "input_ready_from_spawn_ms": 223468,
+              "first_message_read_ms": 9721,
+              "first_message_read_from_spawn_ms": 223766,
+              "sdk_mcp_update_ms": 2,
+              "plugins_sync_install_ms": 0,
+              "plugins_sync_mcp_ms": 5,
+              "plugin_state_refresh_inline_ms": 90,
+              "first_message_handle_ms": 92,
+              "first_message_handle_cpu_ms": 50,
+              "first_message_handle_loop_lag_ms": 10,
+              "mcp_prewait_ms": 10,
+              "qe_system_prompt_ms": 0,
+              "prompt_submit_hooks_ms": 9,
+              "qe_plugin_skills_load_ms": 3,
+              "init_emit_ms": 7
+            },
+            "time_origin_ms": 1792258240630.1702,
+            "phase_start_ms": {
+              "node_boot_ms": 0,
+              "spawn_to_exec_ms": -214045,
+              "settings_load_ms": 7544,
+              "pre_action_mdm_keychain_ms": 7667,
+              "agent_proxy_inputs_ms": 7832,
+              "agent_proxy_ca_fetch_ms": 7914,
+              "agent_proxy_trust_write_ms": 8032,
+              "agent_proxy_relay_up_ms": 8039,
+              "agent_proxy_init_ms": 7784,
+              "pre_action_init_ms": 7673,
+              "pre_action_client_data_url_ms": 8075,
+              "pre_action_migrations_ms": 8078,
+              "pre_action_managed_settings_ms": 8078,
+              "pre_action_ms": 7667,
+              "permission_context_ms": 8372,
+              "setup_import_ms": 8448,
+              "setup_uds_dir_ms": 8464,
+              "skills_load_ms": 8459,
+              "setup_uds_listen_ms": 8656,
+              "setup_uds_publish_ms": 8735,
+              "setup_uds_messaging_ms": 8459,
+              "setup_hooks_snapshot_ms": 8878,
+              "setup_file_watcher_ms": 8878,
+              "setup_release_notes_ms": 8884,
+              "setup_ms": 8463,
+              "growthbook_init_ms": 8922,
+              "tools_commands_load_ms": 8934,
+              "model_catalog_decision_ms": 8957,
+              "mcp_connect_ms": 9212,
+              "hooks_init_ms": 9203,
+              "print_import_ms": 9217,
+              "headless_prologue_ms": 9266,
+              "initial_messages_load_ms": 9289,
+              "headless_post_load_ms": 9289,
+              "input_ready_ms": 0,
+              "input_ready_from_spawn_ms": -214045,
+              "first_message_read_ms": 0,
+              "first_message_read_from_spawn_ms": -214045,
+              "sdk_mcp_update_ms": 9722,
+              "plugin_state_refresh_inline_ms": 9724,
+              "first_message_handle_ms": 9721,
+              "mcp_prewait_ms": 9822,
+              "qe_system_prompt_ms": 9854,
+              "prompt_submit_hooks_ms": 9904,
+              "qe_plugin_skills_load_ms": 9916,
+              "init_emit_ms": 9919
+            }
+          }
+        }
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01VyUHAATgad44uvM7xNMopp",
+            "name": "Skill",
+            "input": {
+              "skill": "acme-release-notes",
+              "args": "merged_prs.txt, exclude ACME-421 (reverted)"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 2119,
+          "cache_read_input_tokens": 18442,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 2119
+          },
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8CxXtJbkvQTweYUVsZA",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "1874be5a-2d94-4dff-8433-6c3103db13e9"
+      },
+      {
+        "_type": "RateLimitEvent",
+        "rate_limit_info": {
+          "_type": "RateLimitInfo",
+          "status": "allowed",
+          "resets_at": 1792272600,
+          "rate_limit_type": "five_hour",
+          "utilization": null,
+          "overage_status": "rejected",
+          "overage_resets_at": null,
+          "overage_disabled_reason": "org_level_disabled",
+          "raw": {
+            "status": "allowed",
+            "resetsAt": 1792272600,
+            "rateLimitType": "five_hour",
+            "overageStatus": "rejected",
+            "overageDisabledReason": "org_level_disabled",
+            "isUsingOverage": false,
+            "unifiedWindows": {
+              "five_hour": {
+                "utilization": 0.13,
+                "resetsAt": 1792272600
+              },
+              "seven_day": {
+                "utilization": 0.05,
+                "resetsAt": 1792832400
+              }
+            }
+          }
+        },
+        "uuid": "30ec02dd-6522-446e-8fc2-2f4ad4c74c12",
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01VyUHAATgad44uvM7xNMopp",
+            "content": "Launching skill: acme-release-notes",
+            "is_error": null
+          }
+        ],
+        "uuid": "95b0d8d9-8008-4647-9963-cc1da0028625",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "success": true,
+          "commandName": "acme-release-notes"
+        },
+        "origin": null
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "TextBlock",
+            "text": "Base directory for this skill: /tmp/skilltest-cdizwkix/.claude/skills/acme-release-notes\n\n# Acme release notes\n\nRelease notes live in `RELEASE_NOTES.md`, newest release first. Add the new\nrelease **above** the previous ones and never edit old sections.\n\n## Format\n\n```\n## v<VERSION> (<YYYY-MM-DD>)\n\n### Breaking changes\n- <what changed and what users must do> [ACME-<id>] (thanks @<author>)\n\n### Features\n- <user-facing description> [ACME-<id>] (thanks @<author>)\n\n### Fixes\n- <user-facing description> [ACME-<id>] (thanks @<author>)\n```\n\nRules:\n\n1. Take the version from the `VERSION` file and the date from `RELEASE_DATE`.\n2. Sections always appear in this order. Write `- None.` under an empty section;\n   never drop a section.\n3. A PR title starting with `ACME-<id>!:` (note the `!`) is a breaking change.\n   Titles with `fix`, `crash` or `bug` go under Fixes; everything else is a Feature.\n4. Every bullet ends with the ticket in square brackets, then the author:\n   `[ACME-412] (thanks @mira)`.\n5. Rewrite PR titles for users: say what they can now do, not what the code does.\n\n\nARGUMENTS: merged_prs.txt, exclude ACME-421 (reverted)"
+          }
+        ],
+        "uuid": "9d15f41e-d8d2-46ef-8e36-aa9b65e6b264",
+        "parent_tool_use_id": null,
+        "tool_use_result": null,
+        "origin": null
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01Kc1Ejf1jAft5ospy4w34mK",
+            "name": "Bash",
+            "input": {
+              "command": "cd /tmp/skilltest-cdizwkix; ls -a; cat merged_prs.txt; echo ---; cat VERSION RELEASE_DATE; echo ---; cat RELEASE_NOTES.md"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 620,
+          "cache_read_input_tokens": 20561,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 620
+          },
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8CxfiLq1cxd5a8bMG6N",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "645ad6b5-37a9-41a9-a961-0bcb370ab7ee"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01Kc1Ejf1jAft5ospy4w34mK",
+            "content": ".\n..\n.claude\nRELEASE_DATE\nRELEASE_NOTES.md\nVERSION\nmerged_prs.txt\nMerged since v2.3.0:\n\nACME-412: add csv exporter to report command (by @mira)\nACME-415: retry uploads on 503 with backoff (by @jonas)\nACME-419: fix crash when config file is empty (by @tom)\nACME-421!: remove deprecated --legacy flag from sync (by @mira)\nACME-423: fix wrong totals in monthly summary for leap years (by @priya)\n---\n2.4.0\n2026-10-20\n---\n# Release notes\n\n## v2.3.0 (2026-09-01)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be scheduled to run every week. [ACME-398] (thanks @priya)\n\n### Fixes\n- Sync no longer hangs when the server is slow to respond. [ACME-401] (thanks @tom)",
+            "is_error": false
+          }
+        ],
+        "uuid": "99b625fa-d893-4b44-84a1-983fb420f76c",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "stdout": ".\n..\n.claude\nRELEASE_DATE\nRELEASE_NOTES.md\nVERSION\nmerged_prs.txt\nMerged since v2.3.0:\n\nACME-412: add csv exporter to report command (by @mira)\nACME-415: retry uploads on 503 with backoff (by @jonas)\nACME-419: fix crash when config file is empty (by @tom)\nACME-421!: remove deprecated --legacy flag from sync (by @mira)\nACME-423: fix wrong totals in monthly summary for leap years (by @priya)\n---\n2.4.0\n2026-10-20\n---\n# Release notes\n\n## v2.3.0 (2026-09-01)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be scheduled to run every week. [ACME-398] (thanks @priya)\n\n### Fixes\n- Sync no longer hangs when the server is slow to respond. [ACME-401] (thanks @tom)",
+          "stderr": "",
+          "interrupted": false,
+          "isImage": false,
+          "noOutputExpected": false
+        },
+        "origin": null
+      },
+      {
+        "_type": "SystemMessage",
+        "subtype": "thinking_tokens",
+        "data": {
+          "type": "system",
+          "subtype": "thinking_tokens",
+          "estimated_tokens": 50,
+          "estimated_tokens_delta": 50,
+          "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+          "uuid": "d8d808f4-2c0c-42a5-80c7-45d471546e34"
+        }
+      },
+      {
+        "_type": "SystemMessage",
+        "subtype": "thinking_tokens",
+        "data": {
+          "type": "system",
+          "subtype": "thinking_tokens",
+          "estimated_tokens": 194,
+          "estimated_tokens_delta": 144,
+          "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+          "uuid": "00252a29-af17-4f5f-bac8-a8ced068aff5"
+        }
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ThinkingBlock",
+            "thinking": ""
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 467,
+          "cache_read_input_tokens": 21181,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 467
+          },
+          "output_tokens": 8,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8CxnFk2k7QCdUriCJfH",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "4e05ee91-7581-47c1-ae15-0433d035e383"
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "ToolUseBlock",
+            "id": "toolu_01NiKf1ketz7U9ZJs9X3pxYY",
+            "name": "Bash",
+            "input": {
+              "command": "cd /tmp/skilltest-cdizwkix; python3 - <<'EOF'\np='RELEASE_NOTES.md'\ns=open(p).read()\nnew='''## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n\n'''\ns=s.replace('## v2.3.0',new+'## v2.3.0',1)\nopen(p,'w').write(s)\nEOF\nhead -16 RELEASE_NOTES.md"
+            }
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 467,
+          "cache_read_input_tokens": 21181,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 467
+          },
+          "output_tokens": 8,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8CxnFk2k7QCdUriCJfH",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "91de6d0d-9870-460f-9802-6ae72f98cdfb"
+      },
+      {
+        "_type": "UserMessage",
+        "content": [
+          {
+            "_type": "ToolResultBlock",
+            "tool_use_id": "toolu_01NiKf1ketz7U9ZJs9X3pxYY",
+            "content": "# Release notes\n\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n\n## v2.3.0 (2026-09-01)",
+            "is_error": false
+          }
+        ],
+        "uuid": "7038d0ac-24b6-451e-ae22-920a034bef06",
+        "parent_tool_use_id": null,
+        "tool_use_result": {
+          "stdout": "# Release notes\n\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n\n## v2.3.0 (2026-09-01)",
+          "stderr": "",
+          "interrupted": false,
+          "isImage": false,
+          "noOutputExpected": false
+        },
+        "origin": null
+      },
+      {
+        "_type": "AssistantMessage",
+        "content": [
+          {
+            "_type": "TextBlock",
+            "text": "I added the v2.4.0 notes (dated 2026-10-20) to `RELEASE_NOTES.md`, above the v2.3.0 section, which I left unchanged.\n\n```\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n```\n\n- **ACME-421 left out:** this was the only breaking change in the list (removing the `--legacy` flag from sync). Since it was reverted, Breaking changes is just \"None.\"\n- **ACME-415 is under Features:** our format only counts titles that mention \"fix\", \"crash\" or \"bug\" as fixes, and this one doesn't. You could argue it's a reliability fix, so move it to Fixes if you'd rather."
+          }
+        ],
+        "model": "claude-opus-5-5",
+        "parent_tool_use_id": null,
+        "error": null,
+        "usage": {
+          "input_tokens": 2,
+          "cache_creation_input_tokens": 664,
+          "cache_read_input_tokens": 21648,
+          "cache_creation": {
+            "ephemeral_5m_input_tokens": 0,
+            "ephemeral_1h_input_tokens": 664
+          },
+          "output_tokens": 396,
+          "service_tier": "standard",
+          "inference_geo": "global",
+          "speed": "standard"
+        },
+        "message_id": "msg_011Cg8Cy3QaXoqYqy7r75QK8",
+        "stop_reason": null,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "uuid": "80f38a28-3432-45b9-bbc4-ae0ee1323c56"
+      },
+      {
+        "_type": "ResultMessage",
+        "subtype": "success",
+        "duration_ms": 10857,
+        "duration_api_ms": 10410,
+        "is_error": false,
+        "num_turns": 5,
+        "session_id": "9f98969d-209d-5b45-aad2-06cae8e2090f",
+        "stop_reason": "end_turn",
+        "total_cost_usd": 0.06801839999999999,
+        "usage": {
+          "input_tokens": 8,
+          "cache_creation_input_tokens": 3870,
+          "cache_read_input_tokens": 81832,
+          "output_tokens": 1033,
+          "output_tokens_details": {
+            "thinking_tokens": 55
+          },
+          "server_tool_use": {
+            "web_search_requests": 0,
+            "web_fetch_requests": 0
+          },
+          "service_tier": "standard",
+          "cache_creation": {
+            "ephemeral_1h_input_tokens": 3870,
+            "ephemeral_5m_input_tokens": 0
+          },
+          "inference_geo": "global",
+          "iterations": [
+            {
+              "input_tokens": 2,
+              "output_tokens": 396,
+              "cache_read_input_tokens": 21648,
+              "cache_creation_input_tokens": 664,
+              "cache_creation": {
+                "ephemeral_5m_input_tokens": 0,
+                "ephemeral_1h_input_tokens": 664
+              },
+              "type": "message"
+            }
+          ],
+          "speed": "standard",
+          "fallback_credit": null
+        },
+        "result": "I added the v2.4.0 notes (dated 2026-10-20) to `RELEASE_NOTES.md`, above the v2.3.0 section, which I left unchanged.\n\n```\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n```\n\n- **ACME-421 left out:** this was the only breaking change in the list (removing the `--legacy` flag from sync). Since it was reverted, Breaking changes is just \"None.\"\n- **ACME-415 is under Features:** our format only counts titles that mention \"fix\", \"crash\" or \"bug\" as fixes, and this one doesn't. You could argue it's a reliability fix, so move it to Fixes if you'd rather.",
+        "structured_output": null,
+        "model_usage": {
+          "claude-opus-5-5": {
+            "inputTokens": 8,
+            "outputTokens": 1033,
+            "cacheReadInputTokens": 81832,
+            "cacheCreationInputTokens": 3870,
+            "webSearchRequests": 0,
+            "costUSD": 0.06801839999999999,
+            "contextWindow": 1000000,
+            "maxOutputTokens": 128000,
+            "thinkingTokens": 55,
+            "canonicalModel": "claude-opus-5-5",
+            "provider": "firstParty",
+            "costBasis": "list"
+          }
+        },
+        "permission_denials": [],
+        "deferred_tool_use": null,
+        "errors": null,
+        "api_error_status": null,
+        "uuid": "8241f7af-5409-4a0b-b8f4-23bacb8e7324",
+        "terminal_reason": "completed",
+        "origin": null
+      }
+    ],
+    "tool_calls": [
+      {
+        "name": "Skill",
+        "input": {
+          "skill": "acme-release-notes",
+          "args": "merged_prs.txt, exclude ACME-421 (reverted)"
+        },
+        "output": "Launching skill: acme-release-notes"
+      },
+      {
+        "name": "Bash",
+        "input": {
+          "command": "cd /tmp/skilltest-cdizwkix; ls -a; cat merged_prs.txt; echo ---; cat VERSION RELEASE_DATE; echo ---; cat RELEASE_NOTES.md"
+        },
+        "output": ".\n..\n.claude\nRELEASE_DATE\nRELEASE_NOTES.md\nVERSION\nmerged_prs.txt\nMerged since v2.3.0:\n\nACME-412: add csv exporter to report command (by @mira)\nACME-415: retry uploads on 503 with backoff (by @jonas)\nACME-419: fix crash when config file is empty (by @tom)\nACME-421!: remove deprecated --legacy flag from sync (by @mira)\nACME-423: fix wrong totals in monthly summary for leap years (by @priya)\n---\n2.4.0\n2026-10-20\n---\n# Release notes\n\n## v2.3.0 (2026-09-01)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be scheduled to run every week. [ACME-398] (thanks @priya)\n\n### Fixes\n- Sync no longer hangs when the server is slow to respond. [ACME-401] (thanks @tom)"
+      },
+      {
+        "name": "Bash",
+        "input": {
+          "command": "cd /tmp/skilltest-cdizwkix; python3 - <<'EOF'\np='RELEASE_NOTES.md'\ns=open(p).read()\nnew='''## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n\n'''\ns=s.replace('## v2.3.0',new+'## v2.3.0',1)\nopen(p,'w').write(s)\nEOF\nhead -16 RELEASE_NOTES.md"
+        },
+        "output": "# Release notes\n\n## v2.4.0 (2026-10-20)\n\n### Breaking changes\n- None.\n\n### Features\n- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)\n- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)\n\n### Fixes\n- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)\n- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)\n\n## v2.3.0 (2026-09-01)"
+      }
+    ],
+    "usage": {
+      "input_tokens": 8,
+      "output_tokens": 1033,
+      "cache_read_tokens": 81832,
+      "cache_write_tokens": 3870,
+      "cost_usd": 0.06801839999999999
+    },
+    "duration_s": 10.857,
+    "num_turns": 5,
+    "model": "claude-opus-5-5",
+    "triggered": true,
+    "timed_out": false,
+    "error": null,
+    "warnings": []
+  },
+  "assertions": [
+    {
+      "type": "command",
+      "passed": true,
+      "message": "`python3 -c \"import re, sys; new = open('RELEASE_NOTES.md').read().split('## v2.3.0')[0]; sys.exit(0 if re.search(r'### Breaking changes\\s*\\n\\s*- None\\.', new) and 'ACME-421' not in new else 1)\"` exited 0"
+    },
+    {
+      "type": "file_contains",
+      "passed": true,
+      "message": "RELEASE_NOTES.md contains \"[ACME-412] (thanks @mira)\""
+    }
+  ],
+  "artifact": "release-with-no-breaking-changes/with-1.json"
+}

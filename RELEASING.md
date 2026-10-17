@@ -13,9 +13,9 @@ is no API token to create or store.
 
    | field | value |
    |---|---|
-   | PyPI project name | `skilltest` |
+   | PyPI project name | `skillproof` |
    | Owner | `Akhilgarg07` |
-   | Repository name | `skilltest` |
+   | Repository name | `skillproof` |
    | Workflow name | `release.yml` |
    | Environment name | `pypi` |
 
@@ -27,7 +27,7 @@ is no API token to create or store.
 ## Each release
 
 ```bash
-# 1. set the version in src/skilltest/__init__.py, e.g. __version__ = "0.1.1"
+# 1. set the version in src/skillproof/__init__.py, e.g. __version__ = "0.1.1"
 # 2. commit and push to main, wait for CI to pass
 git tag v0.1.1
 git push origin v0.1.1
@@ -36,9 +36,9 @@ git push origin v0.1.1
 The workflow then:
 
 1. checks that the tag matches `__version__`, builds the sdist and wheel, runs `twine check`;
-2. uploads them to PyPI (`pip install skilltest` and `uvx skilltest` work a minute later);
+2. uploads them to PyPI (`pip install skillproof` and `uvx skillproof` work a minute later);
 3. creates a GitHub Release with auto-generated notes and moves the major tag (`v0`)
-   to the new release, so `uses: akhilgarg07/skilltest@v0` gets the new action.
+   to the new release, so `uses: akhilgarg07/skillproof@v0` gets the new action.
 
 A version can be uploaded to PyPI only once. If something goes wrong after the upload,
 fix it and release the next patch version.

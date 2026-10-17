@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "skilltest_version": "0.1.0.dev0",
+  "skill_name": "acme-client-guide",
+  "skill_path": "/home/user/skilltest/examples/stale-api",
+  "runner": "claude-code",
+  "approximate": false,
+  "model": "claude-opus-5-5",
+  "judge": null,
+  "started_at": "2026-10-17T17:31:16.996499Z",
+  "finished_at": "2026-10-17T17:31:31.342437Z",
+  "run_dir": ".skilltest/runs/20261017-173116",
+  "verdict": "too few runs",
+  "lift": 0.0,
+  "lift_ci": [
+    -0.6576197760453506,
+    0.6576197760453506
+  ],
+  "with_skill": {
+    "runs": 2,
+    "errors": 0,
+    "passed": 2,
+    "pass_rate": 1.0,
+    "pass_ci": [
+      0.3423802239546494,
+      1.0
+    ],
+    "triggered": 2,
+    "trigger_known": 2,
+    "trigger_rate": 1.0,
+    "mean_tokens": 106764.5,
+    "mean_cost_usd": 0.0639081,
+    "mean_duration_s": 11.892
+  },
+  "without_skill": {
+    "runs": 2,
+    "errors": 0,
+    "passed": 2,
+    "pass_rate": 1.0,
+    "pass_ci": [
+      0.3423802239546494,
+      1.0
+    ],
+    "triggered": 0,
+    "trigger_known": 0,
+    "trigger_rate": null,
+    "mean_tokens": 84663.0,
+    "mean_cost_usd": 0.0522079,
+    "mean_duration_s": 8.4655
+  },
+  "triggers": 2,
+  "trigger_runs": 2,
+  "false_triggers": 0,
+  "false_trigger_runs": 0,
+  "token_delta": 0.26105264401214234,
+  "cost_delta": 0.22410784574748255,
+  "latency_delta": 0.40476049849388684,
+  "errors": 0,
+  "notes": [
+    "Small sample: as few as 1 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them."
+  ],
+  "warnings": [],
+  "cases": [
+    {
+      "name": "count active users",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 1,
+        "errors": 0,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.2065493117918027,
+          1.0
+        ],
+        "triggered": 1,
+        "trigger_known": 1,
+        "trigger_rate": 1.0,
+        "mean_tokens": 106838.0,
+        "mean_cost_usd": 0.063912,
+        "mean_duration_s": 10.59
+      },
+      "without_skill": {
+        "runs": 1,
+        "errors": 0,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.2065493117918027,
+          1.0
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 84785.0,
+        "mean_cost_usd": 0.0530138,
+        "mean_duration_s": 7.756
+      },
+      "lift": 0.0,
+      "lift_ci": [
+        -0.7934506882081973,
+        0.7934506882081973
+      ],
+      "verdict": "too few runs",
+      "token_delta": 0.2601049713982426,
+      "cost_delta": 0.20557288856863676,
+      "latency_delta": 0.3653945332645694
+    },
+    {
+      "name": "latest signup date",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 1,
+        "errors": 0,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.2065493117918027,
+          1.0
+        ],
+        "triggered": 1,
+        "trigger_known": 1,
+        "trigger_rate": 1.0,
+        "mean_tokens": 106691.0,
+        "mean_cost_usd": 0.0639042,
+        "mean_duration_s": 13.194
+      },
+      "without_skill": {
+        "runs": 1,
+        "errors": 0,
+        "passed": 1,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.2065493117918027,
+          1.0
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 84541.0,
+        "mean_cost_usd": 0.051401999999999996,
+        "mean_duration_s": 9.175
+      },
+      "lift": 0.0,
+      "lift_ci": [
+        -0.7934506882081973,
+        0.7934506882081973
+      ],
+      "verdict": "too few runs",
+      "token_delta": 0.26200305177369554,
+      "cost_delta": 0.2432239990661842,
+      "latency_delta": 0.4380381471389645
+    }
+  ]
+}

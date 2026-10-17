@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "skilltest_version": "0.1.0.dev0",
+  "skill_name": "python-repo-hygiene",
+  "skill_path": "/home/user/skilltest/examples/over-eager-formatter",
+  "runner": "claude-code",
+  "approximate": false,
+  "model": "claude-opus-5-5",
+  "judge": null,
+  "started_at": "2026-10-17T17:34:18.328484Z",
+  "finished_at": "2026-10-17T17:34:32.330008Z",
+  "run_dir": ".skilltest/runs/20261017-173418",
+  "verdict": "too few runs",
+  "lift": -1.0,
+  "lift_ci": [
+    -1.0,
+    -0.30718972942832046
+  ],
+  "with_skill": {
+    "runs": 4,
+    "errors": 0,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "pass_ci": [
+      0.0,
+      0.4898908403969213
+    ],
+    "triggered": 4,
+    "trigger_known": 4,
+    "trigger_rate": 1.0,
+    "mean_tokens": 91602.75,
+    "mean_cost_usd": 0.06692885,
+    "mean_duration_s": 11.354999999999999
+  },
+  "without_skill": {
+    "runs": 4,
+    "errors": 0,
+    "passed": 4,
+    "pass_rate": 1.0,
+    "pass_ci": [
+      0.5101091596030786,
+      0.9999999999999999
+    ],
+    "triggered": 0,
+    "trigger_known": 0,
+    "trigger_rate": null,
+    "mean_tokens": 67768.25,
+    "mean_cost_usd": 0.04111115,
+    "mean_duration_s": 6.0725
+  },
+  "triggers": 4,
+  "trigger_runs": 4,
+  "false_triggers": 0,
+  "false_trigger_runs": 0,
+  "token_delta": 0.3517059980152948,
+  "cost_delta": 0.6279975140564056,
+  "latency_delta": 0.8699053108275008,
+  "errors": 0,
+  "notes": [
+    "Small sample: as few as 2 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them."
+  ],
+  "warnings": [],
+  "cases": [
+    {
+      "name": "fix a typo",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 2,
+        "errors": 0,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "pass_ci": [
+          0.0,
+          0.6576197760453506
+        ],
+        "triggered": 2,
+        "trigger_known": 2,
+        "trigger_rate": 1.0,
+        "mean_tokens": 96729.0,
+        "mean_cost_usd": 0.0648609,
+        "mean_duration_s": 10.7435
+      },
+      "without_skill": {
+        "runs": 2,
+        "errors": 0,
+        "passed": 2,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.3423802239546494,
+          1.0
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 62334.5,
+        "mean_cost_usd": 0.0379438,
+        "mean_duration_s": 5.0184999999999995
+      },
+      "lift": -1.0,
+      "lift_ci": [
+        -1.0,
+        -0.06998519383190771
+      ],
+      "verdict": "too few runs",
+      "token_delta": 0.551773095155973,
+      "cost_delta": 0.7093938930734403,
+      "latency_delta": 1.1407791172661153
+    },
+    {
+      "name": "add a farewell function",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 2,
+        "errors": 0,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "pass_ci": [
+          0.0,
+          0.6576197760453506
+        ],
+        "triggered": 2,
+        "trigger_known": 2,
+        "trigger_rate": 1.0,
+        "mean_tokens": 86476.5,
+        "mean_cost_usd": 0.0689968,
+        "mean_duration_s": 11.9665
+      },
+      "without_skill": {
+        "runs": 2,
+        "errors": 0,
+        "passed": 2,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.3423802239546494,
+          1.0
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 73202.0,
+        "mean_cost_usd": 0.0442785,
+        "mean_duration_s": 7.1265
+      },
+      "lift": -1.0,
+      "lift_ci": [
+        -1.0,
+        -0.06998519383190771
+      ],
+      "verdict": "too few runs",
+      "token_delta": 0.1813406737520833,
+      "cost_delta": 0.5582461013810314,
+      "latency_delta": 0.6791552655581281
+    }
+  ]
+}

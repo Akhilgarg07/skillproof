@@ -1,4 +1,4 @@
-"""Run skilltest against a list of skills and render a markdown leaderboard.
+"""Run skillproof against a list of skills and render a markdown leaderboard.
 
     python leaderboard/leaderboard.py run              # every entry in skills.yaml
     python leaderboard/leaderboard.py run --only pdf   # one entry
@@ -23,12 +23,12 @@ from pathlib import Path
 import yaml
 from pydantic import BaseModel, ConfigDict
 
-from skilltest.config import parse_config
-from skilltest.engine import Engine, RunOptions
-from skilltest.errors import SkilltestError
-from skilltest.estimate import CONFIRM_ABOVE_USD, estimate
-from skilltest.report import Summary, write_reports
-from skilltest.report.format import fraction, interval, signed_pct
+from skillproof.config import parse_config
+from skillproof.engine import Engine, RunOptions
+from skillproof.errors import SkillproofError
+from skillproof.estimate import CONFIRM_ABOVE_USD, estimate
+from skillproof.report import Summary, write_reports
+from skillproof.report.format import fraction, interval, signed_pct
 
 HERE = Path(__file__).resolve().parent
 REPO_ROOT = HERE.parent
@@ -95,7 +95,7 @@ def build_engine(entry: Entry, args: argparse.Namespace) -> Engine:
     data["skill"] = str(fetch(entry))  # our evals, their skill
     config = parse_config(data, evals_path.parent, source=entry.evals)
     config._path = evals_path
-    options = RunOptions(parallel=args.parallel, trials=args.trials, out_dir=CACHE / ".skilltest")
+    options = RunOptions(parallel=args.parallel, trials=args.trials, out_dir=CACHE / ".skillproof")
     return Engine(config, options)
 
 
@@ -108,7 +108,7 @@ def run_entry(entry: Entry, args: argparse.Namespace) -> Result | None:
         return None
     total = plan.total_usd or 0
     if total > args.confirm_above and not args.yes:
-        raise SkilltestError(
+        raise SkillproofError(
             f"{entry.name}: estimated ~${total:.2f} is above ${args.confirm_above:.2f}.",
             hint="Pass --yes to run anyway, or lower --trials.",
         )
@@ -125,7 +125,7 @@ def render(results: list[Result]) -> str:
         "# Skill leaderboard",
         "",
         "Each skill was run with and without the skill installed, on the same tasks, by",
-        "[skilltest](https://github.com/akhilgarg07/skilltest). **Lift** is pass rate with",
+        "[skillproof](https://github.com/akhilgarg07/skillproof). **Lift** is pass rate with",
         "the skill minus pass rate without it, with a 95% confidence interval.",
         "",
         "| # | skill | verdict | lift (95% CI) | triggered | tokens Δ | cost Δ | runs | agent |",
@@ -167,7 +167,7 @@ def load_results(directory: Path | None = None) -> list[Result]:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = parser.add_subparsers(dest="command", required=True)
-    run = sub.add_parser("run", help="Run skilltest for entries in skills.yaml.")
+    run = sub.add_parser("run", help="Run skillproof for entries in skills.yaml.")
     run.add_argument("--only", action="append", help="Entry name (repeatable).")
     run.add_argument("--trials", type=int, help="Override trials per case.")
     run.add_argument("--parallel", type=int, default=4)
@@ -186,7 +186,7 @@ def main(argv: list[str] | None = None) -> int:
         for entry in entries:
             try:
                 result = run_entry(entry, args)
-            except SkilltestError as exc:
+            except SkillproofError as exc:
                 print(f"error: {exc.message}\nfix: {exc.hint or ''}", file=sys.stderr)
                 return 2
             if result is None:

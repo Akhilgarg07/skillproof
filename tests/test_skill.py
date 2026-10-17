@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from skilltest.errors import SkillError
-from skilltest.skill import copy_skill, load_skill, parse_frontmatter
+from skillproof.errors import SkillError
+from skillproof.skill import copy_skill, load_skill, parse_frontmatter
 
 
 def test_parse_frontmatter() -> None:
@@ -39,12 +39,12 @@ def test_load_skill_missing_description(tmp_path: Path) -> None:
 
 def test_copy_skill_hides_eval_files(skill_dir: Path, tmp_path: Path) -> None:
     (skill_dir / "evals.yaml").write_text("cases: []")
-    (skill_dir / ".skilltest").mkdir()
+    (skill_dir / ".skillproof").mkdir()
     dest = tmp_path / "installed"
     copy_skill(load_skill(skill_dir), dest, exclude=[skill_dir / "fixtures" / "case1"])
 
     assert (dest / "SKILL.md").is_file()
     assert (dest / "reference.md").is_file()
     assert not (dest / "evals.yaml").exists()
-    assert not (dest / ".skilltest").exists()
+    assert not (dest / ".skillproof").exists()
     assert not (dest / "fixtures" / "case1").exists()

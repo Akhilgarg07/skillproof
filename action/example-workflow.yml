@@ -1,6 +1,6 @@
-# Copy to .github/workflows/skilltest.yml in your skill's repository.
+# Copy to .github/workflows/skillproof.yml in your skill's repository.
 # Add your API key as a repository secret (Settings > Secrets and variables > Actions).
-name: skilltest
+name: skillproof
 
 on:
   pull_request:
@@ -11,11 +11,11 @@ permissions:
   pull-requests: write  # to comment the results
 
 jobs:
-  skilltest:
+  skillproof:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: akhilgarg07/skilltest@v0  # pin a release tag once one exists
+      - uses: akhilgarg07/skillproof@v0  # pin a release tag once one exists
         with:
           path: my-skill
           trials: "10"

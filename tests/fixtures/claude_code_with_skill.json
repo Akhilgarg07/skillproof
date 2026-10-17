@@ -5,7 +5,7 @@
   "data": {
    "type": "system",
    "subtype": "init",
-   "cwd": "/tmp/skilltest-sandbox",
+   "cwd": "/tmp/skillproof-sandbox",
    "session_id": "00000000-0000-0000-0000-000000000000",
    "tools": [
     "Task",
@@ -95,7 +95,7 @@
    "analytics_disabled": false,
    "product_feedback_disabled": false,
    "uuid": "d96275ec-06c7-4d9d-bc0b-01f2c2b0ab8d",
-   "original_cwd": "/tmp/skilltest-zsvic878",
+   "original_cwd": "/tmp/skillproof-zsvic878",
    "additional_directories": [],
    "messaging_socket_path": "/tmp/cc-socks/1266.sock",
    "fast_mode_state": "off",
@@ -304,7 +304,7 @@
   "content": [
    {
     "_type": "TextBlock",
-    "text": "Base directory for this skill: /tmp/skilltest-zsvic878/.claude/skills/haiku-writer\n\nAlways write exactly one haiku and end it with the signature line \"-- the skilltest bot\".\n"
+    "text": "Base directory for this skill: /tmp/skillproof-zsvic878/.claude/skills/haiku-writer\n\nAlways write exactly one haiku and end it with the signature line \"-- the skillproof bot\".\n"
    }
   ],
   "uuid": "c645fee6-26e5-4999-9c18-ad83588ac60f",
@@ -350,7 +350,7 @@
   "content": [
    {
     "_type": "TextBlock",
-    "text": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skilltest bot"
+    "text": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skillproof bot"
    }
   ],
   "model": "claude-opus-5-5",
@@ -418,7 +418,7 @@
    "speed": "standard",
    "fallback_credit": null
   },
-  "result": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skilltest bot",
+  "result": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skillproof bot",
   "structured_output": null,
   "model_usage": {
    "claude-opus-5-5": {

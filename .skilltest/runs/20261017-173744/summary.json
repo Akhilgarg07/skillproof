@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "skilltest_version": "0.1.0.dev0",
+  "skill_name": "acme-release-notes",
+  "skill_path": "/home/user/skilltest/examples/release-notes",
+  "runner": "claude-code",
+  "approximate": false,
+  "model": "claude-opus-5-5",
+  "judge": null,
+  "started_at": "2026-10-17T17:37:44.715051Z",
+  "finished_at": "2026-10-17T17:38:25.939869Z",
+  "run_dir": ".skilltest/runs/20261017-173744",
+  "verdict": "helps",
+  "lift": 1.0,
+  "lift_ci": [
+    0.6075093459571284,
+    1.0
+  ],
+  "with_skill": {
+    "runs": 10,
+    "errors": 0,
+    "passed": 10,
+    "pass_rate": 1.0,
+    "pass_ci": [
+      0.7224671969739421,
+      0.9999999999999999
+    ],
+    "triggered": 10,
+    "trigger_known": 10,
+    "trigger_rate": 1.0,
+    "mean_tokens": 91457.6,
+    "mean_cost_usd": 0.06762796000000001,
+    "mean_duration_s": 11.7337
+  },
+  "without_skill": {
+    "runs": 10,
+    "errors": 0,
+    "passed": 0,
+    "pass_rate": 0.0,
+    "pass_ci": [
+      0.0,
+      0.2775328030260577
+    ],
+    "triggered": 0,
+    "trigger_known": 0,
+    "trigger_rate": null,
+    "mean_tokens": 85702.8,
+    "mean_cost_usd": 0.06164836,
+    "mean_duration_s": 11.7469
+  },
+  "triggers": 10,
+  "trigger_runs": 10,
+  "false_triggers": 0,
+  "false_trigger_runs": 5,
+  "token_delta": 0.06714833120971542,
+  "cost_delta": 0.09699528097746657,
+  "latency_delta": -0.0011237007210412875,
+  "errors": 0,
+  "notes": [
+    "Small sample: as few as 5 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them."
+  ],
+  "warnings": [],
+  "cases": [
+    {
+      "name": "release notes from merged PRs",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 5,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.5655175313406071,
+          1.0
+        ],
+        "triggered": 5,
+        "trigger_known": 5,
+        "trigger_rate": 1.0,
+        "mean_tokens": 91613.4,
+        "mean_cost_usd": 0.0695112,
+        "mean_duration_s": 12.2656
+      },
+      "without_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "pass_ci": [
+          0.0,
+          0.43448246865939283
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 85896.2,
+        "mean_cost_usd": 0.06460219999999998,
+        "mean_duration_s": 12.5954
+      },
+      "lift": 1.0,
+      "lift_ci": [
+        0.38554900020854344,
+        1.0
+      ],
+      "verdict": "helps",
+      "token_delta": 0.06655940542189298,
+      "cost_delta": 0.07598812424344703,
+      "latency_delta": -0.026184162472013606
+    },
+    {
+      "name": "release with no breaking changes",
+      "should_trigger": true,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 5,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.5655175313406071,
+          1.0
+        ],
+        "triggered": 5,
+        "trigger_known": 5,
+        "trigger_rate": 1.0,
+        "mean_tokens": 91301.8,
+        "mean_cost_usd": 0.06574472,
+        "mean_duration_s": 11.2018
+      },
+      "without_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 0,
+        "pass_rate": 0.0,
+        "pass_ci": [
+          0.0,
+          0.43448246865939283
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 85509.4,
+        "mean_cost_usd": 0.05869452000000001,
+        "mean_duration_s": 10.898399999999999
+      },
+      "lift": 1.0,
+      "lift_ci": [
+        0.38554900020854344,
+        1.0
+      ],
+      "verdict": "helps",
+      "token_delta": 0.06773992099114268,
+      "cost_delta": 0.12011683543881091,
+      "latency_delta": 0.02783894883652671
+    },
+    {
+      "name": "unrelated question",
+      "should_trigger": false,
+      "has_assertions": true,
+      "with_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 4,
+        "pass_rate": 0.8,
+        "pass_ci": [
+          0.375534627029995,
+          0.9637758917743693
+        ],
+        "triggered": 0,
+        "trigger_known": 5,
+        "trigger_rate": 0.0,
+        "mean_tokens": 20650.2,
+        "mean_cost_usd": 0.018751599999999997,
+        "mean_duration_s": 2.2602
+      },
+      "without_skill": {
+        "runs": 5,
+        "errors": 0,
+        "passed": 5,
+        "pass_rate": 1.0,
+        "pass_ci": [
+          0.5655175313406071,
+          1.0
+        ],
+        "triggered": 0,
+        "trigger_known": 0,
+        "trigger_rate": null,
+        "mean_tokens": 20576.2,
+        "mean_cost_usd": 0.0182364,
+        "mean_duration_s": 2.3026000000000004
+      },
+      "lift": -0.19999999999999996,
+      "lift_ci": [
+        -0.6244653729700049,
+        0.26432484135446627
+      ],
+      "verdict": "no clear effect",
+      "token_delta": 0.0035963880599916287,
+      "cost_delta": 0.028251189927836373,
+      "latency_delta": -0.018413966820116534
+    }
+  ]
+}

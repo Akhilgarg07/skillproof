@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skilltest: acme-release-notes</title>
+<style>
+:root {
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+  --with: #2a78d6; --without: #eb6834;
+  --good: #006300; --bad: #d03b3b; --neutral: #52514e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --with: #3987e5; --without: #d95926;
+    --good: #0ca30c; --bad: #e66767; --neutral: #c3c2b7;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 40px 0 12px; }
+.meta { color: var(--ink-2); font-size: 13px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.hero { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; padding: 24px;
+  margin-top: 20px; }
+.hero .value { font-size: 56px; font-weight: 600; line-height: 1; }
+.hero .label { color: var(--ink-2); font-size: 13px; margin-bottom: 6px; }
+.verdict { font-weight: 600; font-size: 18px; }
+.verdict.helps { color: var(--good); } .verdict.hurts { color: var(--bad); }
+.verdict.neutral { color: var(--neutral); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;
+  margin-top: 12px; }
+.tile { padding: 14px 16px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 22px; font-weight: 600; }
+.tile .sub { color: var(--muted); font-size: 12px; }
+.notes { margin: 16px 0 0; padding: 12px 16px 12px 32px; }
+.notes li { margin: 4px 0; }
+.legend { display: flex; gap: 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+  margin-right: 6px; vertical-align: -1px; }
+.chart { padding: 16px; }
+.chart-row { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 12px;
+  align-items: center; padding: 8px 0; border-top: 1px solid var(--grid); }
+.chart-row:first-child { border-top: 0; }
+.chart-name { font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .chart-row { grid-template-columns: 1fr; gap: 4px; } }
+.bars { display: grid; gap: 2px; }
+.bar-line { display: grid; grid-template-columns: 1fr 56px; gap: 8px; align-items: center; }
+.track { height: 12px; position: relative; }
+.bar { height: 12px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.bar.with { background: var(--with); } .bar.without { background: var(--without); }
+.bar-value { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--grid);
+  vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; border-top: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table-wrap { overflow-x: auto; padding: 4px 6px; }
+.pass { color: var(--good); font-weight: 600; } .fail { color: var(--bad); font-weight: 600; }
+.err { color: var(--muted); font-weight: 600; }
+details { margin-top: 10px; padding: 10px 14px; }
+summary { cursor: pointer; font-weight: 600; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--page); padding: 10px;
+  border-radius: 6px; font-size: 12px; max-height: 320px; overflow-y: auto; margin: 6px 0 0; }
+ul.asserts { margin: 4px 0 0; padding-left: 18px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
+a { color: var(--with); }
+</style>
+</head>
+<body>
+<main>
+<h1>skilltest: acme-release-notes</h1>
+<div class="meta">runner <code>claude-code</code> · model <code>claude-opus-5-5</code> · 2026-10-17 17:30 UTC</div>
+
+<div class="card hero">
+  <div>
+    <div class="label">Skill lift (pass rate with − without)</div>
+    <div class="value">±0%</div>
+  </div>
+  <div>
+    <div class="verdict neutral">– too few runs for a verdict</div>
+    <div class="meta">95% CI −66% to +66%</div>
+  </div>
+</div>
+<div class="tiles"><div class="card tile"><div class="label">Triggered</div><div class="value">2/2</div><div class="sub">false triggers 0/1</div></div><div class="card tile"><div class="label">Pass rate with skill</div><div class="value">100%</div><div class="sub">2/2 runs</div></div><div class="card tile"><div class="label">Pass rate without</div><div class="value">100%</div><div class="sub">2/2 runs</div></div><div class="card tile"><div class="label">Tokens per run</div><div class="value">+1%</div><div class="sub">86.6k vs 85.8k</div></div><div class="card tile"><div class="label">Cost per run</div><div class="value">+2%</div><div class="sub">$0.067 vs $0.066</div></div><div class="card tile"><div class="label">Time per run</div><div class="value">−4%</div><div class="sub">10.9s vs 11.4s</div></div></div>
+<ul class="card notes"><li>Small sample: as few as 1 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them.</li></ul>
+<h2>Pass rate by case</h2><div class="legend"><span><span class="swatch" style="background:var(--with)"></span>with skill</span><span><span class="swatch" style="background:var(--without)"></span>without skill</span></div><div class="card chart"><div class="chart-row"><div class="chart-name">release notes from merged PRs</div><div class="bars"><div class="bar-line" title="with skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar without" style="width:100.0%"></div></div><div class="bar-value">100%</div></div></div></div><div class="chart-row"><div class="chart-name">release with no breaking changes</div><div class="bars"><div class="bar-line" title="with skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 1/1 passed, 95% CI 21%–100%"><div class="track"><div class="bar without" style="width:100.0%"></div></div><div class="bar-value">100%</div></div></div></div><div class="chart-row"><div class="chart-name">unrelated question</div><div class="bars"><div class="bar-line" title="with skill: 0/1 passed, 95% CI 0%–79%"><div class="track"><div class="bar with" style="width:0.0%"></div></div><div class="bar-value">0%</div></div><div class="bar-line" title="without skill: 0/1 passed, 95% CI 0%–79%"><div class="track"><div class="bar without" style="width:0.0%"></div></div><div class="bar-value">0%</div></div></div></div></div>
+<h2>Cases</h2><div class="card table-wrap"><table><tr><th>case</th><th class=num>triggered</th><th class=num>pass with</th><th class=num>pass without</th><th class=num>lift</th><th class=num>95% CI</th><th class=num>tokens Δ</th><th class=num>latency Δ</th></tr><tr><td>release notes from merged PRs</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>±0%</td><td class=num>−79% to +79%</td><td class=num>+1%</td><td class=num>−10%</td></tr><tr><td>release with no breaking changes</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>1/1</td><td class=num>±0%</td><td class=num>−79% to +79%</td><td class=num>+1%</td><td class=num>+2%</td></tr><tr><td>unrelated question</td><td class=num>0/1 (should not)</td><td class=num>0/1</td><td class=num>0/1</td><td class=num>±0%</td><td class=num>−79% to +79%</td><td class=num>±0%</td><td class=num>−4%</td></tr></table></div>
+<h2>Runs</h2>
+<details class="card"><summary>release notes from merged PRs <span class="meta">(2 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.5k</td><td class=num>10.9s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;## v2.3.0&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;## v2.3.0 (2026-09-01)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 (2026-10-20) release notes to the top of `RELEASE_NOTES.md`, covering all five merged PRs. The v2.3.0 section is unchanged.
+
+- **Breaking changes:** The deprecated `--legacy` flag is removed from `sync`, and the entry tells users to take it out of any scripts or aliases that still pass it (ACME-421).
+- **Features:** You can now export reports to CSV (ACME-412), and uploads now retry with backoff when the server returns a 503 (ACME-415).
+- **Fixes:** Acme no longer crashes on an empty config file (ACME-419), and monthly summary totals are now correct in leap years (ACME-423).
+
+Decision for you: I listed the upload retry (ACME-415) as a feature because the house rules only file a PR under Fixes when its title says &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;. If your team thinks of it as a fix, it&#x27;s a one-line move to the Fixes section.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>85.4k</td><td class=num>12.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;## v2.3.0&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;## v2.3.0 (2026-09-01)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to `RELEASE_NOTES.md`, dated 2026-10-20 to match `VERSION` and `RELEASE_DATE`. It sits above v2.3.0 and uses the same format.
+
+```markdown
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- The deprecated `--legacy` flag has been removed from `sync`. [ACME-421] (thanks @mira)
+
+### Features
+- The `report` command can now export to CSV. [ACME-412] (thanks @mira)
+- Uploads are now retried with backoff when the server returns a 503. [ACME-415] (thanks @jonas)
+
+### Fixes
+- An empty config file no longer causes a crash. [ACME-419] (thanks @tom)
+- Monthly summary totals are now correct for leap years. [ACME-423] (thanks @priya)
+```
+
+**Decision needed on the version number:** ACME-421 is marked `!` because it removes the `--legacy` flag. That&#x27;s a breaking change, but `VERSION` only goes up to the next minor version (2.4.0). If you follow semantic versioning, this release should be 3.0.0. I left `VERSION` and the heading at 2.4.0. If you want 3.0.0, I&#x27;ll update both. If you keep 2.4.0, you could add a short migration note to the breaking-change entry telling users what to do instead of using `--legacy`.
+
+I also listed ACME-415 (retrying uploads) as a feature rather than a fix. Move it to Fixes if you see it differently.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-1.json</code></div></td></tr></table></div></details><details class="card"><summary>release with no breaking changes <span class="meta">(2 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.7k</td><td class=num>10.9s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;## v2.3.0&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 notes (dated 2026-10-20) to `RELEASE_NOTES.md`, above the v2.3.0 section, which I left unchanged.
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- Reports can now be exported as CSV from the report command. [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)
+
+### Fixes
+- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)
+```
+
+- **ACME-421 left out:** this was the only breaking change in the list (removing the `--legacy` flag from sync). Since it was reverted, Breaking changes is just &quot;None.&quot;
+- **ACME-415 is under Features:** our format only counts titles that mention &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot; as fixes, and this one doesn&#x27;t. You could argue it&#x27;s a reliability fix, so move it to Fixes if you&#x27;d rather.</pre></details><div class=meta><code>release-with-no-breaking-changes/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>86.2k</td><td class=num>10.6s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;## v2.3.0&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section for 2026-10-20 to the top of `RELEASE_NOTES.md`, written the same way as the v2.3.0 entry. The version and date come from the `VERSION` and `RELEASE_DATE` files.
+
+```markdown
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- The report command can now export to CSV. [ACME-412] (thanks @mira)
+- Uploads that fail with a 503 error are now retried with backoff. [ACME-415] (thanks @jonas)
+
+### Fixes
+- Fixed a crash when the config file is empty. [ACME-419] (thanks @tom)
+- Monthly summary totals are now correct for leap years. [ACME-423] (thanks @priya)
+```
+
+ACME-421 is left out as you asked. It was the only breaking change in this release (removing the deprecated `--legacy` flag from sync), so with it gone, &quot;Breaking changes&quot; says &quot;None.&quot; Since it was reverted, `--legacy` should still be in this release.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-1.json</code></div></td></tr></table></div></details><details class="card"><summary>unrelated question <span class="meta">(2 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="fail">fail</span></td><td class=num>no</td><td class=num>20.7k</td><td class=num>2.3s</td><td><ul class="asserts"><li><span class="fail">✗</span> &quot;incompatible&quot; not in answer: &quot;In semantic versioning (MAJOR.MINOR.PATCH), a MAJOR bump means the release has …&quot;</li></ul><details><summary>answer</summary><pre>In semantic versioning (MAJOR.MINOR.PATCH), a MAJOR bump means the release has breaking changes to the public API, so code that worked with the old version may stop working. When MAJOR goes up, MINOR and PATCH reset to 0, for example 2.4.1 → 3.0.0.</pre></details><div class=meta><code>unrelated-question/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.3s</td><td><ul class="asserts"><li><span class="fail">✗</span> &quot;incompatible&quot; not in answer: &quot;In semantic versioning, a MAJOR bump (for example, 1.4.2 → 2.0.0) means the pub…&quot;</li></ul><details><summary>answer</summary><pre>In semantic versioning, a MAJOR bump (for example, 1.4.2 → 2.0.0) means the public API changed in a way that isn&#x27;t backward-compatible, so code that depends on the old version may break. When MAJOR goes up, MINOR and PATCH reset to 0.</pre></details><div class=meta><code>unrelated-question/without-1.json</code></div></td></tr></table></div></details>
+<footer>Generated by <a href="https://github.com/akhilgarg07/skilltest">skilltest</a>
+0.1.0.dev0 · transcripts in <code>.skilltest/runs/20261017-173037</code></footer>
+</main>
+</body>
+</html>

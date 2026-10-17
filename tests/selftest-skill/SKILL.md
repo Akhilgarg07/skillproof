@@ -1,6 +1,6 @@
 ---
 name: selftest-greeter
-description: Greets people in pirate speak. Used by skilltest's own CI to exercise the GitHub Action.
+description: Greets people in pirate speak. Used by skillproof's own CI to exercise the GitHub Action.
 ---
 
 # Pirate greeter

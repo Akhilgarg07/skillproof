@@ -7,12 +7,12 @@ from typing import ClassVar
 
 import pytest
 
-from skilltest.config import JudgeConfig, load_config
-from skilltest.engine import RunOptions, run_suite
-from skilltest.errors import JudgeNotReady
-from skilltest.judges import make_judge, resolve_provider
-from skilltest.judges.anthropic_judge import DEFAULT_MODEL, AnthropicJudge
-from skilltest.judges.base import Judge, JudgeUnavailable, Verdict, judge_prompt, parse_verdict
+from skillproof.config import JudgeConfig, load_config
+from skillproof.engine import RunOptions, run_suite
+from skillproof.errors import JudgeNotReady
+from skillproof.judges import make_judge, resolve_provider
+from skillproof.judges.anthropic_judge import DEFAULT_MODEL, AnthropicJudge
+from skillproof.judges.base import Judge, JudgeUnavailable, Verdict, judge_prompt, parse_verdict
 
 
 @pytest.mark.parametrize(
@@ -108,7 +108,7 @@ def test_judge_failure_marks_run_errored(write_evals, tmp_path: Path) -> None:
 
 
 def test_openai_judge_uses_responses_api_with_schema(monkeypatch) -> None:
-    from skilltest.judges.openai_judge import OpenAIJudge
+    from skillproof.judges.openai_judge import OpenAIJudge
 
     monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
     judge = OpenAIJudge()

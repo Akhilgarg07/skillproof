@@ -7,9 +7,9 @@ import pytest
 import yaml
 from typer.testing import CliRunner
 
-from skilltest import __version__
-from skilltest.cli import app
-from skilltest.config import parse_config
+from skillproof import __version__
+from skillproof.cli import app
+from skillproof.config import parse_config
 
 cli = CliRunner()
 
@@ -117,7 +117,7 @@ def test_run_errors_show_a_fix(write_evals, skill_dir: Path, evals: dict, expect
 def test_run_without_evals(tmp_path: Path) -> None:
     result = cli.invoke(app, ["run", str(tmp_path)])
     assert result.exit_code == 2
-    assert "skilltest init" in result.output
+    assert "skillproof init" in result.output
 
 
 def test_unknown_format(skill_dir: Path) -> None:
@@ -161,7 +161,7 @@ def test_run_writes_output_file(write_evals, skill_dir: Path, tmp_path: Path) ->
     target = tmp_path / "reports" / "skill.md"
     _, result = run_mock(write_evals, skill_dir, tmp_path, "--format", "md", "-o", str(target))
     assert result.exit_code == 0
-    assert target.read_text().startswith("## skilltest:")
+    assert target.read_text().startswith("## skillproof:")
 
 
 def test_report_and_badge_from_saved_run(write_evals, skill_dir: Path, tmp_path: Path) -> None:
@@ -172,7 +172,7 @@ def test_report_and_badge_from_saved_run(write_evals, skill_dir: Path, tmp_path:
 
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out)])
     assert result.exit_code == 0
-    assert result.stdout.startswith("[![skilltest: +100% lift (too few runs) · 2/2 triggered]")
+    assert result.stdout.startswith("[![skillproof: +100% lift (too few runs) · 2/2 triggered]")
 
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out), "--json"])
     assert json.loads(result.stdout)["color"] == "lightgrey"
@@ -181,7 +181,7 @@ def test_report_and_badge_from_saved_run(write_evals, skill_dir: Path, tmp_path:
 def test_badge_without_runs(skill_dir: Path, tmp_path: Path) -> None:
     result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(tmp_path / "none")])
     assert result.exit_code == 2
-    assert "skilltest run" in result.output
+    assert "skillproof run" in result.output
 
 
 def mock_evals(write_evals, **extra) -> None:
@@ -246,17 +246,17 @@ def test_refuses_todo_placeholders(skill_dir: Path, tmp_path: Path) -> None:
 
 
 def test_crash_handler(monkeypatch, capsys) -> None:
-    from skilltest import cli as cli_module
+    from skillproof import cli as cli_module
 
     def boom() -> None:
         raise RuntimeError("kaboom")
 
     monkeypatch.setattr(cli_module, "app", boom)
-    monkeypatch.delenv("SKILLTEST_DEBUG", raising=False)
+    monkeypatch.delenv("SKILLPROOF_DEBUG", raising=False)
     with pytest.raises(SystemExit) as exc:
         cli_module.main()
     assert exc.value.code == 70
-    assert "skilltest crashed: RuntimeError: kaboom" in capsys.readouterr().err
-    monkeypatch.setenv("SKILLTEST_DEBUG", "1")
+    assert "skillproof crashed: RuntimeError: kaboom" in capsys.readouterr().err
+    monkeypatch.setenv("SKILLPROOF_DEBUG", "1")
     with pytest.raises(RuntimeError):
         cli_module.main()

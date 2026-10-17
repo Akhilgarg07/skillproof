@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from skilltest.config import load_config, parse_config
-from skilltest.errors import ConfigError
+from skillproof.config import load_config, parse_config
+from skillproof.errors import ConfigError
 
 CASE = {"name": "c1", "prompt": "hi", "assert": [{"type": "contains", "value": "x"}]}
 
@@ -136,4 +136,4 @@ def test_invalid_yaml(skill_dir: Path) -> None:
 def test_no_evals_file(tmp_path: Path) -> None:
     with pytest.raises(ConfigError, match=r"No evals\.yaml") as exc:
         load_config(tmp_path)
-    assert "skilltest init" in exc.value.hint
+    assert "skillproof init" in exc.value.hint

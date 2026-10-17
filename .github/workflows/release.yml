@@ -2,10 +2,10 @@
 #   1. builds the sdist and wheel and checks the tag matches the package version,
 #   2. publishes them to PyPI with Trusted Publishing (no API token stored here),
 #   3. creates a GitHub Release with the files and moves the major tag (v0) to it,
-#      so `uses: akhilgarg07/skilltest@v0` picks up the new action.
+#      so `uses: akhilgarg07/skillproof@v0` picks up the new action.
 #
-# One-time setup on PyPI: add a trusted publisher for project "skilltest",
-# owner "Akhilgarg07", repository "skilltest", workflow "release.yml",
+# One-time setup on PyPI: add a trusted publisher for project "skillproof",
+# owner "Akhilgarg07", repository "skillproof", workflow "release.yml",
 # environment "pypi". See RELEASING.md.
 name: release
 
@@ -27,9 +27,9 @@ jobs:
       - run: python -m pip install build twine
       - name: Check the tag matches the package version
         run: |
-          version=$(python -c "import re; print(re.search(r'__version__ = \"(.+)\"', open('src/skilltest/__init__.py').read()).group(1))")
+          version=$(python -c "import re; print(re.search(r'__version__ = \"(.+)\"', open('src/skillproof/__init__.py').read()).group(1))")
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match __version__ $version in src/skilltest/__init__.py"
+            echo "Tag $GITHUB_REF_NAME does not match __version__ $version in src/skillproof/__init__.py"
             exit 1
           fi
       - run: python -m build
@@ -44,7 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/skilltest
+      url: https://pypi.org/p/skillproof
     permissions:
       id-token: write  # Trusted Publishing
     steps:

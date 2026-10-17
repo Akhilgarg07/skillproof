@@ -1,15 +1,15 @@
-# skilltest
+# skillproof
 
 **pytest for agent skills: prove your skill actually works.**
 
-[![ci](https://github.com/akhilgarg07/skilltest/actions/workflows/ci.yml/badge.svg)](https://github.com/akhilgarg07/skilltest/actions/workflows/ci.yml)
-[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akhilgarg07/skilltest/blob/main/LICENSE)
+[![ci](https://github.com/akhilgarg07/skillproof/actions/workflows/ci.yml/badge.svg)](https://github.com/akhilgarg07/skillproof/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/akhilgarg07/skillproof/blob/main/LICENSE)
 
-![skilltest demo](https://raw.githubusercontent.com/akhilgarg07/skilltest/main/docs/demo.gif)
+![skillproof demo](https://raw.githubusercontent.com/akhilgarg07/skillproof/main/docs/demo.gif)
 <!-- Record with: vhs docs/demo.tape -->
 
 ```bash
-pip install skilltest
+pip install skillproof
 ```
 
 **Works with:** Claude Code · Codex · any OpenAI-compatible endpoint
@@ -18,7 +18,7 @@ pip install skilltest
 
 Agent skills (`SKILL.md` folders for Claude Code, Codex, Cursor, Gemini CLI,
 OpenCode...) are everywhere, but almost nobody can show that a skill helps. Often
-it isn't even loaded: the agent never decides to use it. **skilltest** runs your
+it isn't even loaded: the agent never decides to use it. **skillproof** runs your
 tasks N times **with** the skill installed and N times **without** it, then tells
 you:
 
@@ -30,19 +30,19 @@ you:
 ## 60-second quickstart
 
 ```bash
-pip install skilltest
+pip install skillproof
 export ANTHROPIC_API_KEY=sk-ant-...      # or use your `claude` login
 
-skilltest init ./my-skill                # writes my-skill/evals.yaml
+skillproof init ./my-skill                # writes my-skill/evals.yaml
 # edit evals.yaml: 2-3 real tasks, how to check them, one task the skill should ignore
-skilltest run ./my-skill                 # prints the plan and cost estimate, then runs
+skillproof run ./my-skill                 # prints the plan and cost estimate, then runs
 ```
 
-`uvx skilltest run ./my-skill` works too, without installing anything.
+`uvx skillproof run ./my-skill` works too, without installing anything.
 
 ## Example output
 
-This is a real run of the [`release-notes`](https://github.com/akhilgarg07/skilltest/blob/main/examples/release-notes/) example
+This is a real run of the [`release-notes`](https://github.com/akhilgarg07/skillproof/blob/main/examples/release-notes/) example
 (Claude Code, 5 trials per variant):
 
 ```
@@ -62,9 +62,9 @@ verdict: the skill helps (95% CI for lift: +61% to +100%)
 
 Every run also saves a self-contained **HTML report** (with each run's checks and
 answer), `report.md`, `summary.json` and the full transcripts under
-`.skilltest/runs/<timestamp>/`.
+`.skillproof/runs/<timestamp>/`.
 
-[`examples/`](https://github.com/akhilgarg07/skilltest/blob/main/examples/) has skills that **help**, **do nothing** and **hurt**, so
+[`examples/`](https://github.com/akhilgarg07/skillproof/blob/main/examples/) has skills that **help**, **do nothing** and **hurt**, so
 you can see all three outcomes.
 
 ## How it works
@@ -143,13 +143,13 @@ under `runner_options:`; see each runner's module docstring.
 ## Reports, CI and badges
 
 ```bash
-skilltest run ./my-skill --format md -o report.md    # also: html, json (to stdout)
-skilltest report                                      # re-render the latest run
-skilltest run ./my-skill --min-lift 0 --min-trigger-rate 80   # exit 1 if not met
-skilltest run ./my-skill --dry-run                    # plan + cost estimate only
+skillproof run ./my-skill --format md -o report.md    # also: html, json (to stdout)
+skillproof report                                      # re-render the latest run
+skillproof run ./my-skill --min-lift 0 --min-trigger-rate 80   # exit 1 if not met
+skillproof run ./my-skill --dry-run                    # plan + cost estimate only
 ```
 
-**Cost guard:** before every run skilltest prints the number of runs and an
+**Cost guard:** before every run skillproof prints the number of runs and an
 estimate based on your previous runs. Above $5 it asks first; in CI it refuses
 unless you pass `--yes`. If the first runs all fail (bad key, wrong model), it
 stops and tells you what to fix.
@@ -157,15 +157,15 @@ stops and tells you what to fix.
 **GitHub Action:** comments the results on pull requests and keeps the comment up to date.
 
 ```yaml
-# .github/workflows/skilltest.yml (full example: action/example-workflow.yml)
+# .github/workflows/skillproof.yml (full example: action/example-workflow.yml)
 on: pull_request
 permissions: {contents: read, pull-requests: write}
 jobs:
-  skilltest:
+  skillproof:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: akhilgarg07/skilltest@v0
+      - uses: akhilgarg07/skillproof@v0
         with: {path: my-skill, trials: "10", min-lift: "0"}
         env: {ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"}
 ```
@@ -173,8 +173,8 @@ jobs:
 **Badge for your skill's README:**
 
 ```bash
-skilltest badge ./my-skill
-# [![skilltest: +100% lift · 10/10 triggered](https://img.shields.io/badge/skilltest-...-brightgreen)](...)
+skillproof badge ./my-skill
+# [![skillproof: +100% lift · 10/10 triggered](https://img.shields.io/badge/skillproof-...-brightgreen)](...)
 ```
 
 It is green when the skill helps, red when it hurts and grey when the result is
@@ -191,7 +191,7 @@ can keep a badge up to date.
   and below 10 the report says the numbers are rough.
 - **Results depend on the agent and model.** Reports record the model that actually
   ran. In our runs, Claude Code read a library's source, noticed that a skill's docs
-  were stale and ignored them ([`examples/stale-docs`](https://github.com/akhilgarg07/skilltest/blob/main/examples/stale-docs/)); a
+  were stale and ignored them ([`examples/stale-docs`](https://github.com/akhilgarg07/skillproof/blob/main/examples/stale-docs/)); a
   weaker model may not.
 - **Trigger detection is per agent and heuristic.** Claude Code has an explicit
   `Skill` tool call. Codex reads skills with ordinary shell commands, so a "trigger"
@@ -209,17 +209,17 @@ can keep a badge up to date.
 
 ## Leaderboard
 
-[`leaderboard/`](https://github.com/akhilgarg07/skilltest/blob/main/leaderboard/) runs skilltest over a list of public skills (using
+[`leaderboard/`](https://github.com/akhilgarg07/skillproof/blob/main/leaderboard/) runs skillproof over a list of public skills (using
 evals you write, never the repo's own) and renders a markdown leaderboard.
 
 ## Contributing
 
-Contributions are very welcome; see [CONTRIBUTING.md](https://github.com/akhilgarg07/skilltest/blob/main/CONTRIBUTING.md). Good first issues:
+Contributions are very welcome; see [CONTRIBUTING.md](https://github.com/akhilgarg07/skillproof/blob/main/CONTRIBUTING.md). Good first issues:
 
 - **New runners:** Gemini CLI, Cursor (cursor-agent), OpenCode, Aider
 - **New assertions:** `tool_called` (the agent used a given tool), `json_schema`,
   `file_matches` (regex on a file), `max_cost_usd`
-- **`skilltest compare`:** two versions of a skill head to head
+- **`skillproof compare`:** two versions of a skill head to head
 - **Windows support** and a Docker sandbox option for untrusted skills
 - **A local judge:** `llm_judge` over Chat Completions, for local models (Ollama, vLLM)
 

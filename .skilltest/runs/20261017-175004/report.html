@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>skilltest: acme-release-notes</title>
+<style>
+:root {
+  --page: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --border: rgba(11,11,11,0.10);
+  --with: #2a78d6; --without: #eb6834;
+  --good: #006300; --bad: #d03b3b; --neutral: #52514e;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0d0d0d; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --border: rgba(255,255,255,0.10);
+    --with: #3987e5; --without: #d95926;
+    --good: #0ca30c; --bad: #e66767; --neutral: #c3c2b7;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--page); color: var(--ink);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+main { max-width: 980px; margin: 0 auto; padding: 32px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 40px 0 12px; }
+.meta { color: var(--ink-2); font-size: 13px; }
+code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.92em; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.hero { display: flex; flex-wrap: wrap; gap: 24px; align-items: center; padding: 24px;
+  margin-top: 20px; }
+.hero .value { font-size: 56px; font-weight: 600; line-height: 1; }
+.hero .label { color: var(--ink-2); font-size: 13px; margin-bottom: 6px; }
+.verdict { font-weight: 600; font-size: 18px; }
+.verdict.helps { color: var(--good); } .verdict.hurts { color: var(--bad); }
+.verdict.neutral { color: var(--neutral); }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px;
+  margin-top: 12px; }
+.tile { padding: 14px 16px; }
+.tile .label { color: var(--ink-2); font-size: 13px; }
+.tile .value { font-size: 22px; font-weight: 600; }
+.tile .sub { color: var(--muted); font-size: 12px; }
+.notes { margin: 16px 0 0; padding: 12px 16px 12px 32px; }
+.notes li { margin: 4px 0; }
+.legend { display: flex; gap: 16px; font-size: 13px; color: var(--ink-2); margin-bottom: 8px; }
+.swatch { display: inline-block; width: 10px; height: 10px; border-radius: 2px;
+  margin-right: 6px; vertical-align: -1px; }
+.chart { padding: 16px; }
+.chart-row { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 12px;
+  align-items: center; padding: 8px 0; border-top: 1px solid var(--grid); }
+.chart-row:first-child { border-top: 0; }
+.chart-name { font-size: 13px; overflow-wrap: anywhere; }
+@media (max-width: 600px) { .chart-row { grid-template-columns: 1fr; gap: 4px; } }
+.bars { display: grid; gap: 2px; }
+.bar-line { display: grid; grid-template-columns: 1fr 56px; gap: 8px; align-items: center; }
+.track { height: 12px; position: relative; }
+.bar { height: 12px; border-radius: 0 4px 4px 0; min-width: 2px; }
+.bar.with { background: var(--with); } .bar.without { background: var(--without); }
+.bar-value { font-size: 12px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-top: 1px solid var(--grid);
+  vertical-align: top; }
+th { color: var(--ink-2); font-weight: 600; border-top: 0; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.table-wrap { overflow-x: auto; padding: 4px 6px; }
+.pass { color: var(--good); font-weight: 600; } .fail { color: var(--bad); font-weight: 600; }
+.err { color: var(--muted); font-weight: 600; }
+details { margin-top: 10px; padding: 10px 14px; }
+summary { cursor: pointer; font-weight: 600; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--page); padding: 10px;
+  border-radius: 6px; font-size: 12px; max-height: 320px; overflow-y: auto; margin: 6px 0 0; }
+ul.asserts { margin: 4px 0 0; padding-left: 18px; }
+footer { margin-top: 48px; color: var(--muted); font-size: 12px; }
+a { color: var(--with); }
+</style>
+</head>
+<body>
+<main>
+<h1>skilltest: acme-release-notes</h1>
+<div class="meta">runner <code>claude-code</code> · model <code>claude-opus-5-5</code> · 2026-10-17 17:50 UTC</div>
+
+<div class="card hero">
+  <div>
+    <div class="label">Skill lift (pass rate with − without)</div>
+    <div class="value">+100%</div>
+  </div>
+  <div>
+    <div class="verdict helps">✓ the skill helps</div>
+    <div class="meta">95% CI +61% to +100%</div>
+  </div>
+</div>
+<div class="tiles"><div class="card tile"><div class="label">Triggered</div><div class="value">10/10</div><div class="sub">false triggers 0/5</div></div><div class="card tile"><div class="label">Pass rate with skill</div><div class="value">100%</div><div class="sub">10/10 runs</div></div><div class="card tile"><div class="label">Pass rate without</div><div class="value">0%</div><div class="sub">0/10 runs</div></div><div class="card tile"><div class="label">Tokens per run</div><div class="value">+1%</div><div class="sub">86.8k vs 85.6k</div></div><div class="card tile"><div class="label">Cost per run</div><div class="value">+6%</div><div class="sub">$0.065 vs $0.061</div></div><div class="card tile"><div class="label">Time per run</div><div class="value">−4%</div><div class="sub">11.0s vs 11.4s</div></div></div>
+<ul class="card notes"><li>Small sample: as few as 5 completed run(s) per variant. Treat these numbers as rough; use --trials 10 or more before quoting them.</li></ul>
+<h2>Pass rate by case</h2><div class="legend"><span><span class="swatch" style="background:var(--with)"></span>with skill</span><span><span class="swatch" style="background:var(--without)"></span>without skill</span></div><div class="card chart"><div class="chart-row"><div class="chart-name">release notes from merged PRs</div><div class="bars"><div class="bar-line" title="with skill: 5/5 passed, 95% CI 57%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 0/5 passed, 95% CI 0%–43%"><div class="track"><div class="bar without" style="width:0.0%"></div></div><div class="bar-value">0%</div></div></div></div><div class="chart-row"><div class="chart-name">release with no breaking changes</div><div class="bars"><div class="bar-line" title="with skill: 5/5 passed, 95% CI 57%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 0/5 passed, 95% CI 0%–43%"><div class="track"><div class="bar without" style="width:0.0%"></div></div><div class="bar-value">0%</div></div></div></div><div class="chart-row"><div class="chart-name">unrelated question</div><div class="bars"><div class="bar-line" title="with skill: 5/5 passed, 95% CI 57%–100%"><div class="track"><div class="bar with" style="width:100.0%"></div></div><div class="bar-value">100%</div></div><div class="bar-line" title="without skill: 5/5 passed, 95% CI 57%–100%"><div class="track"><div class="bar without" style="width:100.0%"></div></div><div class="bar-value">100%</div></div></div></div></div>
+<h2>Cases</h2><div class="card table-wrap"><table><tr><th>case</th><th class=num>triggered</th><th class=num>pass with</th><th class=num>pass without</th><th class=num>lift</th><th class=num>95% CI</th><th class=num>tokens Δ</th><th class=num>latency Δ</th></tr><tr><td>release notes from merged PRs</td><td class=num>5/5</td><td class=num>5/5</td><td class=num>0/5</td><td class=num>+100%</td><td class=num>+39% to +100%</td><td class=num>+1%</td><td class=num>−5%</td></tr><tr><td>release with no breaking changes</td><td class=num>5/5</td><td class=num>5/5</td><td class=num>0/5</td><td class=num>+100%</td><td class=num>+39% to +100%</td><td class=num>+1%</td><td class=num>−2%</td></tr><tr><td>unrelated question</td><td class=num>0/5 (should not)</td><td class=num>5/5</td><td class=num>5/5</td><td class=num>±0%</td><td class=num>−43% to +43%</td><td class=num>±0%</td><td class=num>−8%</td></tr></table></div>
+<h2>Runs</h2>
+<details class="card"><summary>release notes from merged PRs <span class="meta">(10 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.8k</td><td class=num>10.8s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 release notes, dated 2026-10-20, to the top of `RELEASE_NOTES.md`, just under the title. The older v2.3.0 and v2.2.0 entries are unchanged.
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- The deprecated `--legacy` flag has been removed from `sync`; drop it from any scripts or jobs that still pass it [ACME-421] (thanks @mira)
+
+### Features
+- You can now export reports as CSV from the `report` command [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503) [ACME-415] (thanks @jonas)
+
+### Fixes
+- Acme no longer crashes when the config file is empty [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years [ACME-423] (thanks @priya)
+```
+
+The upload retry change (ACME-415) is listed under Features because its title doesn&#x27;t contain &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;, which is how the house format decides. If you think of it as a fix, it&#x27;s a one-line move.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.7k</td><td class=num>11.7s</td><td><ul class="asserts"><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;(thanks @tom)&quot;</li><li><span class="fail">✗</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 1: </li></ul><details><summary>answer</summary><pre>I added a v2.4.0 entry to the top of `RELEASE_NOTES.md`, in the same format as the earlier entries. The version and date come from the `VERSION` and `RELEASE_DATE` files.
+
+```
+v2.4.0 - 2026-10-20
+  * BREAKING: Remove deprecated --legacy flag from sync (ACME-421)
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 with backoff (ACME-415)
+  * Fix crash when config file is empty (ACME-419)
+  * Fix wrong totals in monthly summary for leap years (ACME-423)
+```
+
+- **Breaking change:** ACME-421 has a `!` in its title, so I put it first and labelled it &quot;BREAKING&quot;. Anyone who still passes `--legacy` to sync will see it fail after upgrading.
+- **Version number:** this release is numbered 2.4.0. If you follow strict semver, removing a flag would normally mean a major bump (3.0.0). If removing deprecated options in a minor release is your usual practice, 2.4.0 is fine.
+- **Order:** the breaking change comes first, then new features, then fixes. Earlier entries didn&#x27;t show a set order, so change it if you prefer something else.
+- **Authors:** I left out the PR authors (@mira, @jonas, @tom, @priya) because older entries don&#x27;t credit anyone. I can add them if you want.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-1.json</code></div></td></tr><tr><td>with #2</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>87.2k</td><td class=num>11.9s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 (2026-10-20) release notes to the top of `RELEASE_NOTES.md`, just under the title, covering all five merged PRs:
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- The deprecated `--legacy` flag has been removed from `sync`; drop it from any scripts or scheduled jobs that still pass it. [ACME-421] (thanks @mira)
+
+### Features
+- Export reports as CSV from the `report` command. [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503), so transient outages no longer fail your upload. [ACME-415] (thanks @jonas)
+
+### Fixes
+- Starting with an empty config file no longer crashes the app. [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)
+```
+
+- **One judgement call:** the upload-retry change (ACME-415) is listed under Features. Our rule only puts PRs under Fixes if the title says &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;, and this one doesn&#x27;t. If you think of it as a fix, move it down.
+- The older v2.3.0 and v2.2.0 entries are unchanged and keep their original format.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-2.json</code></div></td></tr><tr><td>without #2</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.7k</td><td class=num>11.5s</td><td><ul class="asserts"><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;(thanks @tom)&quot;</li><li><span class="fail">✗</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 1: </li></ul><details><summary>answer</summary><pre>I added a v2.4.0 entry to the top of `RELEASE_NOTES.md`. It uses the format of the earlier entries, with the version number from `VERSION` and the date from `RELEASE_DATE`:
+
+```
+v2.4.0 - 2026-10-20
+  * BREAKING: Remove deprecated --legacy flag from sync (ACME-421)
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 with backoff (ACME-415)
+  * Fix crash when config file is empty (ACME-419)
+  * Fix wrong totals in monthly summary for leap years (ACME-423)
+```
+
+**Decision for you:** ACME-421 is marked `!`, which means it&#x27;s a breaking change: anyone still using `sync --legacy` will get an error after upgrading. Under semantic versioning, a breaking change usually means a major version bump to **3.0.0**, but `VERSION` says 2.4.0. I kept 2.4.0 and listed the change first with a &quot;BREAKING:&quot; label. If you want 3.0.0, update `VERSION` and I&#x27;ll change the heading to match.
+
+I left out the PR authors because the earlier entries don&#x27;t list them. I can add them if you want contributors credited.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-2.json</code></div></td></tr><tr><td>with #3</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.8k</td><td class=num>10.9s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 (2026-10-20) release notes to the top of `RELEASE_NOTES.md`, just under the title. The version and date come from the `VERSION` and `RELEASE_DATE` files, and the older entries are unchanged.
+
+- **Breaking changes:** the `--legacy` flag has been removed from `sync`, and users need to drop it from their scripts (ACME-421, @mira).
+- **Features:**
+  - CSV export from the `report` command (ACME-412, @mira).
+  - Uploads now retry automatically with backoff when the server returns a 503 (ACME-415, @jonas).
+- **Fixes:**
+  - No more crash when the config file is empty (ACME-419, @tom).
+  - Monthly summary totals are now correct in leap years (ACME-423, @priya).
+
+The house rules decided where ACME-415 went. Its title doesn&#x27;t contain &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;, so it&#x27;s listed as a feature, even though it could be read as a reliability fix. Move it to Fixes if you&#x27;d rather present it that way.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-3.json</code></div></td></tr><tr><td>without #3</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>86.0k</td><td class=num>13.0s</td><td><ul class="asserts"><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;(thanks @tom)&quot;</li><li><span class="fail">✗</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 1: </li></ul><details><summary>answer</summary><pre>I added a v2.4.0 entry at the top of `RELEASE_NOTES.md`, using the format of the earlier entries:
+
+```
+v2.4.0 - 2026-10-20
+  * BREAKING: Remove deprecated --legacy flag from sync (ACME-421)
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 with backoff (ACME-415)
+  * Fix crash when config file is empty (ACME-419)
+  * Fix wrong totals in monthly summary for leap years (ACME-423)
+```
+
+The version and date come from the `VERSION` and `RELEASE_DATE` files. All five PRs in `merged_prs.txt` are included. I put the breaking change first, then features, then fixes, and left out the contributor names because earlier entries don&#x27;t list them.
+
+**Decision for you:** ACME-421 has a `!` marker and removes a flag, so it&#x27;s a breaking change. Under semantic versioning, that usually means a major version bump (3.0.0) rather than a minor one (2.4.0). I left `VERSION` at 2.4.0 because that&#x27;s a release decision. If you want 3.0.0, change the `VERSION` file and the heading in the notes.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-3.json</code></div></td></tr><tr><td>with #4</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>87.2k</td><td class=num>11.7s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 release notes (dated 2026-10-20) to the top of `RELEASE_NOTES.md`, in the house format. The older v2.3.0 and v2.2.0 entries are unchanged.
+
+- **Breaking changes:** the deprecated `--legacy` flag is removed from `sync` (ACME-421), with a note telling users to drop it from their scripts.
+- **Features:** CSV export from the `report` command (ACME-412), and automatic retry with backoff when uploads get a 503 error (ACME-415).
+- **Fixes:** no more crash when the config file is empty (ACME-419), and correct monthly totals in leap years (ACME-423).
+
+One call you might want to change: ACME-415 (upload retries) is listed under Features. Our rule only puts PRs under Fixes if the title contains &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;, and this title doesn&#x27;t. If you see it as a bug fix, it&#x27;s a one-line move.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-4.json</code></div></td></tr><tr><td>without #4</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.8k</td><td class=num>12.1s</td><td><ul class="asserts"><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;(thanks @tom)&quot;</li><li><span class="fail">✗</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 1: </li></ul><details><summary>answer</summary><pre>I added the v2.4.0 entry to the top of `RELEASE_NOTES.md`. The version and date come from `VERSION` and `RELEASE_DATE`.
+
+```
+v2.4.0 - 2026-10-20
+  * BREAKING: Remove the deprecated --legacy flag from sync (ACME-421)
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 responses with backoff (ACME-415)
+  * Fix crash when the config file is empty (ACME-419)
+  * Fix wrong totals in the monthly summary for leap years (ACME-423)
+```
+
+I matched the format of the earlier entries: issue IDs in parentheses and no author names. ACME-421 is marked with `!` in the PR list, so I put it first and labelled it as breaking. Each PR is listed separately and none were left out.
+
+**Decision for you:** this release contains a breaking change, but `VERSION` says 2.4.0, which is a minor bump. If you follow semantic versioning, removing `--legacy` would normally mean releasing 3.0.0. If you&#x27;d rather stay on 2.4.0, it&#x27;s worth telling users of `sync --legacy` how to migrate. I left the version as it is; tell me if you want it changed.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-4.json</code></div></td></tr><tr><td>with #5</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.9k</td><td class=num>12.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;(thanks @tom)&quot;</li><li><span class="pass">✓</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 0</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 (2026-10-20) notes to the top of `RELEASE_NOTES.md`, covering all five merged PRs. The v2.3.0 and v2.2.0 entries are unchanged.
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- The deprecated `--legacy` flag has been removed from `sync`; drop it from any scripts or scheduled jobs that still pass it. [ACME-421] (thanks @mira)
+
+### Features
+- You can now export reports as CSV from the `report` command. [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503), so brief outages no longer fail your upload. [ACME-415] (thanks @jonas)
+
+### Fixes
+- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)
+```
+
+ACME-415 (retrying uploads on 503) is listed under Features. Our format puts a PR under Fixes only if its title contains &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;, and this title has none of those. If you think of it as a bug fix, it&#x27;s a one-line move to Fixes.</pre></details><div class=meta><code>release-notes-from-merged-prs/with-5.json</code></div></td></tr><tr><td>without #5</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.5k</td><td class=num>12.0s</td><td><ul class="asserts"><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;## v2.4.0 (2026-10-20)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-421] (thanks @mira)&quot;</li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;(thanks @tom)&quot;</li><li><span class="fail">✗</span> `python3 -c &quot;import sys; t = open(&#x27;RELEASE_NOTES.md&#x27;).read(); new = t.split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; order = [new.find(h) for h in (&#x27;### Breaking changes&#x27;, &#x27;### Features&#x27;, &#x27;### Fixes&#x27;)]; sys.exit(0 if -1 not in order and order == sorted(order) and &#x27;  * Weekly scheduled reports (ACME-398)&#x27; in t else 1)&quot;` exited 1: </li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`, in the same format as the earlier entries:
+
+```
+v2.4.0 - 2026-10-20
+  * BREAKING: Remove deprecated --legacy flag from sync (ACME-421)
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 with backoff (ACME-415)
+  * Fix crash when config file is empty (ACME-419)
+  * Fix wrong totals in monthly summary for leap years (ACME-423)
+```
+
+- **Version and date:** these come from the `VERSION` and `RELEASE_DATE` files.
+- **Breaking change:** ACME-421 has a `!` in `merged_prs.txt`, so I labelled it **BREAKING** and put it first so users who rely on `--legacy` see it.
+- **Order:** the new feature and the upload retry come next, then the two bug fixes.
+- **Authors:** I left out the `@mira`-style author names because earlier entries don&#x27;t include them. I can add them if you want credits.
+
+**Decision for you:** if this project follows semantic versioning, removing `--legacy` normally calls for a major version bump (3.0.0), not 2.4.0. I didn&#x27;t change the version, because the flag was already deprecated and your project may handle that differently. If you want to bump it, I&#x27;ll update both `VERSION` and the notes.</pre></details><div class=meta><code>release-notes-from-merged-prs/without-5.json</code></div></td></tr></table></div></details><details class="card"><summary>release with no breaking changes <span class="meta">(10 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.4k</td><td class=num>10.7s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 release notes, dated 2026-10-20, to the top of `RELEASE_NOTES.md`, just under the title. I left the older entries alone.
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- You can now export reports as CSV from the `report` command. [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)
+
+### Fixes
+- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)
+```
+
+- **ACME-421 left out:** that was the only breaking change in the list (removing the `--legacy` flag from `sync`). With it gone, Breaking changes says &quot;None.&quot; because our format requires the section to stay. Since it was reverted, `--legacy` should still work in 2.4.0.
+- **ACME-415 is listed as a feature:** under our sorting rule only titles with &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot; go under Fixes, and this title has none of them. If you think of retrying uploads as a fix, it&#x27;s easy to move.</pre></details><div class=meta><code>release-with-no-breaking-changes/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.5k</td><td class=num>10.1s</td><td><ul class="asserts"><li><span class="fail">✗</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 1: </li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`. It matches the style of the earlier entries and uses the version and date from the `VERSION` and `RELEASE_DATE` files:
+
+```
+v2.4.0 - 2026-10-20
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 errors with backoff (ACME-415)
+  * Fix crash when the config file is empty (ACME-419)
+  * Fix wrong totals in the monthly summary for leap years (ACME-423)
+```
+
+I left out ACME-421 (removing the `--legacy` flag from sync) as you asked. It was the only change marked as breaking (`!`), so with it gone the release has no breaking changes and the 2.4.0 minor version number still fits. Earlier entries don&#x27;t credit authors, so I didn&#x27;t add the `@` handles.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-1.json</code></div></td></tr><tr><td>with #2</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.2k</td><td class=num>9.5s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 release notes to the top of `RELEASE_NOTES.md`, dated 2026-10-20, and left ACME-421 out as you asked:
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- Export reports to CSV with the `report` command [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503) [ACME-415] (thanks @jonas)
+
+### Fixes
+- Fixed a crash when the config file is empty [ACME-419] (thanks @tom)
+- Fixed incorrect totals in the monthly summary for leap years [ACME-423] (thanks @priya)
+```
+
+ACME-421 (removing the `--legacy` flag from sync) was the only breaking change, so that section now reads &quot;- None.&quot; and `--legacy` keeps working in this release. The older v2.3.0 and v2.2.0 entries are unchanged.</pre></details><div class=meta><code>release-with-no-breaking-changes/with-2.json</code></div></td></tr><tr><td>without #2</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.3k</td><td class=num>9.8s</td><td><ul class="asserts"><li><span class="fail">✗</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 1: </li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`, using the version and date from the `VERSION` and `RELEASE_DATE` files and the same format as the earlier entries:
+
+```
+v2.4.0 - 2026-10-20
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 with backoff (ACME-415)
+  * Fix crash when config file is empty (ACME-419)
+  * Fix wrong totals in monthly summary for leap years (ACME-423)
+```
+
+I left out ACME-421 as you asked. It was the only breaking change in the list (marked with `!`, removing the `--legacy` flag from sync), so with it gone, 2.4.0 has no breaking changes and a minor version bump fits. Also, nothing in `merged_prs.txt` shows the revert itself, so I relied on what you told me.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-2.json</code></div></td></tr><tr><td>with #3</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.7k</td><td class=num>11.6s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I&#x27;ve added the v2.4.0 release notes (dated 2026-10-20) to the top of `RELEASE_NOTES.md`, with ACME-421 left out.
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- Export reports to CSV with the report command [ACME-412] (thanks @mira)
+- Uploads now automatically retry with backoff when the server returns 503, so temporary outages no longer fail your upload [ACME-415] (thanks @jonas)
+
+### Fixes
+- Acme no longer crashes when the config file is empty [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years [ACME-423] (thanks @priya)
+```
+
+- **Breaking changes is empty:** ACME-421 (removing `--legacy`) was the only breaking change. Since it was reverted, that section says &quot;None.&quot; The house format keeps every section even when it&#x27;s empty.
+- **ACME-415 is listed as a Feature:** the house rules sort PRs by title, and its title doesn&#x27;t contain &quot;fix&quot;, &quot;crash&quot; or &quot;bug&quot;. Move it to Fixes if you see it as a bug fix.
+- **Older entries:** the v2.3.0 and earlier entries are unchanged and still use the legacy format.</pre></details><div class=meta><code>release-with-no-breaking-changes/with-3.json</code></div></td></tr><tr><td>without #3</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.5k</td><td class=num>11.9s</td><td><ul class="asserts"><li><span class="fail">✗</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 1: </li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`, written in the same style as the earlier entries:
+
+```
+v2.4.0 - 2026-10-20
+  * CSV exporter for the report command (ACME-412)
+  * Retry uploads on 503 errors with backoff (ACME-415)
+  * Fix crash when the config file is empty (ACME-419)
+  * Fix wrong totals in the monthly summary for leap years (ACME-423)
+```
+
+- **Version and date:** I took these from the `VERSION` and `RELEASE_DATE` files.
+- **ACME-421 left out:** That entry was the breaking change (removing the `--legacy` flag from sync, marked `!`). Because it was reverted, the flag still exists, so there&#x27;s nothing to tell users about upgrading.
+- **No contributor names:** The earlier entries don&#x27;t credit authors, so I didn&#x27;t either. I can add the @handles if you want them.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-3.json</code></div></td></tr><tr><td>with #4</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>87.0k</td><td class=num>10.3s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 (2026-10-20) release notes to the top of `RELEASE_NOTES.md`, just under the title, using the Acme house format:
+
+```
+## v2.4.0 (2026-10-20)
+
+### Breaking changes
+- None.
+
+### Features
+- Export reports to CSV straight from the report command [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503) [ACME-415] (thanks @jonas)
+
+### Fixes
+- An empty config file no longer causes a crash [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years [ACME-423] (thanks @priya)
+```
+
+ACME-421 is left out as you asked. It was the only breaking change in the list (removing the `--legacy` flag from sync), so the Breaking changes section now just says &quot;None.&quot; The format requires that section to stay even when it&#x27;s empty.
+
+The older v2.3.0 and v2.2.0 entries are unchanged.</pre></details><div class=meta><code>release-with-no-breaking-changes/with-4.json</code></div></td></tr><tr><td>without #4</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.6k</td><td class=num>11.0s</td><td><ul class="asserts"><li><span class="fail">✗</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 1: </li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`, using the format of the earlier entries:
+
+```
+v2.4.0 - 2026-10-20
+  * CSV export for the report command (ACME-412)
+  * Retry uploads on HTTP 503 with backoff (ACME-415)
+  * Fix crash when the config file is empty (ACME-419)
+  * Fix wrong totals in the monthly summary for leap years (ACME-423)
+```
+
+- **Version and date:** these come from the `VERSION` and `RELEASE_DATE` files.
+- **ACME-421 left out:** I dropped it as you asked. It was the only change marked `!` (breaking: it removed the `--legacy` flag from sync). Since it was reverted, `--legacy` should still work in 2.4.0, so the notes don&#x27;t need a breaking-changes or migration section.
+- **No contributor credits:** the earlier entries don&#x27;t name authors, so I left out the `@` handles. I can add them if you want credits this time.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-4.json</code></div></td></tr><tr><td>with #5</td><td><span class="pass">pass</span></td><td class=num>yes</td><td class=num>86.6k</td><td class=num>10.4s</td><td><ul class="asserts"><li><span class="pass">✓</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 0</li><li><span class="pass">✓</span> RELEASE_NOTES.md contains &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added the v2.4.0 (2026-10-20) release notes to the top of `RELEASE_NOTES.md`, under the title. The older entries are unchanged.
+
+**Breaking changes**
+- None.
+
+**Features**
+- Export reports as CSV from the report command. [ACME-412] (thanks @mira)
+- Uploads now retry automatically with backoff when the server is temporarily unavailable (HTTP 503). [ACME-415] (thanks @jonas)
+
+**Fixes**
+- Acme no longer crashes when the config file is empty. [ACME-419] (thanks @tom)
+- Monthly summaries now show correct totals in leap years. [ACME-423] (thanks @priya)
+
+I left out ACME-421 (removing the `--legacy` flag from sync). It was the only breaking change, so that section now just says &quot;None.&quot;</pre></details><div class=meta><code>release-with-no-breaking-changes/with-5.json</code></div></td></tr><tr><td>without #5</td><td><span class="fail">fail</span></td><td class=num>–</td><td class=num>85.6k</td><td class=num>10.9s</td><td><ul class="asserts"><li><span class="fail">✗</span> `python3 -c &quot;import re, sys; new = open(&#x27;RELEASE_NOTES.md&#x27;).read().split(&#x27;v2.3.0 - 2026-09-01&#x27;)[0]; sys.exit(0 if re.search(r&#x27;### Breaking changes\s*\n\s*- None\.&#x27;, new) and &#x27;ACME-421&#x27; not in new else 1)&quot;` exited 1: </li><li><span class="fail">✗</span> RELEASE_NOTES.md does not contain &quot;[ACME-412] (thanks @mira)&quot;</li></ul><details><summary>answer</summary><pre>I added a v2.4.0 section to the top of `RELEASE_NOTES.md`, written in the same style as the earlier entries. The version and date come from the `VERSION` and `RELEASE_DATE` files.
+
+```
+v2.4.0 - 2026-10-20
+  * CSV export for the report command (ACME-412)
+  * Retry uploads with backoff when the server returns 503 (ACME-415)
+  * Fix crash when the config file is empty (ACME-419)
+  * Fix wrong totals in the monthly summary for leap years (ACME-423)
+```
+
+ACME-421 (removing the deprecated `--legacy` flag from sync) is left out as you asked. It was the only change marked as breaking (the `!` in `ACME-421!`). With it gone, this release has no breaking changes, so the `--legacy` flag is still available. That makes a minor version bump to 2.4.0 the right size.
+
+I left out author credits (@mira, @jonas, etc.) because earlier entries don&#x27;t include them. I can add them if you want.</pre></details><div class=meta><code>release-with-no-breaking-changes/without-5.json</code></div></td></tr></table></div></details><details class="card"><summary>unrelated question <span class="meta">(10 runs)</span></summary><div class="table-wrap"><table><tr><th>run</th><th>result</th><th class=num>triggered</th><th class=num>tokens</th><th class=num>time</th><th>checks</th></tr><tr><td>with #1</td><td><span class="pass">pass</span></td><td class=num>no</td><td class=num>20.6k</td><td class=num>2.0s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release has backward-incompatible changes to the public API, so code that depended on the old version may break. When MAJOR goes up, the MINOR and PATCH numbers go back to 0.</pre></details><div class=meta><code>unrelated-question/with-1.json</code></div></td></tr><tr><td>without #1</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example 1.4.2 → 2.0.0) means the release includes changes to the public API that break backward compatibility, so code that used the previous version may need changes to work. When MAJOR goes up, the MINOR and PATCH numbers go back to 0.</pre></details><div class=meta><code>unrelated-question/without-1.json</code></div></td></tr><tr><td>with #2</td><td><span class="pass">pass</span></td><td class=num>no</td><td class=num>20.6k</td><td class=num>2.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release has backward-incompatible changes to the public API. Code that relies on the old version may break without changes. When MAJOR goes up, the MINOR and PATCH numbers reset to 0.</pre></details><div class=meta><code>unrelated-question/with-2.json</code></div></td></tr><tr><td>without #2</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.2s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release includes breaking changes to the public API. Code that worked with the old version may stop working without changes. When MAJOR goes up, MINOR and PATCH reset to 0.</pre></details><div class=meta><code>unrelated-question/without-2.json</code></div></td></tr><tr><td>with #3</td><td><span class="pass">pass</span></td><td class=num>no</td><td class=num>20.6k</td><td class=num>2.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release contains backward-incompatible changes to the public API. Code that depends on the old version may break without changes, and the MINOR and PATCH numbers go back to zero.</pre></details><div class=meta><code>unrelated-question/with-3.json</code></div></td></tr><tr><td>without #3</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.5s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>In semantic versioning, you bump the MAJOR version (the X in X.Y.Z) when you make a backward-incompatible change to the public API, so code written for the old version may break. When you bump MAJOR, you reset MINOR and PATCH to 0, so 1.4.2 becomes 2.0.0.</pre></details><div class=meta><code>unrelated-question/without-3.json</code></div></td></tr><tr><td>with #4</td><td><span class="pass">pass</span></td><td class=num>no</td><td class=num>20.7k</td><td class=num>2.0s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>In semantic versioning (MAJOR.MINOR.PATCH), a MAJOR version bump, such as 1.4.2 → 2.0.0, means the release has backward-incompatible changes to the public API. Code that depends on the old version may break without changes, and the MINOR and PATCH numbers go back to 0.</pre></details><div class=meta><code>unrelated-question/with-4.json</code></div></td></tr><tr><td>without #4</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.2s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>In semantic versioning, a MAJOR bump (for example 1.4.2 → 2.0.0) means the release breaks backward compatibility with the public API, so code written for the old version may need changes before it works. When the major version goes up, the minor and patch numbers go back to 0.</pre></details><div class=meta><code>unrelated-question/without-4.json</code></div></td></tr><tr><td>with #5</td><td><span class="pass">pass</span></td><td class=num>no</td><td class=num>20.6k</td><td class=num>2.0s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release includes backward-incompatible changes to the public API, so code that depended on the old version may break. When MAJOR goes up, the MINOR and PATCH numbers go back to 0.</pre></details><div class=meta><code>unrelated-question/with-5.json</code></div></td></tr><tr><td>without #5</td><td><span class="pass">pass</span></td><td class=num>–</td><td class=num>20.6k</td><td class=num>2.1s</td><td><ul class="asserts"><li><span class="pass">✓</span> answer matches /(?i)incompatib|breaking|backward/</li></ul><details><summary>answer</summary><pre>A MAJOR version bump (for example, 1.4.2 → 2.0.0) means the release breaks backward compatibility with the public API. Code that depends on the old version may need changes to work with the new one. When MAJOR goes up, MINOR and PATCH reset to 0.</pre></details><div class=meta><code>unrelated-question/without-5.json</code></div></td></tr></table></div></details>
+<footer>Generated by <a href="https://github.com/akhilgarg07/skilltest">skilltest</a>
+0.1.0.dev0 · transcripts in <code>.skilltest/runs/20261017-175004</code></footer>
+</main>
+</body>
+</html>

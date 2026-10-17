@@ -6,9 +6,9 @@ from pathlib import Path
 import pytest
 from pydantic import TypeAdapter
 
-from skilltest.assertions import Assertion, BaseAssertion, CheckContext, check_all
-from skilltest.judges import MockJudge
-from skilltest.runners import AgentRun, Usage
+from skillproof.assertions import Assertion, BaseAssertion, CheckContext, check_all
+from skillproof.judges import MockJudge
+from skillproof.runners import AgentRun, Usage
 
 adapter = TypeAdapter(Assertion)
 

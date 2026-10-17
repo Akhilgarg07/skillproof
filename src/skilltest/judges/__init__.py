@@ -33,10 +33,11 @@ def make_judge(config: JudgeConfig, agent_vendor: str) -> Judge:
         from skilltest.judges.anthropic_judge import AnthropicJudge
 
         return AnthropicJudge(config.model, config.api_key_env, config.base_url)
-    raise JudgeNotReady(
-        f"The {provider!r} judge is not implemented yet.",
-        hint="Set `judge: {provider: anthropic}` for now.",
-    )
+    if provider == "openai":
+        from skilltest.judges.openai_judge import OpenAIJudge
+
+        return OpenAIJudge(config.model, config.api_key_env, config.base_url)
+    raise JudgeNotReady(f"Unknown judge provider {provider!r}.", hint="Use anthropic or openai.")
 
 
 __all__ = ["Judge", "MockJudge", "Verdict", "make_judge", "resolve_provider"]

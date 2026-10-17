@@ -67,7 +67,7 @@ class EvalConfig(BaseModel):
             valid = ", ".join(RUNNERS)
             raise ValueError(f"unknown runner {self.runner!r}. Valid runners: {valid}")
         if self.model is None and get_runner_class(self.runner).requires_model:
-            raise ValueError(f"the {self.runner} runner needs `model:` (e.g. model: gpt-5.1)")
+            raise ValueError(f"the {self.runner} runner needs `model:` (e.g. model: gpt-6.1-sol)")
         seen: set[str] = set()
         for case in self.cases:
             if case.name in seen:

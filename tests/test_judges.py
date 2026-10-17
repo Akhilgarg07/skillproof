@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 from pathlib import Path
 from types import SimpleNamespace
+from typing import ClassVar
 
 import pytest
 
@@ -104,3 +105,31 @@ def test_judge_failure_marks_run_errored(write_evals, tmp_path: Path) -> None:
     trials = suite.cases[0].trials
     assert all(t.errored for t in trials)
     assert trials[0].run.error == "llm_judge failed: judge API error: 529"
+
+
+def test_openai_judge_uses_responses_api_with_schema(monkeypatch) -> None:
+    from skilltest.judges.openai_judge import OpenAIJudge
+
+    monkeypatch.setenv("OPENAI_API_KEY", "sk-test")
+    judge = OpenAIJudge()
+    assert judge.model == "gpt-6.1-sol"
+
+    class FakeResponses:
+        kwargs: ClassVar[dict] = {}
+
+        async def create(self, **kwargs):
+            FakeResponses.kwargs = kwargs
+            return SimpleNamespace(output_text='{"passed": true, "reason": "states it"}')
+
+    judge.client = SimpleNamespace(responses=FakeResponses())
+    verdict = asyncio.run(judge.grade("States the root cause.", "NPE on line 3"))
+    assert verdict.passed
+    fmt = FakeResponses.kwargs["text"]["format"]
+    assert fmt["type"] == "json_schema" and fmt["strict"] is True
+    assert "NPE on line 3" in FakeResponses.kwargs["input"]
+
+
+def test_openai_judge_needs_key(monkeypatch) -> None:
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    with pytest.raises(JudgeNotReady, match="OPENAI_API_KEY"):
+        make_judge(JudgeConfig(provider="auto"), "anthropic")  # claude agent -> openai judge

@@ -1,0 +1,65 @@
+[
+ {
+  "type": "thread.started",
+  "thread_id": "01a14ac3-287f-79b3-bf32-a9a73cb3e2bd"
+ },
+ {
+  "type": "item.completed",
+  "item": {
+   "id": "item_0",
+   "type": "error",
+   "message": "Model metadata for `mock-model` not found. Defaulting to fallback metadata; this can degrade performance and cause issues."
+  }
+ },
+ {
+  "type": "turn.started"
+ },
+ {
+  "type": "item.completed",
+  "item": {
+   "id": "item_1",
+   "type": "reasoning",
+   "text": "**Planning** I will read the skill."
+  }
+ },
+ {
+  "type": "item.started",
+  "item": {
+   "id": "item_2",
+   "type": "command_execution",
+   "command": "/bin/bash -lc 'cat .agents/skills/haiku-writer/SKILL.md'",
+   "aggregated_output": "",
+   "exit_code": null,
+   "status": "in_progress"
+  }
+ },
+ {
+  "type": "item.completed",
+  "item": {
+   "id": "item_2",
+   "type": "command_execution",
+   "command": "/bin/bash -lc 'cat .agents/skills/haiku-writer/SKILL.md'",
+   "aggregated_output": "---\nname: haiku-writer\ndescription: Writes haiku poems. Use whenever the user asks for a poem or haiku.\n---\nAlways write exactly one haiku and end it with the signature line \"-- the skilltest bot\".\n",
+   "exit_code": 0,
+   "status": "completed"
+  }
+ },
+ {
+  "type": "item.completed",
+  "item": {
+   "id": "item_3",
+   "type": "agent_message",
+   "text": "Done: hello from mock"
+  }
+ },
+ {
+  "type": "turn.completed",
+  "usage": {
+   "input_tokens": 200,
+   "cached_input_tokens": 80,
+   "cache_write_input_tokens": 0,
+   "output_tokens": 40,
+   "reasoning_output_tokens": 14
+  }
+ }
+]

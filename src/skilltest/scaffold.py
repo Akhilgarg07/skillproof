@@ -19,7 +19,7 @@ EVALS_TEMPLATE = """\
 
 skill: ./                # folder containing SKILL.md, relative to this file
 runner: {runner}{runner_pad}# claude-code | codex | openai-compatible
-# model: ...             # optional; defaults to the agent's own default model
+{model_line}
 trials: 5                # runs per case, per variant. More trials = tighter numbers.
 timeout: 300             # seconds per run
 
@@ -66,6 +66,13 @@ cases:
       - type: contains
         value: "Paris"
 """
+
+MODEL_LINES = {
+    "openai-compatible": "model: gpt-6.1-sol       # required: any model your endpoint serves\n"
+    "runner_options:\n"
+    "  # base_url: http://localhost:11434/v1   # e.g. Ollama; default is api.openai.com",
+    "default": "# model: ...             # optional; defaults to the agent's own default model",
+}
 
 FIXTURE_README = """\
 Files in this folder are copied into a fresh temporary directory before every
@@ -122,6 +129,7 @@ def init_skill(path: Path, runner: str = "claude-code", force: bool = False) -> 
             display_path=_display(path),
             runner=runner,
             runner_pad=" " * max(1, 17 - len(runner)),
+            model_line=MODEL_LINES.get(runner, MODEL_LINES["default"]),
             description=" ".join(description.split()),
         ),
         encoding="utf-8",

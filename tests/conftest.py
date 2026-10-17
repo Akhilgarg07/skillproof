@@ -7,6 +7,8 @@ import claude_agent_sdk
 import pytest
 import yaml
 
+from skilltest.runners.codex import CodexRunner
+
 SKILL_MD = """\
 ---
 name: stack-trace-explainer
@@ -28,6 +30,15 @@ def no_real_agents(monkeypatch: pytest.MonkeyPatch) -> None:
         raise AssertionError("a test tried to start a real Claude Code session")
 
     monkeypatch.setattr(claude_agent_sdk, "query", refuse)
+    # The codex runner's default CLI is the real `codex` on PATH; tests must pass a fake.
+    real_command = CodexRunner.command
+
+    def guarded_command(self: CodexRunner, request: Any) -> list[str]:
+        if self.options.cli_path == "codex":
+            raise AssertionError("a test tried to run the real codex CLI")
+        return real_command(self, request)
+
+    monkeypatch.setattr(CodexRunner, "command", guarded_command)
     for var in ("ANTHROPIC_BASE_URL", "OPENAI_BASE_URL"):
         monkeypatch.setenv(var, "http://127.0.0.1:9")  # nothing listens on the discard port
 

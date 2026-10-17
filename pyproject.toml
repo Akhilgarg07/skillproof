@@ -42,6 +42,8 @@ skilltest = "skilltest.cli:main"
 
 [project.urls]
 Homepage = "https://github.com/akhilgarg07/skilltest"
+Issues = "https://github.com/akhilgarg07/skilltest/issues"
+Source = "https://github.com/akhilgarg07/skilltest"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/skilltest"]

@@ -1,0 +1,32 @@
+# Skills to put on the leaderboard. Run: python leaderboard/leaderboard.py run
+#
+#   name:   short id (also the results/<name>.json file name)
+#   evals:  the evals file to use, relative to this folder. Write your own for
+#           third-party skills: never run evals.yaml files from repos you don't
+#           trust, because `command` assertions execute shell commands.
+#   repo:   git URL of a public skill repo (omit for a skill in this repo)
+#   ref:    branch or tag (optional)
+#   path:   the skill folder inside the repo
+#   url:    link for the table (optional; derived from GitHub repos)
+
+skills:
+  # The example skills in this repository, so the leaderboard works out of the box.
+  - name: release-notes
+    path: examples/release-notes
+    evals: ../examples/release-notes/evals.yaml
+  - name: python-style
+    path: examples/python-style
+    evals: ../examples/python-style/evals.yaml
+  - name: over-eager-formatter
+    path: examples/over-eager-formatter
+    evals: ../examples/over-eager-formatter/evals.yaml
+  - name: stale-docs
+    path: examples/stale-docs
+    evals: ../examples/stale-docs/evals.yaml
+
+  # A public skill (fill in a real repo, skill folder and your own evals):
+  # - name: some-pdf-skill
+  #   repo: https://github.com/OWNER/REPO
+  #   ref: main
+  #   path: skills/pdf
+  #   evals: evals/some-pdf-skill.yaml

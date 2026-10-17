@@ -1,0 +1,22 @@
+# Template for evaluating a third-party skill on the leaderboard.
+# Copy to evals/<name>.yaml and reference it from skills.yaml.
+# `skill:` is filled in by leaderboard.py (the cloned skill folder), so leave it out.
+#
+# Write tasks a real user would ask, WITHOUT naming the skill, plus at least one
+# task the skill should NOT trigger on. Prefer deterministic assertions.
+runner: claude-code
+trials: 10
+timeout: 300
+
+cases:
+  - name: "a task the skill is for"
+    prompt: "TODO: a realistic request"
+    fixtures: ../fixtures/some-skill/   # optional, relative to this file
+    assert:
+      - {type: contains, value: "TODO"}
+
+  - name: "an unrelated task"
+    prompt: "What is the capital of France? One word."
+    should_trigger: false
+    assert:
+      - {type: contains, value: "Paris"}

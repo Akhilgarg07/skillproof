@@ -1,0 +1,39 @@
+# An example skill that HELPS: it teaches house conventions an agent can't guess.
+# Expected result: large positive lift, high trigger rate.
+skill: ./
+runner: claude-code
+trials: 5
+timeout: 300
+
+cases:
+  - name: "release notes from merged PRs"
+    prompt: "We're cutting the next release. Please write the release notes for it based on merged_prs.txt."
+    fixtures: ./fixtures/release/
+    assert:
+      - {type: file_contains, path: RELEASE_NOTES.md, value: "## v2.4.0 (2026-10-20)"}
+      - {type: file_contains, path: RELEASE_NOTES.md, value: "[ACME-421] (thanks @mira)"}
+      - {type: file_contains, path: RELEASE_NOTES.md, value: "(thanks @tom)"}
+      - type: command  # sections in house order, and the previous release kept intact
+        run: >-
+          python3 -c "import sys; t = open('RELEASE_NOTES.md').read();
+          new = t.split('v2.3.0 - 2026-09-01')[0];
+          order = [new.find(h) for h in ('### Breaking changes', '### Features', '### Fixes')];
+          sys.exit(0 if -1 not in order and order == sorted(order)
+          and '  * Weekly scheduled reports (ACME-398)' in t else 1)"
+
+  - name: "release with no breaking changes"
+    prompt: "Draft the release notes for the upcoming release from merged_prs.txt, but leave out ACME-421 (it was reverted)."
+    fixtures: ./fixtures/release/
+    assert:
+      - type: command  # empty sections stay, with "- None."
+        run: >-
+          python3 -c "import re, sys; new = open('RELEASE_NOTES.md').read().split('v2.3.0 - 2026-09-01')[0];
+          sys.exit(0 if re.search(r'### Breaking changes\s*\n\s*- None\.', new)
+          and 'ACME-421' not in new else 1)"
+      - {type: file_contains, path: RELEASE_NOTES.md, value: "[ACME-412] (thanks @mira)"}
+
+  - name: "unrelated question"
+    prompt: "In one or two sentences: what does a MAJOR version bump mean in semantic versioning?"
+    should_trigger: false
+    assert:
+      - {type: regex, pattern: "(?i)incompatib|breaking|backward"}

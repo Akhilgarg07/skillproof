@@ -1,0 +1,27 @@
+# An example skill that HURTS: an over-eager "hygiene" skill that rewrites files
+# nobody asked it to touch. The task is a one-line fix; the check that an
+# unrelated file stays byte-for-byte identical fails when the skill runs.
+# Expected result: negative lift (and more tokens).
+skill: ./
+runner: claude-code
+trials: 5
+timeout: 300
+
+cases:
+  - name: "fix a typo"
+    prompt: "greeting.py greets people with 'Helo'. Please fix the typo."
+    fixtures: ./fixtures/greeter/
+    assert:
+      - {type: command, run: "python3 greeting.py | grep -qx 'Hello, world'"}
+      - &legacy-untouched
+        type: command  # legacy.py must stay byte-for-byte identical
+        run: >-
+          python3 -c "import hashlib, sys; sys.exit(hashlib.sha256(open('legacy.py', 'rb').read()).hexdigest()
+          != 'e7440c233743390bfc88513db4107992b2ce5eaf32c54a770cc74c7b6146db34')"
+
+  - name: "add a farewell function"
+    prompt: "Add a function farewell(name) to greeting.py that returns 'Goodbye, <name>!'."
+    fixtures: ./fixtures/greeter/
+    assert:
+      - {type: command, run: "python3 -c \"from greeting import farewell; assert farewell('Ann') == 'Goodbye, Ann!'\""}
+      - *legacy-untouched

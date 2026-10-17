@@ -1,0 +1,25 @@
+# An example skill that DOES NOTHING useful: generic advice the agent already
+# follows. Expected result: lift around zero, extra tokens spent loading it.
+skill: ./
+runner: claude-code
+trials: 5
+timeout: 300
+
+cases:
+  - name: "fix the median bug"
+    prompt: "The tests in test_stats.py are failing. Please fix the bug in stats.py."
+    fixtures: ./fixtures/median-bug/
+    assert:
+      - {type: command, run: "python3 -m unittest -q test_stats"}
+
+  - name: "add a mode function"
+    prompt: >-
+      Add a function mode(values) to stats.py that returns the most common value
+      (the smallest one if there's a tie), and add a test for it in test_stats.py.
+    fixtures: ./fixtures/median-bug/
+    assert:
+      - type: command
+        run: >-
+          python3 -c "from stats import mode; assert mode([3, 1, 3, 1, 2]) == 1;
+          assert mode([5]) == 5; assert mode([2, 2, 7]) == 2"
+      - {type: file_contains, path: test_stats.py, value: "mode("}

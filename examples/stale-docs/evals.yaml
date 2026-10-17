@@ -1,0 +1,27 @@
+# BONUS example: a skill with STALE docs. acme_client 2.0 returns created_at in
+# seconds (the skill says milliseconds) and has a real `active` flag (the skill
+# says to use `state`, which is now always "enabled"). Code that trusts the skill
+# runs fine and prints wrong numbers. In our runs, Claude Code read the client's
+# source, noticed the mismatch and ignored the skill: no change in pass rate, but
+# ~15% more tokens and ~20% more time. Try it with weaker models.
+skill: ./
+runner: claude-code
+trials: 5
+timeout: 300
+
+cases:
+  - name: "count active users"
+    prompt: >-
+      Write report.py that uses acme_client to print how many users are active,
+      as a single line like `active users: N`.
+    fixtures: ./fixtures/report/
+    assert:
+      - {type: command, run: "python3 report.py | grep -qx 'active users: 3'"}
+
+  - name: "latest signup date"
+    prompt: >-
+      Write latest.py that uses acme_client to print the date of the most recent
+      signup as YYYY-MM-DD (UTC), and nothing else.
+    fixtures: ./fixtures/report/
+    assert:
+      - {type: command, run: "python3 latest.py | grep -qx '2025-10-12'"}

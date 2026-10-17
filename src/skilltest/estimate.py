@@ -14,9 +14,10 @@ from pathlib import Path
 from skilltest.engine import Engine
 from skilltest.results import RESULTS_FILE, SuiteResult
 
-# USD per agent run when there's no history. Ballpark for a small coding task.
+# USD per agent run when there's no history: ballpark for a small coding task
+# (our example skills averaged ~$0.05 per Claude Code run on claude-opus-5-5).
 DEFAULT_COST_PER_RUN = {
-    "claude-code": 0.25,
+    "claude-code": 0.10,
     "codex": 0.15,
     "openai-compatible": 0.02,
     "mock": 0.0,

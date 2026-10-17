@@ -1,0 +1,7 @@
+Merged since v2.3.0:
+
+ACME-412: add csv exporter to report command (by @mira)
+ACME-415: retry uploads on 503 with backoff (by @jonas)
+ACME-419: fix crash when config file is empty (by @tom)
+ACME-421!: remove deprecated --legacy flag from sync (by @mira)
+ACME-423: fix wrong totals in monthly summary for leap years (by @priya)

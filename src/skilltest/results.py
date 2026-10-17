@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from datetime import datetime
+from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel, Field
 
 from skilltest.assertions import AssertionResult
+from skilltest.errors import SkilltestError
 from skilltest.runners.base import AgentRun
 
 Variant = Literal["with", "without"]
@@ -54,3 +56,32 @@ class SuiteResult(BaseModel):
     finished_at: datetime | None = None
     run_dir: str
     cases: list[CaseResult] = Field(default_factory=list)
+
+
+RESULTS_FILE = "results.json"
+
+
+def load_suite(path: Path) -> SuiteResult:
+    """Load a saved run from its results.json or its run directory."""
+    file = path / RESULTS_FILE if path.is_dir() else path
+    if not file.is_file():
+        raise SkilltestError(
+            f"No {RESULTS_FILE} at {path}",
+            hint="Pass a run directory like .skilltest/runs/20261017-120000.",
+        )
+    return SuiteResult.model_validate_json(file.read_text(encoding="utf-8"))
+
+
+def find_latest_run(out_dir: Path, skill_path: Path | None = None) -> Path:
+    """The newest run directory under <out_dir>/runs, optionally for one skill."""
+    runs = sorted((out_dir / "runs").glob(f"*/{RESULTS_FILE}"), reverse=True)
+    for results in runs:
+        if skill_path is None:
+            return results.parent
+        if Path(load_suite(results).skill_path) == skill_path.resolve():
+            return results.parent
+    where = f" for {skill_path}" if skill_path else ""
+    raise SkilltestError(
+        f"No skilltest runs found in {out_dir / 'runs'}{where}.",
+        hint="Run `skilltest run <skill>` first, or pass --out if you saved runs elsewhere.",
+    )

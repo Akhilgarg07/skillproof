@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -124,7 +125,60 @@ def test_unknown_format(skill_dir: Path) -> None:
     assert result.exit_code == 2
 
 
-def test_badge_is_stubbed(skill_dir: Path) -> None:
-    result = cli.invoke(app, ["badge", str(skill_dir)])
+def run_mock(write_evals, skill_dir: Path, tmp_path: Path, *args: str):
+    write_evals(
+        {
+            "trials": 2,
+            "runner_options": {"default": {"with": {"text": "Paris"}, "without": {"text": "?"}}},
+            "cases": [
+                {
+                    "name": "capital",
+                    "prompt": "?",
+                    "assert": [{"type": "contains", "value": "Paris"}],
+                }
+            ],
+        }
+    )
+    out = tmp_path / "out"
+    return out, cli.invoke(app, ["run", str(skill_dir), "--out", str(out), *args])
+
+
+def test_run_saves_reports(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    out, result = run_mock(write_evals, skill_dir, tmp_path)
+    assert result.exit_code == 0, result.output
+    run_dir = next((out / "runs").iterdir())
+    for name in ("results.json", "summary.json", "report.md", "report.html"):
+        assert (run_dir / name).is_file()
+
+
+def test_run_json_goes_to_stdout(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    _, result = run_mock(write_evals, skill_dir, tmp_path, "--format", "json")
+    assert result.exit_code == 0
+    assert json.loads(result.stdout)["lift"] == 1.0
+
+
+def test_run_writes_output_file(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    target = tmp_path / "reports" / "skill.md"
+    _, result = run_mock(write_evals, skill_dir, tmp_path, "--format", "md", "-o", str(target))
+    assert result.exit_code == 0
+    assert target.read_text().startswith("## skilltest:")
+
+
+def test_report_and_badge_from_saved_run(write_evals, skill_dir: Path, tmp_path: Path) -> None:
+    out, _ = run_mock(write_evals, skill_dir, tmp_path)
+    result = cli.invoke(app, ["report", "--out", str(out), "--format", "md"])
+    assert result.exit_code == 0
+    assert "| capital |" in result.stdout
+
+    result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out)])
+    assert result.exit_code == 0
+    assert result.stdout.startswith("[![skilltest: +100% lift · 2/2 triggered]")
+
+    result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(out), "--json"])
+    assert json.loads(result.stdout)["color"] == "brightgreen"
+
+
+def test_badge_without_runs(skill_dir: Path, tmp_path: Path) -> None:
+    result = cli.invoke(app, ["badge", str(skill_dir), "--out", str(tmp_path / "none")])
     assert result.exit_code == 2
-    assert "not implemented yet" in result.output
+    assert "skilltest run" in result.output

@@ -53,7 +53,7 @@ target-version = "py310"
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
 # Reports use typographic dashes and minus signs on purpose.
-ignore = ["RUF001"]
+ignore = ["RUF001", "RUF002"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

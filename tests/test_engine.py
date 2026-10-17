@@ -67,7 +67,7 @@ def test_runs_every_case_with_and_without(config, tmp_path: Path) -> None:
     assert [t.passed for t in explain.variant("without")] == [False] * 3
 
     stats = suite_stats(suite)
-    assert stats.lift == pytest.approx(0.5)  # explain +100pp, unrelated +0pp, pooled
+    assert stats.lift == pytest.approx(1.0)  # headline pools should_trigger cases only
     assert stats.triggers == 3 and stats.trigger_runs == 3
     assert stats.false_triggers == 0 and stats.false_trigger_runs == 3
 

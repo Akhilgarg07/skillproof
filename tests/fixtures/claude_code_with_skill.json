@@ -1,0 +1,447 @@
+[
+ {
+  "_type": "SystemMessage",
+  "subtype": "init",
+  "data": {
+   "type": "system",
+   "subtype": "init",
+   "cwd": "/tmp/skilltest-sandbox",
+   "session_id": "00000000-0000-0000-0000-000000000000",
+   "tools": [
+    "Task",
+    "Bash",
+    "CronCreate",
+    "CronDelete",
+    "CronList",
+    "DesignSync"
+   ],
+   "mcp_servers": [],
+   "model": "claude-opus-5-5",
+   "permissionMode": "bypassPermissions",
+   "slash_commands": [
+    "haiku-writer",
+    "deep-research",
+    "design"
+   ],
+   "terminal_slash_commands": [
+    "doctor",
+    "color",
+    "focus",
+    "reload-plugins"
+   ],
+   "apiKeySource": "none",
+   "claude_code_version": "2.1.301",
+   "output_style": "default",
+   "agents": [
+    "claude",
+    "Explore",
+    "general-purpose",
+    "Plan",
+    "statusline-setup"
+   ],
+   "skills": [
+    "haiku-writer",
+    "deep-research",
+    "design",
+    "design-sync",
+    "dataviz",
+    "update-config",
+    "verify",
+    "debug",
+    "code-review",
+    "simplify",
+    "batch",
+    "fewer-permission-prompts",
+    "doctor",
+    "loop",
+    "claude-api",
+    "workflow-authoring",
+    "run",
+    "run-skill-generator",
+    "plugin-authoring"
+   ],
+   "plugins": [
+    {
+     "name": "cc-plugin-agents-md",
+     "path": "builtin",
+     "source": "cc-plugin-agents-md@builtin"
+    },
+    {
+     "name": "cc-plugin-telemetry",
+     "path": "builtin",
+     "source": "cc-plugin-telemetry@builtin"
+    },
+    {
+     "name": "cc-plugin-plugin-authoring",
+     "path": "builtin",
+     "source": "cc-plugin-plugin-authoring@builtin"
+    }
+   ],
+   "capabilities": [
+    "interrupt_receipt_v1",
+    "interrupt_cancel_queued_v1",
+    "interrupt_send_now_v1",
+    "msg_lifecycle_v1",
+    "request_marker_lists_v1",
+    "queued_notifications",
+    "third_party_notification_caution",
+    "sdk_mcp_tools_list_changed",
+    "sdk_mcp_manifests",
+    "mcp_read_resource_v1",
+    "mcp_tool_ui_meta_v1",
+    "ui_surface_v1",
+    "mcp_call_result_not_for_model_v1"
+   ],
+   "analytics_disabled": false,
+   "product_feedback_disabled": false,
+   "uuid": "d96275ec-06c7-4d9d-bc0b-01f2c2b0ab8d",
+   "original_cwd": "/tmp/skilltest-zsvic878",
+   "additional_directories": [],
+   "messaging_socket_path": "/tmp/cc-socks/1266.sock",
+   "fast_mode_state": "off",
+   "fast_mode_disabled_reason": "sdk_opt_in_required",
+   "per_turn_effort_active": true,
+   "view_mode": "default",
+   "startup_timing": {
+    "entrypoint": "sdk-py",
+    "warm_spare_claimed": false,
+    "plugin_full_loads": 1,
+    "user_context_builds": 1,
+    "sdk_mcp_dial_runs": 0,
+    "sdk_mcp_servers_dialed": 0,
+    "flag_fetch_kick": "not_asked_warm",
+    "flag_fetch_kick_judged_at_ms": 352,
+    "warm_wake_early_fetch": false,
+    "kick_on_warm_cache": false,
+    "hooks_init_source": "startup",
+    "plugins_sync_round": "gate_closed",
+    "phases": {
+     "node_boot_ms": 155,
+     "spawn_to_exec_ms": 279060,
+     "settings_load_ms": 1,
+     "pre_action_mdm_keychain_ms": 1,
+     "agent_proxy_inputs_ms": 34,
+     "agent_proxy_ca_fetch_ms": 67,
+     "agent_proxy_trust_write_ms": 3,
+     "agent_proxy_relay_up_ms": 0,
+     "agent_proxy_init_ms": 131,
+     "pre_action_init_ms": 185,
+     "pre_action_client_data_url_ms": 0,
+     "pre_action_migrations_ms": 0,
+     "pre_action_managed_settings_ms": 7,
+     "pre_action_ms": 211,
+     "permission_context_ms": 11,
+     "setup_import_ms": 2,
+     "setup_uds_dir_ms": 23,
+     "setup_uds_listen_ms": 15,
+     "skills_load_ms": 61,
+     "setup_uds_publish_ms": 28,
+     "setup_uds_messaging_ms": 69,
+     "setup_hooks_snapshot_ms": 0,
+     "setup_file_watcher_ms": 0,
+     "setup_release_notes_ms": 7,
+     "setup_ms": 76,
+     "growthbook_init_ms": 68,
+     "tools_commands_load_ms": 17,
+     "model_catalog_decision_ms": 33,
+     "mcp_connect_ms": 2,
+     "hooks_init_ms": 17,
+     "print_import_ms": 10,
+     "headless_prologue_ms": 11,
+     "initial_messages_load_ms": 0,
+     "headless_post_load_ms": 5,
+     "input_ready_ms": 675,
+     "input_ready_from_spawn_ms": 279735,
+     "first_message_read_ms": 740,
+     "first_message_read_from_spawn_ms": 279799,
+     "sdk_mcp_update_ms": 1,
+     "plugins_sync_install_ms": 0,
+     "plugins_sync_mcp_ms": 2,
+     "plugin_state_refresh_inline_ms": 40,
+     "first_message_handle_ms": 42,
+     "first_message_handle_cpu_ms": 61,
+     "first_message_handle_loop_lag_ms": 0,
+     "mcp_prewait_ms": 3,
+     "qe_system_prompt_ms": 0,
+     "prompt_submit_hooks_ms": 3,
+     "qe_plugin_skills_load_ms": 3,
+     "init_emit_ms": 2
+    },
+    "time_origin_ms": 1792255211571.9639,
+    "phase_start_ms": {
+     "node_boot_ms": 0,
+     "spawn_to_exec_ms": -279060,
+     "settings_load_ms": 157,
+     "pre_action_mdm_keychain_ms": 166,
+     "agent_proxy_inputs_ms": 222,
+     "agent_proxy_ca_fetch_ms": 256,
+     "agent_proxy_trust_write_ms": 323,
+     "agent_proxy_relay_up_ms": 327,
+     "agent_proxy_init_ms": 219,
+     "pre_action_init_ms": 166,
+     "pre_action_client_data_url_ms": 351,
+     "pre_action_migrations_ms": 353,
+     "pre_action_managed_settings_ms": 353,
+     "pre_action_ms": 166,
+     "permission_context_ms": 383,
+     "setup_import_ms": 395,
+     "setup_uds_dir_ms": 404,
+     "setup_uds_listen_ms": 427,
+     "skills_load_ms": 402,
+     "setup_uds_publish_ms": 442,
+     "setup_uds_messaging_ms": 402,
+     "setup_hooks_snapshot_ms": 472,
+     "setup_file_watcher_ms": 472,
+     "setup_release_notes_ms": 473,
+     "setup_ms": 403,
+     "growthbook_init_ms": 480,
+     "tools_commands_load_ms": 556,
+     "model_catalog_decision_ms": 573,
+     "mcp_connect_ms": 627,
+     "hooks_init_ms": 624,
+     "print_import_ms": 630,
+     "headless_prologue_ms": 641,
+     "initial_messages_load_ms": 652,
+     "headless_post_load_ms": 652,
+     "input_ready_ms": 0,
+     "input_ready_from_spawn_ms": -279060,
+     "first_message_read_ms": 0,
+     "first_message_read_from_spawn_ms": -279060,
+     "sdk_mcp_update_ms": 740,
+     "plugin_state_refresh_inline_ms": 741,
+     "first_message_handle_ms": 740,
+     "mcp_prewait_ms": 784,
+     "qe_system_prompt_ms": 821,
+     "prompt_submit_hooks_ms": 847,
+     "qe_plugin_skills_load_ms": 853,
+     "init_emit_ms": 856
+    }
+   }
+  }
+ },
+ {
+  "_type": "AssistantMessage",
+  "content": [
+   {
+    "_type": "ThinkingBlock",
+    "thinking": ""
+   }
+  ],
+  "model": "claude-opus-5-5",
+  "parent_tool_use_id": null,
+  "error": null,
+  "usage": {
+   "input_tokens": 2,
+   "cache_creation_input_tokens": 1594,
+   "cache_read_input_tokens": 18909,
+   "cache_creation": {
+    "ephemeral_5m_input_tokens": 0,
+    "ephemeral_1h_input_tokens": 1594
+   },
+   "output_tokens": 8,
+   "service_tier": "standard",
+   "inference_geo": "global",
+   "speed": "standard"
+  },
+  "message_id": "msg_011Cg896a71ucvVBLWQ5t8AN",
+  "stop_reason": null,
+  "session_id": "00000000-0000-0000-0000-000000000000",
+  "uuid": "cb2ef437-9ef3-491c-aa30-37fc0a63fa89"
+ },
+ {
+  "_type": "AssistantMessage",
+  "content": [
+   {
+    "_type": "ToolUseBlock",
+    "id": "toolu_01NGTGiWMLG4MvXrfKY42Hq8",
+    "name": "Skill",
+    "input": {
+     "skill": "haiku-writer"
+    }
+   }
+  ],
+  "model": "claude-opus-5-5",
+  "parent_tool_use_id": null,
+  "error": null,
+  "usage": {
+   "input_tokens": 2,
+   "cache_creation_input_tokens": 1594,
+   "cache_read_input_tokens": 18909,
+   "cache_creation": {
+    "ephemeral_5m_input_tokens": 0,
+    "ephemeral_1h_input_tokens": 1594
+   },
+   "output_tokens": 8,
+   "service_tier": "standard",
+   "inference_geo": "global",
+   "speed": "standard"
+  },
+  "message_id": "msg_011Cg896a71ucvVBLWQ5t8AN",
+  "stop_reason": null,
+  "session_id": "00000000-0000-0000-0000-000000000000",
+  "uuid": "e67995ad-4715-41dd-8b09-f69e164979d6"
+ },
+ {
+  "_type": "UserMessage",
+  "content": [
+   {
+    "_type": "ToolResultBlock",
+    "tool_use_id": "toolu_01NGTGiWMLG4MvXrfKY42Hq8",
+    "content": "Launching skill: haiku-writer",
+    "is_error": null
+   }
+  ],
+  "uuid": "afa58415-2761-4dd3-81fb-1437c2c348c4",
+  "parent_tool_use_id": null,
+  "tool_use_result": {
+   "success": true,
+   "commandName": "haiku-writer"
+  },
+  "origin": null
+ },
+ {
+  "_type": "UserMessage",
+  "content": [
+   {
+    "_type": "TextBlock",
+    "text": "Base directory for this skill: /tmp/skilltest-zsvic878/.claude/skills/haiku-writer\n\nAlways write exactly one haiku and end it with the signature line \"-- the skilltest bot\".\n"
+   }
+  ],
+  "uuid": "c645fee6-26e5-4999-9c18-ad83588ac60f",
+  "parent_tool_use_id": null,
+  "tool_use_result": null,
+  "origin": null
+ },
+ {
+  "_type": "RateLimitEvent",
+  "rate_limit_info": {
+   "_type": "RateLimitInfo",
+   "status": "allowed",
+   "resets_at": 1792272600,
+   "rate_limit_type": "five_hour",
+   "utilization": null,
+   "overage_status": "rejected",
+   "overage_resets_at": null,
+   "overage_disabled_reason": "org_level_disabled",
+   "raw": {
+    "status": "allowed",
+    "resetsAt": 1792272600,
+    "rateLimitType": "five_hour",
+    "overageStatus": "rejected",
+    "overageDisabledReason": "org_level_disabled",
+    "isUsingOverage": false,
+    "unifiedWindows": {
+     "five_hour": {
+      "utilization": 0.02,
+      "resetsAt": 1792272600
+     },
+     "seven_day": {
+      "utilization": 0.03,
+      "resetsAt": 1792832400
+     }
+    }
+   }
+  },
+  "uuid": "6fdfa7a0-5ec3-4aa1-84ca-4f16e7c013e4",
+  "session_id": "00000000-0000-0000-0000-000000000000"
+ },
+ {
+  "_type": "AssistantMessage",
+  "content": [
+   {
+    "_type": "TextBlock",
+    "text": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skilltest bot"
+   }
+  ],
+  "model": "claude-opus-5-5",
+  "parent_tool_use_id": null,
+  "error": null,
+  "usage": {
+   "input_tokens": 2,
+   "cache_creation_input_tokens": 197,
+   "cache_read_input_tokens": 20503,
+   "cache_creation": {
+    "ephemeral_5m_input_tokens": 0,
+    "ephemeral_1h_input_tokens": 197
+   },
+   "output_tokens": 47,
+   "service_tier": "standard",
+   "inference_geo": "global",
+   "speed": "standard"
+  },
+  "message_id": "msg_011Cg896hhRLeSi3eeHmR7Jr",
+  "stop_reason": null,
+  "session_id": "00000000-0000-0000-0000-000000000000",
+  "uuid": "c4662b50-7757-4e5c-ab22-f348170affaa"
+ },
+ {
+  "_type": "ResultMessage",
+  "subtype": "success",
+  "duration_ms": 3077,
+  "duration_api_ms": 2909,
+  "is_error": false,
+  "num_turns": 3,
+  "session_id": "00000000-0000-0000-0000-000000000000",
+  "stop_reason": "end_turn",
+  "total_cost_usd": 0.0248664,
+  "usage": {
+   "input_tokens": 4,
+   "cache_creation_input_tokens": 1791,
+   "cache_read_input_tokens": 39412,
+   "output_tokens": 132,
+   "output_tokens_details": {
+    "thinking_tokens": 31
+   },
+   "server_tool_use": {
+    "web_search_requests": 0,
+    "web_fetch_requests": 0
+   },
+   "service_tier": "standard",
+   "cache_creation": {
+    "ephemeral_1h_input_tokens": 1791,
+    "ephemeral_5m_input_tokens": 0
+   },
+   "inference_geo": "global",
+   "iterations": [
+    {
+     "input_tokens": 2,
+     "output_tokens": 47,
+     "cache_read_input_tokens": 20503,
+     "cache_creation_input_tokens": 197,
+     "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 197
+     },
+     "type": "message"
+    }
+   ],
+   "speed": "standard",
+   "fallback_credit": null
+  },
+  "result": "Salt wind lifts the foam,\nwaves fold silver into blue,\nthe tide breathes, then turns.\n\n-- the skilltest bot",
+  "structured_output": null,
+  "model_usage": {
+   "claude-opus-5-5": {
+    "inputTokens": 4,
+    "outputTokens": 132,
+    "cacheReadInputTokens": 39412,
+    "cacheCreationInputTokens": 1791,
+    "webSearchRequests": 0,
+    "costUSD": 0.0248664,
+    "contextWindow": 1000000,
+    "maxOutputTokens": 128000,
+    "thinkingTokens": 31,
+    "canonicalModel": "claude-opus-5-5",
+    "provider": "firstParty",
+    "costBasis": "list"
+   }
+  },
+  "permission_denials": [],
+  "deferred_tool_use": null,
+  "errors": null,
+  "api_error_status": null,
+  "uuid": "c498c27e-4123-457a-93dd-445d3fd04ff4",
+  "terminal_reason": "completed",
+  "origin": null
+ }
+]

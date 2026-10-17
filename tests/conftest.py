@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
+import claude_agent_sdk
 import pytest
 import yaml
 
@@ -16,6 +17,19 @@ description: Explains Java stack traces and writes a fix.patch.
 
 Read the log, name the exception in the first sentence, write fix.patch.
 """
+
+
+@pytest.fixture(autouse=True)
+def no_real_agents(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Unit tests must never call a real agent or API. Tests that exercise a
+    runner replace these with fakes; anything that slips through fails fast."""
+
+    def refuse(*args: Any, **kwargs: Any) -> None:
+        raise AssertionError("a test tried to start a real Claude Code session")
+
+    monkeypatch.setattr(claude_agent_sdk, "query", refuse)
+    for var in ("ANTHROPIC_BASE_URL", "OPENAI_BASE_URL"):
+        monkeypatch.setenv(var, "http://127.0.0.1:9")  # nothing listens on the discard port
 
 
 @pytest.fixture

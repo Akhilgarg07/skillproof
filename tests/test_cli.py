@@ -94,7 +94,14 @@ def test_run_with_mock_runner(write_evals, skill_dir: Path, tmp_path: Path) -> N
             },
             "unknown assertion type 'contain'",
         ),
-        ({"runner": "claude-code", "cases": [{"name": "c", "prompt": "p"}]}, "not implemented yet"),
+        (
+            {
+                "runner": "claude-code",
+                "runner_options": {"cli_path": "/nonexistent/claude"},
+                "cases": [{"name": "c", "prompt": "p"}],
+            },
+            "Claude Code CLI not found",
+        ),
     ],
 )
 def test_run_errors_show_a_fix(write_evals, skill_dir: Path, evals: dict, expected: str) -> None:

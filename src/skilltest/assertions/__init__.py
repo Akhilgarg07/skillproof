@@ -22,6 +22,7 @@ from skilltest.assertions.builtin import (
     Regex,
 )
 from skilltest.assertions.llm_judge import LLMJudge
+from skilltest.judges.base import JudgeUnavailable
 
 Assertion = Annotated[
     Contains | NotContains | Regex | FileExists | FileContains | Command | MaxTokens | LLMJudge,
@@ -35,11 +36,17 @@ ASSERTION_TYPES: list[str] = [
 
 
 async def check_all(assertions: list[BaseAssertion], ctx: CheckContext) -> list[AssertionResult]:
-    """Run assertions in order. A crashing assertion counts as a failure, not a crash."""
+    """Run assertions in order. A crashing assertion counts as a failure, not a crash.
+
+    JudgeUnavailable is re-raised: the judge broke, not the agent, so the
+    engine marks the whole run as errored instead.
+    """
     results = []
     for assertion in assertions:
         try:
             results.append(await assertion.check(ctx))
+        except JudgeUnavailable:
+            raise
         except Exception as exc:
             results.append(assertion.result(False, f"assertion error: {exc}"))
     return results

@@ -29,9 +29,13 @@ def make_judge(config: JudgeConfig, agent_vendor: str) -> Judge:
     provider = resolve_provider(config, agent_vendor)
     if provider == "mock":
         return MockJudge()
+    if provider == "anthropic":
+        from skilltest.judges.anthropic_judge import AnthropicJudge
+
+        return AnthropicJudge(config.model, config.api_key_env, config.base_url)
     raise JudgeNotReady(
         f"The {provider!r} judge is not implemented yet.",
-        hint="Remove llm_judge assertions or set `judge: {provider: mock}` for now.",
+        hint="Set `judge: {provider: anthropic}` for now.",
     )
 
 

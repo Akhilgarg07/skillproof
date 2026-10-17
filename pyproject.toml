@@ -29,6 +29,9 @@ dependencies = [
   "rich>=13.7",
   "pydantic>=2.6",
   "pyyaml>=6.0",
+  "claude-agent-sdk>=0.2.168",  # claude-code runner (bundles the Claude Code CLI)
+  "anthropic>=1.15",  # Claude judge
+  "openai>=3.0",  # openai-compatible runner and OpenAI judge
 ]
 
 [project.optional-dependencies]

@@ -58,9 +58,11 @@ class AgentRun(BaseModel):
     usage: Usage = Field(default_factory=Usage)
     duration_s: float = 0.0
     num_turns: int | None = None
+    model: str | None = None  # the model that actually ran, when the agent reports it
     triggered: bool | None = None  # None = this runner can't tell
     timed_out: bool = False
     error: str | None = None  # infrastructure error; the run is excluded from pass rates
+    warnings: list[str] = Field(default_factory=list)  # e.g. "skill not listed at startup"
 
 
 @dataclass

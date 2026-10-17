@@ -20,6 +20,7 @@ from skilltest.assertions import CheckContext, check_all
 from skilltest.config import Case, EvalConfig
 from skilltest.errors import ConfigError
 from skilltest.judges import Judge, make_judge
+from skilltest.judges.base import JudgeUnavailable
 from skilltest.results import CaseResult, SuiteResult, TrialResult, Variant
 from skilltest.runners import AgentRun, Runner, RunRequest, get_runner
 from skilltest.sandbox import create_sandbox, redact, remove_sandbox
@@ -122,7 +123,7 @@ class Engine:
             runner=self.runner.name,
             approximate=self.runner.approximate,
             model=self.config.model,
-            judge=self.judge.name if self.judge else None,
+            judge=self.judge.label if self.judge else None,
             started_at=datetime.now(timezone.utc),
             run_dir=str(run_dir),
         )
@@ -171,9 +172,13 @@ class Engine:
                 trial=job.trial,
             )
             agent_run = await self.call_runner(request, timeout)
-            assertions = await check_all(
-                case.assertions, CheckContext(run=agent_run, workdir=workdir, judge=self.judge)
-            )
+            assertions = []
+            if agent_run.error is None:  # don't grade (or pay a judge for) a broken run
+                ctx = CheckContext(run=agent_run, workdir=workdir, judge=self.judge)
+                try:
+                    assertions = await check_all(case.assertions, ctx)
+                except JudgeUnavailable as exc:
+                    agent_run.error = f"llm_judge failed: {exc}"
             result = TrialResult(
                 case=case.name,
                 variant=job.variant,
